@@ -9,8 +9,6 @@ class Rectangle {
         double _length;
 
     public:
-        // Rectangle(double width, double length):
-            // _width(width), _length(length) {};
         Rectangle();
 
         ~Rectangle();

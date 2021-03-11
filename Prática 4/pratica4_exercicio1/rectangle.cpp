@@ -6,12 +6,9 @@
 #include <iostream>
 #include "rectangle.h"
 
-// Rectangle::Rectangle(double width, double length) {
 Rectangle::Rectangle() {
     _width = 1;
     _length = 1;
-    // _width = width;
-    // _length = length;
 }
 
 double Rectangle::getWidth()  {
