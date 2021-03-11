@@ -15,7 +15,7 @@ SavingsAccount::SavingsAccount(double value) {
 }
 
 double SavingsAccount::calculateMonthlyInterest(){
-    double monthlyBalance = savingsBalance * (annualInterestRate / 12);
+    double monthlyBalance = savingsBalance * ((annualInterestRate/100) / 12);
     savingsBalance += monthlyBalance;
     return monthlyBalance;
 }
