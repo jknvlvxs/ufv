@@ -25,15 +25,10 @@ void Jet_Plane::fly_with_max_capacity() {
 }
 
 int Jet_Plane::fly() {
-	current_speed = number_of_turbines*300;
+	current_speed = number_of_turbines*(300+size_in_meters)*(number_of_passengers/500);
 	if (current_speed > top_speed) {
 		current_speed = top_speed;
 	}
 
-	return current_speed;
-}
-
-int Jet_Plane::fly() {
-	current_speed = number_of_turbines*(300+size_in_meters)*(number_of_passengers/500);
 	return current_speed;
 }

@@ -6,10 +6,10 @@
 class Jet_Plane: public Aeroplane {
 	public:
 	    Jet_Plane(std::string name, int number_of_passengers, int number_of_turbines, int size_in_meters, float autonomy_in_kilometers, float top_speed, std::string company);
-		int fly();
+		int fly() override;
 		void stop_and_get_passengers(int number_of_extra_passengers);
 		std::string get_company();
-		static void Jet_Plane::fly_with_max_capacity();
+		void fly_with_max_capacity();
 
 	private:
 		std::string company;
