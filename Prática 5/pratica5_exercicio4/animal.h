@@ -7,7 +7,7 @@
 class Animal {
     protected:
         unsigned int _id;
-        unsigned int _next_id;
+        static unsigned int _next_id;
         std::string _cor;
     public:
         static unsigned int get_new_id();

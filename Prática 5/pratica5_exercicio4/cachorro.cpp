@@ -17,8 +17,3 @@ void Cachorro::faz_barulho(){
 unsigned int Cachorro::get_id(){
     return _id;
 }
-
-unsigned int Cachorro::get_new_id(){
-    _id++;
-    return _id-1;
-}

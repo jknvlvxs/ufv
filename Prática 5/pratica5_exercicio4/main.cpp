@@ -11,6 +11,7 @@ int main(void) {
     popula(fazenda,fazenda[0],10);
     for(unsigned int i=0;i<fazenda.size();i++){
         std::cout<<fazenda[i]->get_id()<<std::endl;
+        delete fazenda[i];
     }
     
     /*Deve imprimir

@@ -10,7 +10,6 @@ class Cachorro : public Animal {
         virtual Animal* reproduz();
         virtual void faz_barulho();
         virtual unsigned int get_id();
-        unsigned int get_new_id();
 };
 
 

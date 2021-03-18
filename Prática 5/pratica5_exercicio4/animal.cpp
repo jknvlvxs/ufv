@@ -9,10 +9,10 @@ unsigned int Animal::get_new_id(){
 }
 
 
-void popula(std::vector<Animal*>& fazenda, Animal* A, unsigned int max_populacao){
+void popula(std::vector<Animal*>& fazenda, Animal* animal, unsigned int max_populacao){
     int escolhido = rand() % fazenda.size();
-    fazenda.push_back(A->reproduz());
-    if(1){
+    fazenda.push_back(animal->reproduz());
+    if(fazenda.size() < max_populacao){
         popula(fazenda, fazenda[escolhido], max_populacao);
     }
 }
