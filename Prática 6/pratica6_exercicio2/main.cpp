@@ -23,10 +23,10 @@ void exibir_produto(Produto &produto){
 int main() {
     cout << setprecision(2) << fixed;
 
-    Produto *r1 = new Medicamento("123", "Rivotril", 120, 6, 10);
-    Produto *r2 = new Medicamento("321", "Xanax", 100, 12, 5);
-    Produto *h1 = new Higiene("321", "Shampoo", 50);
-    Produto *h2 = new Higiene("321", "Pasta de Dente", 120);
+    Produto *r1 = new Medicamento("12811", "Cimegripe 400mg 20 Cápsulas", 20.51, 7, 5);
+    Produto *r2 = new Medicamento("16377", "Loratamed 10mg 12 Comprimidos", 17.09, 9, 3);
+    Produto *h1 = new Higiene("63088", "Sabonete Dove Leve 6 Pague 5 90g", 12.64);
+    Produto *h2 = new Higiene("135895", "Creme Dental Colgate Sensitive Pró-Alivio Original 140g", 8.99);
 
     exibir_produto(*r1);
     exibir_produto(*r2);
