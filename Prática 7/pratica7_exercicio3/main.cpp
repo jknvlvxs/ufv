@@ -10,12 +10,10 @@
 using namespace std;
 
 int main () {
-    ifstream fin;
-    ofstream fout;
-    fin.exceptions ( ifstream::failbit | ifstream::badbit );
-    fout.exceptions ( ofstream::failbit | ofstream::badbit );
-    
     try{
+        ifstream fin;
+        ofstream fout;
+
         fin.open("entrada.txt");
         fout.open("ips.txt");
 
@@ -90,67 +88,11 @@ int main () {
 
         fin.close();
         fout.close();
-    } catch (ifstream::failure e) {
+    } catch (ifstream::failure *e) {
         cerr << "Exception opening/reading/closing file" << endl;
     } catch (ofstream::failure e) {
         cerr << "Exception opening/reading/closing file" << endl;
     }
-
-    // if(!fin.is_open() || !fout.is_open()){
-    //     cerr << "Erro ao tentar abrir o arquivo" << endl;
-    //     exit(1); 
-    // }
-
-    // int n = 0;
-    // int *notas = new int[1000];
-
-    // while(true){
-    //     fin >> notas[n];
-    //     if(fin.eof())
-    //         break;
-    //     else 
-    //         n++;
-    // }
-
-    // for(int i = 0; i <= n; i++)
-    //     fout << notas[i]*2 << endl;
-
-    // fin.close();
-    // fout.close();
-
-    // delete[] notas;
-
-    // FIXME
-    // ifstream fin(argv[1]);
-    // if(!fin.is_open()){
-    //     cerr << "Erro ao tentar abrir o arquivo" << endl;
-    //     exit(1); 
-    // }
-
-    // fin.seekg(0, ios::end);
-    // int tamArquivo = fin.tellg();
-    // cerr << "O arquivo tem: " << tamArquivo << " bytes" << endl;
     
-    // while(true){
-    //     int begin, end;
-    //     cout << "Digite o intervalo de caracteres que sera impresso: ";
-    //     cin >> begin >> end;
-    //     if(begin <= 0 || end <= 0)
-    //         break;
-        
-    //     fin.seekg(begin-1, ios::beg);
-    //     if(end > tamArquivo)
-    //         end = tamArquivo;
-
-    //     cout << "Conteudo" << endl;
-    //     for(int i = begin; i <= end; i++){
-    //         char c = fin.get();
-    //         cout << c;
-    //     }
-    //     cout << endl;
-    // }
-
-    // fin.close();
-
     return 0;
 }
