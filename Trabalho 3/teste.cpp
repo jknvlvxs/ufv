@@ -13,25 +13,13 @@ int main() {
 	freqs['B'] = 8;
 	freqs['C'] = 1;
 	freqs['D'] = 1;
-	// freqs['E'] = 6;
-	// freqs['F'] = 5;
-	// freqs['G'] = 4;
-
 	HuffManTree arvore(freqs);
 
 	MyVec<char> in;
 	in.push_back('A');
 	in.push_back('B');
-	in.push_back('A');
-	in.push_back('C');
-	in.push_back('B');
-	in.push_back('B');
-	in.push_back('A');
-	in.push_back('D');
-	in.push_back('A');
 	in.push_back('B');
 	in.push_back('C');
-	in.push_back('B');
 	//A frequencia nao precisa ser necessariamente a mesma dos
 	//dados de entrada (nessa entrada a frequencia de B e'2, nao 8)
 	//O ideal eh que a frequencia seja a mesma! (isso poderia gerar uma compressao)
