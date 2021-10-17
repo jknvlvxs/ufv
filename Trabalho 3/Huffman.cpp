@@ -17,34 +17,33 @@ HuffManTree::HuffManTree(int freqs[256]){
         }
     }
 
-    cout << endl;
+    cout << endl; // FIXME
 
     while(priority_queue.size() > 1){
-        // FIXME
-        MyQueue<MySet<int>> print_queue = priority_queue;
-        while(print_queue.size() > 0){
-            print_queue.top().imprimeBFS();
-            print_queue.pop();
-        }
-        cout << endl;
+        MyQueue<MySet<int>> print_queue = priority_queue; // FIXME
+        while(print_queue.size() > 0){ // FIXME
+            print_queue.top().imprimeBFS(); // FIXME
+            print_queue.pop(); // FIXME
+        } // FIXME
+        cout << endl; // FIXME
 
         MySet<int> cr_a = priority_queue.top();
         priority_queue.pop();
         MySet<int> cr_b = priority_queue.top();
         priority_queue.pop();
 
-        if(*cr_b.begin() > *cr_a.begin()) swap(cr_a, cr_b);
-        if(cr_a.begin().getCode() == '\0' && cr_b.begin().getCode() != '\0') swap(cr_a, cr_b);
+        if((*cr_b.begin()).first > (*cr_a.begin()).first) swap(cr_a, cr_b);
+        if((*cr_a.begin()).second == '\0' && (*cr_b.begin()).first != '\0') swap(cr_a, cr_b);
 
-        cout << "a: "; cr_a.imprimeDFS_pre();
-        cout << "b: "; cr_b.imprimeDFS_pre();
-        cout << endl;
+        cout << "a: "; cr_a.imprimeDFS_pre(); // FIXME 
+        cout << "b: "; cr_b.imprimeDFS_pre(); // FIXME
+        cout << endl; // FIXME
 
         MySet<int> t;
         t.merge(cr_a, cr_b);
 
-        t.imprimeDFS_pre();
-        cout << endl << endl;
+        t.imprimeDFS_pre(); // FIXME
+        cout << endl << endl; // FIXME
 
         priority_queue.push(t);
     }

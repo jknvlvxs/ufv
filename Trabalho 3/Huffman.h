@@ -1,4 +1,3 @@
-// classe HuffManTree 
 #ifndef HUFFMANTREE_H
 #define HUFFMANTREE_H
 
@@ -8,7 +7,7 @@
 
 class HuffManTree {
     private:
-        // TODO criar uma árvore de Huffman
+        // Árvore de Huffman
         MySet<int> huffman;
     public:
         /* NOTE Sua classe deverá ter um construtor que recebe como argumento um array automático
@@ -16,7 +15,6 @@ class HuffManTree {
         HuffManTree(int freqs[256]);
 
         //TODO não esquecer construtor de cópia, operador de atribuição e destrutor
-        
         
         /* NOTE Essa função deverá ler o vetor de bytes (chars) “in”, comprimi-lo e gravar os bits
         representando o arquivo comprimido em “out” (cada bool de out representará um bit , sendo 1

@@ -1,7 +1,7 @@
-#ifndef MY_SET_LIST_H
-#define MY_SET_LIST_H
+#ifndef MYSET_H
+#define MYSET_H
 
-#include <algorithm> //classe pair esta aqui...
+#include <algorithm>
 using namespace std;
 
 template<class T>
@@ -9,12 +9,12 @@ class MySetIterator;
 
 template  <class T>
 class Node {
-	public: //classe auxiliar.. vamos utiliza-la apenas neste arquivo (nao e' muito necessario ter encapsulamento)
+	public:
 		Node(const T &elem_, const char &code_) : elem(elem_), code(code_), left(NULL), right(NULL) {}
 		Node<T> *left, *right;
 		T elem;
 		char code;
-		Node<T> *parent; //agora cada nodo armazena seu pai // FIXME não é necessário parent
+		Node<T> *parent; // NOTE verificar necessidade
 };
 
 template  <class T>
@@ -22,51 +22,48 @@ class MySet {
 public:
 	typedef MySetIterator<T> iterator;
 
-	int size() const;
+	int size() const { return size_; }
 	MySet() : size_(0), root(NULL) {}
 
-	pair<iterator,bool> insert(const T&elem, const char&code); //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
+	pair<iterator,bool> insert(const T&elem, const char&code);
 	pair<iterator,bool> merge(const MySet &treeA, const MySet &treeB);
-	iterator find(const T&elem); //por simplicidade, nao vamos deixar implementar um find constante...
+	iterator find(const T&elem); // NOTE verificar necessidade
 
 	iterator end() {return iterator(NULL);}; 
 	iterator begin() ;
 
 	MySet(const MySet &other);
 	MySet &operator=(const MySet &other);
-	bool operator>(const MySet &other);
 	~MySet();
 
-	void imprimeBFS() const;
-	void imprimeDFS_pre() const;
-	void imprimeDFS_in() const;
-	void imprimeDFS_pos() const;
+	bool operator>(const MySet &other);
+
+	void imprimeBFS() const; // FIXME
+	void imprimeDFS_pre() const; // FIXME
+	void imprimeDFS_in() const; // FIXME
+	void imprimeDFS_pos() const; // FIXME
 private:
 	Node<T> *root;
 	int size_;
 
-	//funcoes auxiliares...
 	pair<iterator,bool> insert(const T&elem, const char&code, Node<T> *&root, Node<T> *parent); 
 	pair<iterator,bool> merge(const MySet &treeA, const MySet &treeB, Node<T> *&root);
-	iterator find(const T&elem, Node<T> *root);
+	iterator find(const T&elem, Node<T> *root); // NOTE verificar necessidade
 
 	void deleteNodes(Node<T> *root);
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
 
-	void imprimeDFS_pre(const Node<T> *root) const;
-	void imprimeDFS_in(const Node<T> *root) const;
-	void imprimeDFS_pos(const Node<T> *root) const;
+	void imprimeDFS_pre(const Node<T> *root) const; // FIXME
+	void imprimeDFS_in(const Node<T> *root) const; // FIXME
+	void imprimeDFS_pos(const Node<T> *root) const; // FIXME
 };
 
-//por enquanto vamos desconsiderar os operadores ++ e -- em conjuntos...
-//tais operadores serao "escondidos"
 template<class T>
 class MySetIterator {
 	friend class MySet<T>;
 public:
 	MySetIterator(Node<T> *ptr_): ptr(ptr_) { }
-	T &operator*() {return ptr->elem;}
-	char getCode() {return ptr->code;}
+	pair<T, char> operator*() {return make_pair(ptr->elem, ptr->code);}
 
 	bool operator==(const MySetIterator &other) const {return ptr==other.ptr;}
 	bool operator!=(const MySetIterator &other) const {return ptr!=other.ptr;}
@@ -81,7 +78,7 @@ private:
 };
 
 
-//operador de pre-incremento
+// SECTION Operadores de pré-incremento
 template<class T>
 MySetIterator<T>  MySetIterator<T>::operator++() {
 	if(ptr->right){
@@ -95,7 +92,6 @@ MySetIterator<T>  MySetIterator<T>::operator++() {
 	return *this;
 }
 
-//operador de pre-decremento
 template<class T>
 MySetIterator<T>  MySetIterator<T>::operator--() {
 	if(ptr->left) { 
@@ -108,7 +104,7 @@ MySetIterator<T>  MySetIterator<T>::operator--() {
 	return *this;
 }
 
-//operador de pos-incremento
+// SECTION Operadores de pós-incremento
 template<class T>
 MySetIterator<T>  MySetIterator<T>::operator++(int) {
 	MySetIterator<T> old(*this);
@@ -116,7 +112,6 @@ MySetIterator<T>  MySetIterator<T>::operator++(int) {
 	return old;
 }
 
-//operador de pos-decremento
 template<class T>
 MySetIterator<T>  MySetIterator<T>::operator--(int) {
 	MySetIterator<T> old(*this);
@@ -124,19 +119,28 @@ MySetIterator<T>  MySetIterator<T>::operator--(int) {
 	return old;
 }
 
-template  <class T>
-typename MySet<T>::iterator MySet<T>::begin() {
-	if(!root) return end();
-	Node<T> *ptr = root;
-	// while(ptr->left) ptr = ptr->left;
-	return iterator(ptr);
-}
-
+// SECTION Construtor de cópia
 template  <class T>
 MySet<T>::MySet(const MySet &other) {
 	size_=0;
 	root= NULL;
-	*this = other; //vamos usar o operador de atribuicao..
+	*this = other;
+}
+
+// SECTION Operador de atribuição
+template  <class T>
+MySet<T> & MySet<T>::operator=(const MySet &other) {
+	if(this==&other) return *this;
+	deleteNodes(root);
+	root = copyNodes(other.root,NULL);
+	size_ = other.size_;
+	return *this;
+}
+
+// SECTION Destrutor
+template  <class T>
+MySet<T>::~MySet() {
+	deleteNodes(root);
 }
 
 template  <class T>
@@ -147,50 +151,39 @@ void MySet<T>::deleteNodes(Node<T> *root) {
 	delete root;
 }
 
-template  <class T>
-MySet<T>::~MySet() {
-	deleteNodes(root);
-}
-
-template  <class T>
-Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
-	if(root==NULL) { //caso base
-		return NULL;
-	}
-	Node<T> * ans = new Node<T>(root->elem, root->code);
-	ans->parent = parent;
-	ans->left = copyNodes(root->left,ans);
-	ans->right = copyNodes(root->right,ans);
-	return ans;
-}
-
-template  <class T>
-MySet<T> & MySet<T>::operator=(const MySet &other) {
-	if(this==&other) return *this; //testa auto-atribuicao...
-	deleteNodes(root);
-	root = copyNodes(other.root,NULL);
-	size_ = other.size_;
-	return *this;
-}
-
+// SECTION Operador>
 template  <class T>
 bool MySet<T>::operator>(const MySet &other) {
 	if(root->elem > other.root->elem) return false;
 	else if(root->elem <  other.root->elem) return true;
 
-	// cout << root->code << ">" << other.root->code << ":" << (root->code > other.root->code) << endl;
-
 	if(root->code > other.root->code) return false;
 	else if(root->code <  other.root->code) return true;
 
-	if(!root->left) return false;
+	// if(!root->left) return false;
 
 	return false;
 }
 
+// SECTION begin
 template  <class T>
-int MySet<T>::size() const {
-	return size_; //exercicio: como calcular o tamanho de forma dinamica? (i.e., sem armazenar o inteiro "size" na classe)
+typename MySet<T>::iterator MySet<T>::begin() {
+	if(!root) return end();
+	Node<T> *ptr = root;
+	// while(ptr->left) ptr = ptr->left;
+	return iterator(ptr);
+}
+
+// SECTION copyNodes
+template  <class T>
+Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
+	if(root==NULL) return NULL;
+
+	Node<T> * ans = new Node<T>(root->elem, root->code);
+	ans->parent = parent;
+	ans->left = copyNodes(root->left,ans);
+	ans->right = copyNodes(root->right,ans);
+	return ans;
 }
 
 // SECTION insert
