@@ -22,8 +22,12 @@ class MySet {
 public:
 	typedef MySetIterator<T> iterator;
 
-	int size() const { return size_; }
 	MySet() : size_(0), root(NULL) {}
+	MySet(const MySet &other);
+	MySet &operator=(const MySet &other);
+	~MySet();
+
+	int size() const { return size_; }
 
 	pair<iterator,bool> insert(const T&elem, const char&code);
 	pair<iterator,bool> merge(const MySet &treeA, const MySet &treeB);
@@ -32,11 +36,9 @@ public:
 	iterator end() {return iterator(NULL);}; 
 	iterator begin() ;
 
-	MySet(const MySet &other);
-	MySet &operator=(const MySet &other);
-	~MySet();
-
 	bool operator>(const MySet &other);
+
+	// void find
 
 	void imprimeBFS() const; // FIXME
 	void imprimeDFS_pre() const; // FIXME
