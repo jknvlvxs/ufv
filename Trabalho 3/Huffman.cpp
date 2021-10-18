@@ -49,12 +49,22 @@ HuffManTree::HuffManTree(int freqs[256]){
     }
 
     huffman = priority_queue.top();
+    huffman.createCodification();
 };
 
 void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
-
+    for(MyVec<char>::iterator it = in.begin(); it != in.end(); it++){
+        cout << *it << " " << huffman.getCodification(*it) << endl;
+        string huffman_codification = huffman.getCodification(*it); 
+        for(int i = 0; i < huffman_codification.size(); i++){
+            out.push_back(huffman_codification[i] == '0'? false : true);
+        }
+    }
+    cout << endl;
 };
 
 void HuffManTree::descomprimir(MyVec<char> &out, const MyVec<bool> &in) const {
-
+    for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
+        cout << *it << endl;
+    }
 };

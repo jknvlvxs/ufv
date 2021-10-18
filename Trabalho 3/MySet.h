@@ -38,7 +38,9 @@ public:
 
 	bool operator>(const MySet &other);
 
-	// void find
+	void createCodification(); // TODO
+	string getCodification(const char&caractere) const { return codification[caractere]; };
+	// string getCharacter(const bool&path[]) const;
 
 	void imprimeBFS() const; // FIXME
 	void imprimeDFS_pre() const; // FIXME
@@ -47,13 +49,15 @@ public:
 private:
 	Node<T> *root;
 	int size_;
+	string codification[256];
 
 	pair<iterator,bool> insert(const T&elem, const char&code, Node<T> *&root, Node<T> *parent); 
-	pair<iterator,bool> merge(const MySet &treeA, const MySet &treeB, Node<T> *&root);
 	iterator find(const T&elem, Node<T> *root); // NOTE verificar necessidade
 
 	void deleteNodes(Node<T> *root);
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
+
+	void createCodification(const Node<T> *root); // TODO
 
 	void imprimeDFS_pre(const Node<T> *root) const; // FIXME
 	void imprimeDFS_in(const Node<T> *root) const; // FIXME
@@ -193,11 +197,13 @@ template  <class T>
 pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char&code, Node<T> * &root, Node<T> *parent) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
 	cout << "Insere: " << elem << " " << code << endl;
 	if(!root) {
+		cout << "insere" << endl;
 		root = new Node<T>(elem, code);
 		root->parent = parent;
 		size_++;
 		return make_pair(iterator(root),true);
 	} else {
+		// FIXME nunca entra aqui
 		if(!root->left) return insert(elem, code, root->left, root);
 		else if (!root->right) return insert(elem, code, root->right, root);
 		else return make_pair(iterator(root),true);//igual..
@@ -211,26 +217,12 @@ pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char
 
 // SECTION merge
 template  <class T>
-pair<typename MySet<T>::iterator,bool> MySet<T>::merge(const MySet &treeA, const MySet &treeB, Node<T> * &root) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
-	if(!root) {
-		int elem = treeA.root->elem + treeB.root->elem;
-		root = new Node<T>(elem, '\0');
-		// root->parent = parent;
-		root->left = copyNodes(treeA.root, root);
-		root->right = copyNodes(treeB.root, root);
-		size_++;
-		return make_pair(iterator(root),true);
-	} else {
-			// if(!root->left) return insert(elem, code, root->left, root);
-			// else if (!root->right) return insert(elem, code, root->right, root);
-		
-		return make_pair(iterator(root),true);//igual..
-	}
-}
-
-template  <class T>
 pair<typename MySet<T>::iterator,bool> MySet<T>::merge(const MySet &treeA, const MySet &treeB) {
-	return merge(treeA, treeB, root);
+	root = new Node<T>((treeA.root->elem + treeB.root->elem), '\0');
+	root->left = copyNodes(treeA.root, root);
+	root->right = copyNodes(treeB.root, root);
+	size_++;
+	return make_pair(iterator(root), true);
 }
 
 // SECTION find
@@ -249,6 +241,55 @@ template  <class T>
 typename MySet<T>::iterator MySet<T>::find(const T&elem) {
 	return find(elem,root);
 }
+
+// SECTION Gerar codificação
+template <class T>
+void MySet<T>::createCodification() {
+	createCodification(root);
+}
+
+template <class T>
+void MySet<T>::createCodification(const Node<T> *p) {
+	if(!p) return;
+
+	createCodification(p->left);
+	createCodification(p->right);
+	
+	if(p->code != '\0') {
+		// Node<T> * aux = new Node<T>(p->elem, p->code);
+		char code_pos = p->code;
+		string code;
+
+		while(p != root){
+			if(p->parent && p->parent->left == p){
+				code.push_back('0');
+				p = p->parent;
+			}
+
+			if(p->parent && p->parent->right == p){
+				code.push_back('1');
+				p = p->parent;
+			}
+
+		}
+
+		int n = code.length();
+		for (int i = 0; i < n / 2; i++)
+			swap(code[i], code[n - i - 1]);
+
+		cout << "codification: " << code_pos << " " << code << endl;
+		
+		codification[code_pos] = code;
+	}
+	
+	
+}
+
+// template <class T>
+// char MySet<T>::getCharacter(const bool&path[]) const {
+
+// };
+
 
 // SECTION Impressões
 #include "MyQueue.h"
