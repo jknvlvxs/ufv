@@ -40,7 +40,7 @@ public:
 
 	void createCodification(); // TODO
 	string getCodification(const char&caractere) const { return codification[caractere]; };
-	// string getCharacter(const bool&path[]) const;
+	char getCharacter(const MyVec<bool> &path) const; // TODO
 
 	void imprimeBFS() const; // FIXME
 	void imprimeDFS_pre() const; // FIXME
@@ -58,6 +58,7 @@ private:
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
 
 	void createCodification(const Node<T> *root); // TODO
+	char getCharacter(const MyVec<bool> &path, const Node<T> *root) const; // TODO
 
 	void imprimeDFS_pre(const Node<T> *root) const; // FIXME
 	void imprimeDFS_in(const Node<T> *root) const; // FIXME
@@ -285,10 +286,24 @@ void MySet<T>::createCodification(const Node<T> *p) {
 	
 }
 
-// template <class T>
-// char MySet<T>::getCharacter(const bool&path[]) const {
+template <class T>
+char MySet<T>::getCharacter(const MyVec<bool> & path) const {
+	return getCharacter(path, root);
+}
 
-// };
+template <class T>
+char MySet<T>::getCharacter(const MyVec<bool> & path, const Node<T> *root) const {
+	for(MyVec<bool>::iterator it = path.begin(); it != path.end(); it++){
+		// cout << *it << " ";
+		if(*it == 1) root = root->right;
+		if(*it == 0) root = root->left;
+
+		if(root->code != '\0') return root->code;
+	}
+	// cout << endl;
+
+	return '\0';
+};
 
 
 // SECTION Impressões
