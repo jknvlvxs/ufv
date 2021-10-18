@@ -64,13 +64,5 @@ void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
 };
 
 void HuffManTree::descomprimir(MyVec<char> &out, const MyVec<bool> &in) const {
-    MyVec<bool> codification;
-    for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
-        // cout << *it << endl;
-        codification.push_back(*it);
-        if(huffman.getCharacter(codification) != '\0') {
-            out.push_back(huffman.getCharacter(codification));
-            codification.clear();
-        }
-    }
+    huffman.getCharacter(out, in);
 };

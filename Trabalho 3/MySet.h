@@ -40,7 +40,7 @@ public:
 
 	void createCodification(); // TODO
 	string getCodification(const char&caractere) const { return codification[caractere]; };
-	char getCharacter(const MyVec<bool> &path) const; // TODO
+	void getCharacter(MyVec<char> &out, const MyVec<bool> &in) const; // TODO
 
 	void imprimeBFS() const; // FIXME
 	void imprimeDFS_pre() const; // FIXME
@@ -58,7 +58,7 @@ private:
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
 
 	void createCodification(const Node<T> *root); // TODO
-	char getCharacter(const MyVec<bool> &path, const Node<T> *root) const; // TODO
+	void getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const; // TODO
 
 	void imprimeDFS_pre(const Node<T> *root) const; // FIXME
 	void imprimeDFS_in(const Node<T> *root) const; // FIXME
@@ -287,22 +287,21 @@ void MySet<T>::createCodification(const Node<T> *p) {
 }
 
 template <class T>
-char MySet<T>::getCharacter(const MyVec<bool> & path) const {
-	return getCharacter(path, root);
+void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in) const {
+	return getCharacter(out, in, root);
 }
 
 template <class T>
-char MySet<T>::getCharacter(const MyVec<bool> & path, const Node<T> *root) const {
-	for(MyVec<bool>::iterator it = path.begin(); it != path.end(); it++){
-		// cout << *it << " ";
+void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const {
+	for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
 		if(*it == 1) root = root->right;
 		if(*it == 0) root = root->left;
 
-		if(root->code != '\0') return root->code;
+		if(root->code != '\0') {
+			out.push_back(root->code);
+			while(root->parent) root = root->parent;
+		};
 	}
-	// cout << endl;
-
-	return '\0';
 };
 
 
