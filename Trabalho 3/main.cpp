@@ -66,7 +66,7 @@ int main(int argc, char**argv) {
 
         string bits_sum = "";
 
-        // cout << "size: " << comprimido.size() << endl;
+        cout << "size: " << comprimido.size() << endl;
         binary_out += comprimido.size();
 
         for(int i=0;i<comprimido.size();i++){
@@ -101,7 +101,7 @@ int main(int argc, char**argv) {
         in_file.read(reinterpret_cast<char*>(&size_read), 1);
         int size = size_read;	
 
-        // cout << size << endl;
+        cout << "size: " << size << endl;
 
         // leitura dos bytes
         MyVec<unsigned char> text;

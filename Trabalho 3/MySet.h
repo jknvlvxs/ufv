@@ -196,9 +196,8 @@ Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
 // SECTION insert
 template  <class T>
 pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char&code, Node<T> * &root, Node<T> *parent) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
-	cout << "Insere: " << elem << " " << code << endl;
+	// cout << "Insere: " << elem << " " << code << endl;
 	if(!root) {
-		cout << "insere" << endl;
 		root = new Node<T>(elem, code);
 		root->parent = parent;
 		size_++;
@@ -253,13 +252,14 @@ template <class T>
 void MySet<T>::createCodification(const Node<T> *p) {
 	if(!p) return;
 
-	createCodification(p->left);
-	createCodification(p->right);
+	if(p->left) createCodification(p->left);
+	if(p->right) createCodification(p->right);
 	
 	if(p->code != '\0') {
-		// Node<T> * aux = new Node<T>(p->elem, p->code);
 		char code_pos = p->code;
 		string code;
+
+		if(p == root) code.push_back('0'); // para caso de arquivo com 1 caractere
 
 		while(p != root){
 			if(p->parent && p->parent->left == p){
@@ -278,8 +278,6 @@ void MySet<T>::createCodification(const Node<T> *p) {
 		for (int i = 0; i < n / 2; i++)
 			swap(code[i], code[n - i - 1]);
 
-		cout << "codification: " << code_pos << " " << code << endl;
-		
 		codification[code_pos] = code;
 	}
 	
@@ -294,8 +292,8 @@ void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in) const {
 template <class T>
 void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const {
 	for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
-		if(*it == 1) root = root->right;
-		if(*it == 0) root = root->left;
+		if(*it == 1 && root->right) root = root->right;
+		if(*it == 0 && root->left) root = root->left;
 
 		if(root->code != '\0') {
 			out.push_back(root->code);
@@ -317,7 +315,7 @@ void MySet<T>::imprimeBFS() const {
 	while(q.size() != 0) {
 		Node<T> * p = q.top();
 		q.pop();
-		cout << p->elem << p->code << " ";
+		// cout << p->elem << p->code << " ";
 		if(p->left) q.push(p->left);  
 		if(p->right) q.push(p->right);
 	}
@@ -326,7 +324,7 @@ void MySet<T>::imprimeBFS() const {
 template  <class T>
 void MySet<T>::imprimeDFS_pre(const Node<T> *p) const {
 	if(!p) return;
-	cout << p->elem << p->code << " ";
+	// cout << p->elem << p->code << " ";
 	imprimeDFS_pre(p->left);
 	imprimeDFS_pre(p->right);
 } 
