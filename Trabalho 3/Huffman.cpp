@@ -32,8 +32,11 @@ HuffManTree::HuffManTree(int freqs[256]){
         priority_queue.push(t);
     }
 
-    huffman = priority_queue.top();
-    huffman.createCodification();
+    if(priority_queue.size() != 0){
+        huffman = priority_queue.top();
+        huffman.createCodification();
+    }
+    
 };
 
 void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
@@ -56,4 +59,8 @@ HuffManTree & HuffManTree::operator=(const HuffManTree &other) {
     if(this==&other) return *this;
     huffman = other.huffman;
     return *this;
+}
+
+HuffManTree::~HuffManTree() { 
+    // TODO
 }
