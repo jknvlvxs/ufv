@@ -57,11 +57,14 @@ int main(int argc, char**argv) {
 
         /* salva o size (quantidade de bits) no arquivo de saída*/
         int size = comprimido.size();
-        out_file.write( reinterpret_cast<char*> (&size), sizeof(int));
 
-        /* salva o as frequências no arquivo de saída*/
-        for(int i = 0; i < 256; i++)
-            out_file.write( reinterpret_cast<char*> (&freqs[i]), sizeof(int));
+        if(size != 0){
+            out_file.write( reinterpret_cast<char*> (&size), sizeof(int));
+
+            /* salva o as frequências no arquivo de saída*/
+            for(int i = 0; i < 256; i++)
+                out_file.write( reinterpret_cast<char*> (&freqs[i]), sizeof(int));
+        }
         
         /* concatena os bytes na string binary_out */
         for(int i=0; i<comprimido.size(); i++){
