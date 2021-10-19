@@ -54,40 +54,49 @@ int main(int argc, char**argv) {
 
         HuffManTree arvore(freqs);
 
+        // NOTE IMPRIMIR FREQUENCIAS
+        // for(int i = 0; i < 256; i++){
+        //     cout << freqs[i] << endl;
+        // }
+
         MyVec<bool> comprimido;
 	    arvore.comprimir(comprimido, in);
-        // for(int i=0;i<comprimido.size();i++){
+
+        // NOTE IMPRIMIR BITS
+        // for(int i=0;i<comprimido.size();i++)
         //     cout << comprimido[i];
-            
-        // }
 	    // cout << endl;
+        
 
         string binary_out = "";
 
         string bits_sum = "";
 
-        cout << "size: " << comprimido.size() << endl;
-        binary_out += comprimido.size();
+        out_file.open(path_write, ios::out | ios::binary);
 
+        int size = comprimido.size();
+        out_file.write( reinterpret_cast<char*> (&size), sizeof(int));
+
+        // NOTE IMPRIMIR SIZE
+        cout << "size: " << size << endl;
+
+        for(int i = 0; i < 256; i++){
+            out_file.write( reinterpret_cast<char*> (&freqs[i]), sizeof(int));
+        }
+        
         for(int i=0;i<comprimido.size();i++){
             bits_sum += comprimido[i] ? "1" : "0";
             if(bits_sum.size() == 8){
-                // cout << generateByte(bits_sum) << endl;
                 binary_out += generateByte(bits_sum);
                 bits_sum = "";
             }
 
-            if(comprimido.size()-1 == i && bits_sum.size() > 0 && bits_sum.size() < 8){ // NOTE atenção com final do arquivo para numeros < 8
+            if(comprimido.size()-1 == i && bits_sum.size() > 0 && bits_sum.size() < 8){
                 bits_sum = bits_sum.append(8-bits_sum.size(), '0');
                 binary_out += generateByte(bits_sum);
             }
         }
 
-        for(int i = 0; i < 256; i++){
-            binary_out += freqs[i];
-        }
-
-        out_file.open(path_write, ios::out | ios::binary);
         out_file.write(binary_out.c_str(), binary_out.size());
         out_file.close();
     }
@@ -97,17 +106,36 @@ int main(int argc, char**argv) {
         out_file.open(path_write, ios::out);
         
         // leitura do numero de bits
-        unsigned char size_read;
-        in_file.read(reinterpret_cast<char*>(&size_read), 1);
-        int size = size_read;	
-
+        int size;
+        in_file.read(reinterpret_cast<char*>(&size), sizeof(int));
+        
+        // NOTE IMPRIMIR SIZE
         cout << "size: " << size << endl;
+
+        // busca da arvore de huffman
+        int freqs[256] = {0};
+        int count = 0;
+
+        // unsigned char leitura;
+        int leitura;
+        while (count < 256) {
+            in_file.read(reinterpret_cast<char*>(&leitura), sizeof(int));
+            freqs[count] = leitura;
+            count++;
+        }
+
+        HuffManTree arvore(freqs);
+        
+        // NOTE IMPRIMIR FREQUENCIAS
+        // for(int i = 0; i < 256; i++){
+        //     cout << freqs[i] << endl;
+        // }
 
         // leitura dos bytes
         MyVec<unsigned char> text;
         unsigned char textseg;
-        // while (!in_file.eof()) {
-        for(int arr = 0; arr < size; arr += 8){
+        while (!in_file.eof()) {
+        // for(int arr = 0; arr < size; arr += 8){
             in_file.read(reinterpret_cast<char*>(&textseg), 1);
             text.push_back(textseg);
         }
@@ -117,44 +145,18 @@ int main(int argc, char**argv) {
         for(MyVec<unsigned char>::iterator it = text.begin(); it != text.end(); it++) 
             generateBits(comprimido, *it);
 
-        // cout << endl;
-
         while(comprimido.size() > size)
             comprimido.pop_back();
 
+        // NOTE IMPRIMIR LEITURA
         // for(int i=0;i<comprimido.size();i++)
 		//     cout << comprimido[i];
         // cout << endl;
-
-        // busca da arvore de huffman
-        int freqs[256] = {0};
-        int count = 0;
-
-        unsigned char leitura;
-        while (!in_file.eof() && count < 256) {
-            in_file.read(reinterpret_cast<char*>(&leitura), 1);
-            // text.push_back(textseg);
-            string teste = "";
-            for (int i = 7; i >= 0; --i) {
-                teste += (((leitura >> i) & 0x1) == 1 ? '1' : '0');
-            }
-            freqs[count] = binary_to_decimal(teste);
-            count++;
-        }
-
-        HuffManTree arvore(freqs);
-
-        string text_out = "";
 
         MyVec<char> descomprimido;
         arvore.descomprimir(descomprimido, comprimido);
         for(int i=0;i<descomprimido.size();i++)
             out_file.put(descomprimido[i]);
-            // text_out += descomprimido[i];
-            // cout << descomprimido[i];
-        // cout << endl;
-
-        // cout << text_out << endl;
 
         in_file.close();
 	    out_file.close();
