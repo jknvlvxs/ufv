@@ -17,16 +17,7 @@ HuffManTree::HuffManTree(int freqs[256]){
         }
     }
 
-    cout << endl; // FIXME
-
     while(priority_queue.size() > 1){
-        MyQueue<MySet<int>> print_queue = priority_queue; // FIXME
-        while(print_queue.size() > 0){ // FIXME
-            print_queue.top().imprimeBFS(); // FIXME
-            print_queue.pop(); // FIXME
-        } // FIXME
-        cout << endl; // FIXME
-
         MySet<int> cr_a = priority_queue.top();
         priority_queue.pop();
         MySet<int> cr_b = priority_queue.top();
@@ -35,15 +26,8 @@ HuffManTree::HuffManTree(int freqs[256]){
         if((*cr_b.begin()).first > (*cr_a.begin()).first) swap(cr_a, cr_b);
         if((*cr_a.begin()).second == '\0' && (*cr_b.begin()).first != '\0') swap(cr_a, cr_b);
 
-        cout << "a: "; cr_a.imprimeDFS_pre(); // FIXME 
-        cout << "b: "; cr_b.imprimeDFS_pre(); // FIXME
-        cout << endl; // FIXME
-
         MySet<int> t;
         t.merge(cr_a, cr_b);
-
-        t.imprimeDFS_pre(); // FIXME
-        cout << endl << endl; // FIXME
 
         priority_queue.push(t);
     }
@@ -54,15 +38,22 @@ HuffManTree::HuffManTree(int freqs[256]){
 
 void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
     for(MyVec<char>::iterator it = in.begin(); it != in.end(); it++){
-        cout << *it << " " << huffman.getCodification(*it) << endl;
         string huffman_codification = huffman.getCodification(*it); 
-        for(int i = 0; i < huffman_codification.size(); i++){
+        for(int i = 0; i < huffman_codification.size(); i++)
             out.push_back(huffman_codification[i] == '0'? false : true);
-        }
     }
-    cout << endl;
 };
 
 void HuffManTree::descomprimir(MyVec<char> &out, const MyVec<bool> &in) const {
     huffman.getCharacter(out, in);
 };
+
+HuffManTree::HuffManTree(const HuffManTree &other) { 
+    *this = other;
+}
+
+HuffManTree & HuffManTree::operator=(const HuffManTree &other) {
+    if(this==&other) return *this;
+    huffman = other.huffman;
+    return *this;
+}
