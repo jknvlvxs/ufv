@@ -9,3 +9,5 @@
     ASCII Code: https://www.ascii-code.com
     Bytes, números e caracteres: https://www.ime.usp.br/~pf/algoritmos/aulas/bytes.html
     Binary Trees and Huffman Encoding, Harvard University: https://sites.fas.harvard.edu/~libs111/files/lectures/unit9-1.pdf
+
+    Os arquivos MyQueue, MySet e MyVec foram implementados com base nos arquivos das práticas anteriores

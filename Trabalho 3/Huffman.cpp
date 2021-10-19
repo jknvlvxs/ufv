@@ -9,6 +9,8 @@ HuffManTree::HuffManTree(int freqs[256]){
     (e obrigatoriamente usando uma fila de prioridades). */
     MyQueue<MySet<int>> priority_queue;
 
+    /* percorre os 256 bytes e caso a frequência seja maior que 0, cria uma árvore para o respectivo símbolo
+    após isso, insere a árvore com apenas um nodo em uma fila de prioridades */
     for(int i = 0; i < 256; i++){
         if(freqs[i] != 0){
             MySet<int> caractere;
@@ -17,28 +19,27 @@ HuffManTree::HuffManTree(int freqs[256]){
         }
     }
 
+    /* NOTE Enquanto o número de árvores não for 1, faça:
+        pegue (e as remova da fila) as duas árvores a,b de menor “peso”
+        crie uma nova árvore T onde a raiz será um nodo cujo peso é a soma do peso de a e de b. O filho esquerdo de T será a e o direito será b.
+        insira T de volta em PQ
+    A árvore de Huffman será a (única) árvore restante na fila de prioridades. */
     while(priority_queue.size() > 1){
-        MySet<int> cr_a = priority_queue.top();
-        priority_queue.pop();
-        MySet<int> cr_b = priority_queue.top();
-        priority_queue.pop();
+        MySet<int> arvore_a = priority_queue.top(); priority_queue.pop();
+        MySet<int> arvore_b = priority_queue.top(); priority_queue.pop();
 
-        if((*cr_b.begin()).first > (*cr_a.begin()).first) swap(cr_a, cr_b);
-        if((*cr_a.begin()).second == '\0' && (*cr_b.begin()).first != '\0') swap(cr_a, cr_b);
-
-        MySet<int> t;
-        t.merge(cr_a, cr_b);
-
-        priority_queue.push(t);
+        MySet<int> arvore_t;
+        arvore_t.merge(arvore_a, arvore_b);
+        priority_queue.push(arvore_t);
     }
 
     if(priority_queue.size() != 0){
         huffman = priority_queue.top();
         huffman.createCodification();
     }
-    
 };
 
+/* busca a codificação e adiciona os bits */
 void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
     for(MyVec<char>::iterator it = in.begin(); it != in.end(); it++){
         string huffman_codification = huffman.getCodification(*it); 

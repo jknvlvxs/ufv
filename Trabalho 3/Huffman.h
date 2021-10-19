@@ -7,14 +7,14 @@
 
 class HuffManTree {
     private:
-        // Árvore de Huffman
+        /* Árvore de Huffman */
         MySet<int> huffman;
     public:
         /* NOTE Sua classe deverá ter um construtor que recebe como argumento um array automático
         com a frequência dos 256 possíveis símbolos em um byte (“HuffManTree(int freqs[256])”). */
         HuffManTree(int freqs[256]);
 
-        //TODO não esquecer construtor de cópia, operador de atribuição e destrutor
+        /* Construtor de cópia, operador de atribuição e destrutor */
         HuffManTree(const HuffManTree &outro);
         HuffManTree & operator=(const HuffManTree &);
         ~HuffManTree();

@@ -24,8 +24,8 @@ public:
 	const T &operator[](int pos) const {return data[pos];}
 
 	void push_back(const T&);
-	void insert(const T&, int pos);
 	void pop_back() { assert(dataSize!=0); dataSize--; }
+	
 	void resize(int new_size);
 	void clear();
 
@@ -56,22 +56,6 @@ void MyVec<T>::push_back(const T&elem) {
 	}
 	
 	data[dataSize] = elem;
-	dataSize++;
-}
-
-template<class T>
-void MyVec<T>::insert(const T&elem, int pos) {
-	if(pos > dataSize || pos < 0) return;
-
-	if(dataSize + 1 >= capacity) {
-		if(capacity == 0) resizeCapacity(1);
-		else resizeCapacity(capacity*2);
-	}	
-
-	for(int i=dataSize;i>pos;i--)
-		data[i] = data[i-1];
-
-	data[pos] = elem;
 	dataSize++;
 }
 

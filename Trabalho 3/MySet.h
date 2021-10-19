@@ -14,7 +14,7 @@ class Node {
 		Node<T> *left, *right;
 		T elem;
 		char code;
-		Node<T> *parent; // NOTE verificar necessidade
+		Node<T> *parent;
 };
 
 template  <class T>
@@ -22,16 +22,13 @@ class MySet {
 public:
 	typedef MySetIterator<T> iterator;
 
-	MySet() : size_(0), root(NULL) {}
+	MySet() : root(NULL) {}
 	MySet(const MySet &other);
 	MySet &operator=(const MySet &other);
 	~MySet();
 
-	int size() const { return size_; }
-
 	pair<iterator,bool> insert(const T&elem, const char&code);
-	pair<iterator,bool> merge(const MySet &treeA, const MySet &treeB);
-	iterator find(const T&elem); // NOTE verificar necessidade
+	iterator merge(const MySet &treeA, const MySet &treeB);
 
 	iterator end() {return iterator(NULL);}; 
 	iterator begin() ;
@@ -42,17 +39,11 @@ public:
 	string getCodification(const char&caractere) const { return codification[caractere]; };
 	void getCharacter(MyVec<char> &out, const MyVec<bool> &in) const; // TODO
 
-	void imprimeBFS() const; // FIXME
-	void imprimeDFS_pre() const; // FIXME
-	void imprimeDFS_in() const; // FIXME
-	void imprimeDFS_pos() const; // FIXME
 private:
 	Node<T> *root;
-	int size_;
 	string codification[256];
 
 	pair<iterator,bool> insert(const T&elem, const char&code, Node<T> *&root, Node<T> *parent); 
-	iterator find(const T&elem, Node<T> *root); // NOTE verificar necessidade
 
 	void deleteNodes(Node<T> *root);
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
@@ -60,9 +51,6 @@ private:
 	void createCodification(const Node<T> *root); // TODO
 	void getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const; // TODO
 
-	void imprimeDFS_pre(const Node<T> *root) const; // FIXME
-	void imprimeDFS_in(const Node<T> *root) const; // FIXME
-	void imprimeDFS_pos(const Node<T> *root) const; // FIXME
 };
 
 template<class T>
@@ -74,77 +62,25 @@ public:
 
 	bool operator==(const MySetIterator &other) const {return ptr==other.ptr;}
 	bool operator!=(const MySetIterator &other) const {return ptr!=other.ptr;}
-
-	MySetIterator operator++();
-	MySetIterator operator++(int);
-
-	MySetIterator operator--();
-	MySetIterator operator--(int);
 private:
 	Node<T> *ptr;
 };
 
-
-// SECTION Operadores de pré-incremento
-template<class T>
-MySetIterator<T>  MySetIterator<T>::operator++() {
-	if(ptr->right){
-		ptr = ptr->right;
-		while(ptr->left) ptr = ptr->left;
-	} else {
-		while(ptr->parent && ptr->parent->right==ptr) ptr = ptr->parent;
-		ptr = ptr->parent; 
-	}
-
-	return *this;
-}
-
-template<class T>
-MySetIterator<T>  MySetIterator<T>::operator--() {
-	if(ptr->left) { 
-		ptr = ptr->left;
-		while(ptr->right) ptr=ptr->right;
-	} else { 
-		while(ptr->parent && ptr->parent->left==ptr) ptr = ptr->parent;  
-		ptr = ptr->parent;	
-	}
-	return *this;
-}
-
-// SECTION Operadores de pós-incremento
-template<class T>
-MySetIterator<T>  MySetIterator<T>::operator++(int) {
-	MySetIterator<T> old(*this);
-	++(*this);
-	return old;
-}
-
-template<class T>
-MySetIterator<T>  MySetIterator<T>::operator--(int) {
-	MySetIterator<T> old(*this);
-	--(*this);
-	return old;
-}
-
-// SECTION Construtor de cópia
+// SECTION Construtor de cópia, operador de atribuição e destrutor
 template  <class T>
 MySet<T>::MySet(const MySet &other) {
-	size_=0;
 	root= NULL;
 	*this = other;
 }
 
-// SECTION Operador de atribuição
 template  <class T>
 MySet<T> & MySet<T>::operator=(const MySet &other) {
 	if(this==&other) return *this;
 	deleteNodes(root);
-	root = copyNodes(other.root,NULL);
-	size_ = other.size_;
+	root = copyNodes(other.root, NULL);
 	return *this;
 }
 
-// SECTION Destrutor
 template  <class T>
 MySet<T>::~MySet() {
 	deleteNodes(root);
@@ -158,7 +94,7 @@ void MySet<T>::deleteNodes(Node<T> *root) {
 	delete root;
 }
 
-// SECTION Operador>
+// SECTION operador de ordenação
 template  <class T>
 bool MySet<T>::operator>(const MySet &other) {
 	if(root->elem > other.root->elem) return false;
@@ -166,8 +102,6 @@ bool MySet<T>::operator>(const MySet &other) {
 
 	if(root->code > other.root->code) return false;
 	else if(root->code <  other.root->code) return true;
-
-	// if(!root->left) return false;
 
 	return false;
 }
@@ -177,15 +111,13 @@ template  <class T>
 typename MySet<T>::iterator MySet<T>::begin() {
 	if(!root) return end();
 	Node<T> *ptr = root;
-	// while(ptr->left) ptr = ptr->left;
 	return iterator(ptr);
 }
 
-// SECTION copyNodes
+// SECTION função que cria uma cópia dos nodos
 template  <class T>
 Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
 	if(root==NULL) return NULL;
-
 	Node<T> * ans = new Node<T>(root->elem, root->code);
 	ans->parent = parent;
 	ans->left = copyNodes(root->left,ans);
@@ -196,18 +128,9 @@ Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
 // SECTION insert
 template  <class T>
 pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char&code, Node<T> * &root, Node<T> *parent) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
-	// cout << "Insere: " << elem << " " << code << endl;
-	if(!root) {
-		root = new Node<T>(elem, code);
-		root->parent = parent;
-		size_++;
-		return make_pair(iterator(root),true);
-	} else {
-		// FIXME nunca entra aqui
-		if(!root->left) return insert(elem, code, root->left, root);
-		else if (!root->right) return insert(elem, code, root->right, root);
-		else return make_pair(iterator(root),true);//igual..
-	}
+	root = new Node<T>(elem, code);
+	root->parent = parent;
+	return make_pair(iterator(root),true);
 }
 
 template  <class T>
@@ -217,32 +140,14 @@ pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char
 
 // SECTION merge
 template  <class T>
-pair<typename MySet<T>::iterator,bool> MySet<T>::merge(const MySet &treeA, const MySet &treeB) {
+typename MySet<T>::iterator MySet<T>::merge(const MySet &treeA, const MySet &treeB) {
 	root = new Node<T>((treeA.root->elem + treeB.root->elem), '\0');
 	root->left = copyNodes(treeA.root, root);
 	root->right = copyNodes(treeB.root, root);
-	size_++;
-	return make_pair(iterator(root), true);
+	return iterator(root);
 }
 
-// SECTION find
-template  <class T>
-typename MySet<T>::iterator MySet<T>::find(const T&elem, Node<T> *root) {
-	if(!root) {		
-		return iterator(NULL);
-	} else {
-		if(root->elem > elem) return find(elem, root->left);
-		else if (root->elem < elem) return find(elem, root->right);
-		else return iterator(root);
-	}
-}
-
-template  <class T>
-typename MySet<T>::iterator MySet<T>::find(const T&elem) {
-	return find(elem,root);
-}
-
-// SECTION Gerar codificação
+// SECTION Gerar codificação variável
 template <class T>
 void MySet<T>::createCodification() {
 	createCodification(root);
@@ -256,34 +161,36 @@ void MySet<T>::createCodification(const Node<T> *p) {
 	if(p->right) createCodification(p->right);
 	
 	if(p->code != '\0') {
-		char code_pos = p->code;
+		char pos = p->code;
 		string code;
 
-		if(p == root) code.push_back('0'); // para caso de arquivo com 1 caractere
+		/* para caso de arquivo com 1 caractere */
+		if(p == root) code.push_back('0'); 
 
 		while(p != root){
+			// caso seja o filho da esquerda, adiciona 0 na codificação
 			if(p->parent && p->parent->left == p){
 				code.push_back('0');
 				p = p->parent;
 			}
-
+			// caso seja o filho da direita, adiciona 1 na codificação
 			if(p->parent && p->parent->right == p){
 				code.push_back('1');
 				p = p->parent;
 			}
-
 		}
 
+		/* inverte a codificação */
 		int n = code.length();
 		for (int i = 0; i < n / 2; i++)
 			swap(code[i], code[n - i - 1]);
 
-		codification[code_pos] = code;
+		/* adiciona a codificação na posicao referente ao byte */
+		codification[pos] = code;
 	}
-	
-	
 }
 
+// SECTION Buscar caracter
 template <class T>
 void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in) const {
 	return getCharacter(out, in, root);
@@ -292,72 +199,17 @@ void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in) const {
 template <class T>
 void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const {
 	for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
+		/* caso o bit seja 1, anda para a direita */
 		if(*it == 1 && root->right) root = root->right;
+		/* caso o bit seja 0, anda para a esquerda */
 		if(*it == 0 && root->left) root = root->left;
 
+		/* ao chegar em um caractere, adiciona na saída e retorna a posição inicial */
 		if(root->code != '\0') {
 			out.push_back(root->code);
 			while(root->parent) root = root->parent;
 		};
 	}
 };
-
-
-// SECTION Impressões
-#include "MyQueue.h"
-
-template  <class T>
-void MySet<T>::imprimeBFS() const {
-	MyQueue<Node<T>*> q;
-	if(!root) return;
-	q.push(root);
-
-	while(q.size() != 0) {
-		Node<T> * p = q.top();
-		q.pop();
-		// cout << p->elem << p->code << " ";
-		if(p->left) q.push(p->left);  
-		if(p->right) q.push(p->right);
-	}
-}
-
-template  <class T>
-void MySet<T>::imprimeDFS_pre(const Node<T> *p) const {
-	if(!p) return;
-	// cout << p->elem << p->code << " ";
-	imprimeDFS_pre(p->left);
-	imprimeDFS_pre(p->right);
-} 
-
-template  <class T>
-void MySet<T>::imprimeDFS_in(const Node<T> *p) const {
-	if(!p) return;	
-	imprimeDFS_in(p->left);
-	cout << p->elem << " ";
-	imprimeDFS_in(p->right);
-} 
-
-template  <class T>
-void MySet<T>::imprimeDFS_pos(const Node<T> *p) const {
-	if(!p) return;
-	imprimeDFS_pos(p->left);
-	imprimeDFS_pos(p->right);
-	cout << p->elem << " ";
-} 
-
-template  <class T>
-void MySet<T>::imprimeDFS_pre() const {
-	imprimeDFS_pre(root);
-}
-
-template  <class T>
-void MySet<T>::imprimeDFS_in() const {
-	imprimeDFS_in(root);
-}
-
-template  <class T>
-void MySet<T>::imprimeDFS_pos() const {
-	imprimeDFS_pos(root);
-}
 
 #endif
