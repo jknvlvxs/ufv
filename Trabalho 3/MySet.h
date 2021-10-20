@@ -10,10 +10,10 @@ class MySetIterator;
 template  <class T>
 class Node {
 	public:
-		Node(const T &elem_, const char &code_) : elem(elem_), code(code_), left(NULL), right(NULL) {}
+		Node(const T &elem_, const unsigned char &code_) : elem(elem_), code(code_), left(NULL), right(NULL) {}
 		Node<T> *left, *right;
 		T elem;
-		char code;
+		unsigned char code;
 		Node<T> *parent;
 };
 
@@ -27,7 +27,7 @@ public:
 	MySet &operator=(const MySet &other);
 	~MySet();
 
-	pair<iterator,bool> insert(const T&elem, const char&code);
+	pair<iterator,bool> insert(const T&elem, const unsigned char&code);
 	iterator merge(const MySet &treeA, const MySet &treeB);
 
 	iterator end() {return iterator(NULL);}; 
@@ -36,21 +36,21 @@ public:
 	bool operator>(const MySet &other);
 
 	void createCodification(); // TODO
-	string getCodification(const char&caractere) const { return codification[caractere]; };
-	void getCharacter(MyVec<char> &out, const MyVec<bool> &in) const; // TODO
+	string getCodification(const unsigned char&caractere) const { return codification[caractere]; };
+	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in) const; // TODO
 
 	// void imprimeDFS_pre() const;
 private:
 	Node<T> *root;
 	string codification[256];
 
-	pair<iterator,bool> insert(const T&elem, const char&code, Node<T> *&root, Node<T> *parent); 
+	pair<iterator,bool> insert(const T&elem, const unsigned char&code, Node<T> *&root, Node<T> *parent); 
 
 	void deleteNodes(Node<T> *root);
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
 
 	void createCodification(const Node<T> *root); // TODO
-	void getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const; // TODO
+	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in, const Node<T> *root) const; // TODO
 
 	void imprimeDFS_pre(const Node<T> *root) const;
 };
@@ -60,7 +60,7 @@ class MySetIterator {
 	friend class MySet<T>;
 public:
 	MySetIterator(Node<T> *ptr_): ptr(ptr_) { }
-	pair<T, char> operator*() {return make_pair(ptr->elem, ptr->code);}
+	pair<T, unsigned char> operator*() {return make_pair(ptr->elem, ptr->code);}
 
 	bool operator==(const MySetIterator &other) const {return ptr==other.ptr;}
 	bool operator!=(const MySetIterator &other) const {return ptr!=other.ptr;}
@@ -129,14 +129,14 @@ Node<T> * MySet<T>::copyNodes(const Node<T> *root,  Node<T> *parent) const {
 
 // SECTION insert
 template  <class T>
-pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char&code, Node<T> * &root, Node<T> *parent) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
+pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const unsigned char&code, Node<T> * &root, Node<T> *parent) { //retorna um iterador para o elemento inserido (o valor booleano sera' true se o elemento nao existia no conjunto e falso caso ele ja exista (ou seja, o novo elemento nao foi inserido) ).
 	root = new Node<T>(elem, code);
 	root->parent = parent;
 	return make_pair(iterator(root),true);
 }
 
 template  <class T>
-pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const char&code) {
+pair<typename MySet<T>::iterator,bool> MySet<T>::insert(const T&elem, const unsigned char&code) {
 	return insert(elem, code, root, NULL);
 }
 
@@ -163,7 +163,7 @@ void MySet<T>::createCodification(const Node<T> *p) {
 	if(p->right) createCodification(p->right);
 	
 	if(p->code != '\0') {
-		char pos = p->code;
+		unsigned char pos = p->code;
 		string code;
 
 		/* para caso de arquivo com 1 caractere */
@@ -194,12 +194,12 @@ void MySet<T>::createCodification(const Node<T> *p) {
 
 // SECTION Buscar caracter
 template <class T>
-void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in) const {
+void MySet<T>::getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in) const {
 	return getCharacter(out, in, root);
 }
 
 template <class T>
-void MySet<T>::getCharacter(MyVec<char> &out, const MyVec<bool> &in, const Node<T> *root) const {
+void MySet<T>::getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in, const Node<T> *root) const {
 	for(MyVec<bool>::iterator it = in.begin(); it != in.end(); it++){
 		/* caso o bit seja 1, anda para a direita */
 		if(*it == 1 && root->right) root = root->right;

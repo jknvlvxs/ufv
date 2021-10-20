@@ -22,10 +22,10 @@ class HuffManTree {
         /* NOTE Essa função deverá ler o vetor de bytes (chars) “in”, comprimi-lo e gravar os bits
         representando o arquivo comprimido em “out” (cada bool de out representará um bit , sendo 1
         representado por true e 0 por false)*/
-        void comprimir(MyVec<bool> &out, const MyVec<char> &in) const;
+        void comprimir(MyVec<bool> &out, const MyVec<unsigned char> &in) const;
 
         /* NOTE Essa função deverá fazer o inverso do que a função acima faz. */
-        void descomprimir(MyVec<char> &out, const MyVec<bool> &in) const;
+        void descomprimir(MyVec<unsigned char> &out, const MyVec<bool> &in) const;
 };
 
 #endif

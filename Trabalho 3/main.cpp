@@ -10,7 +10,7 @@
 using namespace std;
 
 /* função que recebe uma string contendo 8 bits e gera um byte ativando os bits de uma char */
-char generateByte(string bits){
+unsigned char generateByte(string bits){
     unsigned char byte = 0b00000000;
     for(int i = 0; i < 8; i++)
         if(bits[7-i] == '1')
@@ -36,10 +36,10 @@ int main(int argc, char**argv) {
         out_file.open(path_write, ios::out | ios::binary);
 
         int freqs[256] = {0};
-        MyVec<char> in;
+        MyVec<unsigned char> in;
 
         while (!in_file.eof()) {
-            char id = in_file.get();
+            unsigned char id = in_file.get();
             freqs[id] = ++freqs[id];
             in.push_back(id);
         }
@@ -135,7 +135,7 @@ int main(int argc, char**argv) {
             comprimido.pop_back();
 
         /* descombrime o conteúdo e insere no arquivo de saída */
-        MyVec<char> descomprimido;
+        MyVec<unsigned char> descomprimido;
         arvore.descomprimir(descomprimido, comprimido);
         for(int i=0;i<descomprimido.size();i++)
             out_file.put(descomprimido[i]);

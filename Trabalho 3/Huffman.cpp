@@ -43,15 +43,15 @@ HuffManTree::HuffManTree(int freqs[256]){
 };
 
 /* busca a codificação e adiciona os bits */
-void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<char> &in) const {
-    for(MyVec<char>::iterator it = in.begin(); it != in.end(); it++){
+void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<unsigned char> &in) const {
+    for(MyVec<unsigned char>::iterator it = in.begin(); it != in.end(); it++){
         string huffman_codification = huffman.getCodification(*it); 
         for(int i = 0; i < huffman_codification.size(); i++)
             out.push_back(huffman_codification[i] == '0'? false : true);
     }
 };
 
-void HuffManTree::descomprimir(MyVec<char> &out, const MyVec<bool> &in) const {
+void HuffManTree::descomprimir(MyVec<unsigned char> &out, const MyVec<bool> &in) const {
     huffman.getCharacter(out, in);
 };
 
