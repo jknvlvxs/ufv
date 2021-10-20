@@ -28,8 +28,10 @@ HuffManTree::HuffManTree(int freqs[256]){
         MySet<int> arvore_a = priority_queue.top(); priority_queue.pop();
         MySet<int> arvore_b = priority_queue.top(); priority_queue.pop();
 
+        /* inverte as arvores caso uma frequencia seja maior que a outra */
         if((*arvore_b.begin()).first > (*arvore_a.begin()).first) swap(arvore_a, arvore_b);
-        if((*arvore_a.begin()).second == '\0' && (*arvore_b.begin()).first != '\0') swap(arvore_a, arvore_b);
+        /* inverte as árvores caso uma delas seja vazia (soma de outros caracteres) e a outra um caractere */
+        if((*arvore_a.begin()).second == '\0' && (*arvore_b.begin()).second != '\0') swap(arvore_a, arvore_b);
 
         MySet<int> arvore_t;
         arvore_t.merge(arvore_a, arvore_b);

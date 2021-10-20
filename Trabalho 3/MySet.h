@@ -35,11 +35,10 @@ public:
 
 	bool operator>(const MySet &other);
 
-	void createCodification(); // TODO
+	void createCodification();
 	string getCodification(const unsigned char&caractere) const { return codification[caractere]; };
-	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in) const; // TODO
+	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in) const;
 
-	// void imprimeDFS_pre() const;
 private:
 	Node<T> *root;
 	string codification[256];
@@ -49,10 +48,9 @@ private:
 	void deleteNodes(Node<T> *root);
 	Node<T> * copyNodes(const Node<T> *root, Node<T> *parent) const;
 
-	void createCodification(const Node<T> *root); // TODO
-	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in, const Node<T> *root) const; // TODO
+	void createCodification(const Node<T> *root);
+	void getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in, const Node<T> *root) const;
 
-	void imprimeDFS_pre(const Node<T> *root) const;
 };
 
 template<class T>
@@ -214,16 +212,4 @@ void MySet<T>::getCharacter(MyVec<unsigned char> &out, const MyVec<bool> &in, co
 	}
 };
 
-// template  <class T>
-// void MySet<T>::imprimeDFS_pre() const {
-// 	imprimeDFS_pre(root);
-// }
-
-// template  <class T>
-// void MySet<T>::imprimeDFS_pre(const Node<T> *p) const {
-// 	if(!p) return;
-// 	cout << p->elem << p->code << " ";
-// 	imprimeDFS_pre(p->left);
-// 	imprimeDFS_pre(p->right);
-// }
 #endif
