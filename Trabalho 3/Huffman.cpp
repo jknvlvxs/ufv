@@ -11,7 +11,7 @@ HuffManTree::HuffManTree(int freqs[256]){
 
     /* percorre os 256 bytes e caso a frequência seja maior que 0, cria uma árvore para o respectivo símbolo
     após isso, insere a árvore com apenas um nodo em uma fila de prioridades */
-    for(int i = 0; i < 256; i++){
+    for(int i = 0; i < 255; i++){
         if(freqs[i] != 0){
             MySet<int> caractere;
             caractere.insert(freqs[i], i);
@@ -27,6 +27,9 @@ HuffManTree::HuffManTree(int freqs[256]){
     while(priority_queue.size() > 1){
         MySet<int> arvore_a = priority_queue.top(); priority_queue.pop();
         MySet<int> arvore_b = priority_queue.top(); priority_queue.pop();
+
+        if((*arvore_b.begin()).first > (*arvore_a.begin()).first) swap(arvore_a, arvore_b);
+        if((*arvore_a.begin()).second == '\0' && (*arvore_b.begin()).first != '\0') swap(arvore_a, arvore_b);
 
         MySet<int> arvore_t;
         arvore_t.merge(arvore_a, arvore_b);
