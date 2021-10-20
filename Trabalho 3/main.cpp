@@ -83,15 +83,15 @@ int main(int argc, char**argv) {
         out_file.write(binary_out.c_str(), binary_out.size());
         out_file.close();
 
-        // NOTE IMPRIMIR SIZE
+        // // NOTE IMPRIMIR SIZE
         // cout << "size: " << size << endl;
 
-        // NOTE IMPRIMIR FREQUENCIAS
+        // // NOTE IMPRIMIR FREQUENCIAS
         // for(int i = 0; i < 256; i++){
         //     cout << freqs[i] << endl;
         // }
 
-        // NOTE IMPRIMIR BITS
+        // // NOTE IMPRIMIR BITS
         // for(int i=0;i<comprimido.size();i++)
         //     cout << comprimido[i];
 	    // cout << endl;
@@ -143,15 +143,15 @@ int main(int argc, char**argv) {
         in_file.close();
 	    out_file.close();
 
-        // NOTE IMPRIMIR SIZE
+        // // NOTE IMPRIMIR SIZE
         // cout << "size: " << size << endl;
 
-        // NOTE IMPRIMIR FREQUENCIAS
+        // // NOTE IMPRIMIR FREQUENCIAS
         // for(int i = 0; i < 256; i++){
         //     cout << freqs[i] << endl;
         // }
 
-        // NOTE IMPRIMIR BITS
+        // // NOTE IMPRIMIR BITS
         // for(int i=0;i<comprimido.size();i++)
 		//     cout << comprimido[i];
         // cout << endl;

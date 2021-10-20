@@ -1,6 +1,7 @@
 CC=g++
 # CFLAGS=-std=c++11 -Wall
 CFLAGS=-g
+# CFLAGS=-g -funsigned-char
 
 all: main
 
@@ -14,10 +15,10 @@ Huffman.o: Huffman.h Huffman.cpp
 	${CC} ${CFLAGS} -c Huffman.cpp
 
 clean:
-	rm -f main *.o *.txt
+	rm -f main *.o *.txt *.out arquivos/decodificado.txt arquivos/saida.dat
 
 encode: 
-	./a.out c arquivos/original.html arquivos/saida.dat
+	valgrind --leak-check=full ./a.out c arquivos/original.txt arquivos/saida.dat
 
 decode: 
-	./a.out d arquivos/saida.dat arquivos/decodificado.html
+	valgrind --leak-check=full ./a.out d arquivos/saida.dat arquivos/decodificado.txt
