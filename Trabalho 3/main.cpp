@@ -40,6 +40,7 @@ int main(int argc, char**argv) {
 
         while (!in_file.eof()) {
             unsigned char id = in_file.get();
+            if(in_file.eof()) break;
             freqs[id] = ++freqs[id];
             in.push_back(id);
         }

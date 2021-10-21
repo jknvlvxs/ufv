@@ -11,7 +11,7 @@ HuffManTree::HuffManTree(int freqs[256]){
 
     /* percorre os 256 bytes e caso a frequência seja maior que 0, cria uma árvore para o respectivo símbolo
     após isso, insere a árvore com apenas um nodo em uma fila de prioridades */
-    for(int i = 0; i < 255; i++){
+    for(int i = 0; i < 256; i++){
         if(freqs[i] != 0){
             MySet<int> caractere;
             caractere.insert(freqs[i], i);
@@ -56,17 +56,3 @@ void HuffManTree::comprimir(MyVec<bool> &out, const MyVec<unsigned char> &in) co
 void HuffManTree::descomprimir(MyVec<unsigned char> &out, const MyVec<bool> &in) const {
     huffman.getCharacter(out, in);
 };
-
-HuffManTree::HuffManTree(const HuffManTree &other) { 
-    *this = other;
-}
-
-HuffManTree & HuffManTree::operator=(const HuffManTree &other) {
-    if(this==&other) return *this;
-    huffman = other.huffman;
-    return *this;
-}
-
-HuffManTree::~HuffManTree() { 
-    // TODO
-}

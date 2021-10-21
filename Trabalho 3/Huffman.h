@@ -13,11 +13,6 @@ class HuffManTree {
         /* NOTE Sua classe deverá ter um construtor que recebe como argumento um array automático
         com a frequência dos 256 possíveis símbolos em um byte (“HuffManTree(int freqs[256])”). */
         HuffManTree(int freqs[256]);
-
-        /* Construtor de cópia, operador de atribuição e destrutor */
-        HuffManTree(const HuffManTree &outro);
-        HuffManTree & operator=(const HuffManTree &);
-        ~HuffManTree();
         
         /* NOTE Essa função deverá ler o vetor de bytes (chars) “in”, comprimi-lo e gravar os bits
         representando o arquivo comprimido em “out” (cada bool de out representará um bit , sendo 1
