@@ -24,7 +24,7 @@ function PageHeader() {
             variant="contained"
             startIcon={<KeyboardReturnTwoToneIcon fontSize="small" />}
             component={NavLink}
-            to="/administrator/users/"
+            to="/users/"
             children="Retornar"
           />
         }

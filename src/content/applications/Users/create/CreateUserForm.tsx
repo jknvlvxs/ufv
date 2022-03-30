@@ -47,7 +47,7 @@ function CreateUserForm() {
   const onSubmit: SubmitHandler<Users> = (data) => {
     create(data).then((res) => {
       setOpenConfirm(false);
-      return navigate('/administrator/users/');
+      return navigate('/users/');
     });
   };
 

@@ -47,7 +47,7 @@ function UpdateUserForm(user: Users) {
       password === undefined ? create : { ...create, password }
     ).then((res) => {
       setOpenConfirm(false);
-      return navigate('/administrator/users/');
+      return navigate('/users/');
     });
   };
 

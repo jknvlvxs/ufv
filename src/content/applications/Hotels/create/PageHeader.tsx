@@ -1,4 +1,4 @@
-import { Grid, Typography, Button } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
 import { NavLink } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ function PageHeader() {
             variant="h3"
             component="h3"
             gutterBottom
-            children="Atualizar Usuário"
+            children="Hotéis"
           />
         }
       />
@@ -24,7 +24,7 @@ function PageHeader() {
             variant="contained"
             startIcon={<KeyboardReturnTwoToneIcon fontSize="small" />}
             component={NavLink}
-            to="/users/"
+            to="/hotels/"
             children="Retornar"
           />
         }

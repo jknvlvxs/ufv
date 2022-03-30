@@ -28,16 +28,10 @@ const ViewClient = Loader(
 const UpdateClient = Loader(
   lazy(() => import('src/content/applications/Clients/update'))
 );
-const Contracts = Loader(
-  lazy(() => import('src/content/applications/Contracts'))
-);
 
-const Users = Loader(lazy(() => import('src/content/applications/Users')));
-const CreateUser = Loader(
-  lazy(() => import('src/content/applications/Users/create'))
-);
-const UpdateUser = Loader(
-  lazy(() => import('src/content/applications/Users/update'))
+const Hotels = Loader(lazy(() => import('src/content/applications/Hotels')));
+const CreateHotel = Loader(
+  lazy(() => import('src/content/applications/Hotels/create'))
 );
 
 // Status
@@ -61,7 +55,7 @@ const routes: PartialRouteObject[] = [
       children: [
         {
           path: '/',
-          element: <Navigate to="/clients" replace />,
+          element: <Navigate to="/home" replace />,
         },
         {
           path: 'status',
@@ -95,15 +89,11 @@ const routes: PartialRouteObject[] = [
       ],
     },
     {
-      path: 'dashboards',
+      path: 'home',
       element: <SidebarLayout />,
       children: [
         {
           path: '/',
-          element: <Navigate to="/dashboards/home" replace />,
-        },
-        {
-          path: 'home',
           element: <Home />,
         },
       ],
@@ -121,11 +111,11 @@ const routes: PartialRouteObject[] = [
           children: [
             {
               path: '/',
-              element: <Clients />,
+              element: <Hotels />,
             },
             {
               path: 'new',
-              element: <CreateClient />,
+              element: <CreateHotel />,
             },
             {
               path: 'view/:id',

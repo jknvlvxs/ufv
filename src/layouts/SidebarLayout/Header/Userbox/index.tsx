@@ -106,7 +106,7 @@ function HeaderUserbox() {
             <List sx={{ p: 1 }} component="nav">
               <ListItem
                 button
-                to="/administrator/users"
+                to="/users"
                 component={NavLink}
                 onClick={handleClose}
               >
