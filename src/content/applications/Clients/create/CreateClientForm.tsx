@@ -75,7 +75,7 @@ function CreateClientForm() {
 
     create(formData).then((res) => {
       setOpenConfirm(false);
-      return navigate('/management/clients/');
+      return navigate('/clients/');
     });
   };
 

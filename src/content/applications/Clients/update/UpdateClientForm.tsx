@@ -77,7 +77,7 @@ function UpdateClientForm(client) {
     update(client.id, formData).then((response) => {
       if (response.status === 200) {
         setOpenConfirm(false);
-        return navigate('/management/clients/');
+        return navigate('/clients/');
       } else {
         alert('Houve um erro!');
       }
