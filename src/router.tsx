@@ -54,15 +54,14 @@ const StatusComingSoon = Loader(
 const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
-const routes = (admin: boolean) =>
-  [
+const routes: PartialRouteObject[] = [
     {
       path: '',
       element: <BaseLayout />,
       children: [
         {
           path: '/',
-          element: <Navigate to="/management/clients" replace />,
+          element: <Navigate to="/clients" replace />,
         },
         {
           path: 'status',
@@ -110,12 +109,33 @@ const routes = (admin: boolean) =>
       ],
     },
     {
-      path: 'management',
+      path: '',
       element: <SidebarLayout />,
       children: [
         {
           path: '/',
-          element: <Navigate to="/management/clients" replace />,
+          element: <Navigate to="/" replace />,
+        },
+        {
+          path: 'hotels',
+          children: [
+            {
+              path: '/',
+              element: <Clients />,
+            },
+            {
+              path: 'new',
+              element: <CreateClient />,
+            },
+            {
+              path: 'view/:id',
+              element: <ViewClient />,
+            },
+            {
+              path: 'edit/:id',
+              element: <UpdateClient />,
+            },
+          ],
         },
         {
           path: 'clients',
@@ -138,37 +158,8 @@ const routes = (admin: boolean) =>
             },
           ],
         },
-        {
-          path: 'contracts',
-          element: <Contracts />,
-        },
       ],
-    },
-    admin
-      ? {
-          path: 'administrator',
-          element: <SidebarLayout />,
-          children: [
-            {
-              path: 'users',
-              children: [
-                {
-                  path: '/',
-                  element: <Users />,
-                },
-                {
-                  path: 'new',
-                  element: <CreateUser />,
-                },
-                {
-                  path: 'edit/:id',
-                  element: <UpdateUser />,
-                },
-              ],
-            },
-          ],
-        }
-      : {},
-  ] as PartialRouteObject[];
+    }
+  ]
 
 export default routes;

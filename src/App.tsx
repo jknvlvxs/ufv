@@ -11,8 +11,7 @@ import ThemeProvider from './theme/ThemeProvider';
 const App = () => {
   const { state } = useContext(AuthContext);
 
-  const admin = state.data ? state.data.role === 'admin' : false;
-  const content = useRoutes(routes(admin));
+  const content = useRoutes(routes);
 
   return (
     <ThemeProvider>

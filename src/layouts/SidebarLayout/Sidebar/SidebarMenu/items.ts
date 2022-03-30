@@ -1,6 +1,8 @@
-import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import PersonTwoToneIcon from '@mui/icons-material/PersonTwoTone';
+import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
+import LocationCityIcon from '@mui/icons-material/LocationCityTwoTone';
+import PersonTwoToneIcon from '@mui/icons-material/PersonTwoTone';
 import { ReactNode } from 'react';
 
 export interface MenuItem {
@@ -32,33 +34,33 @@ const menuItems: MenuItems[] = [
     items: [
       {
         name: 'Hotéis',
-        icon: PersonTwoToneIcon,
-        link: '/management/clients',
+        icon: LocationCityIcon,
+        link: '/hotels',
       },
       {
         name: 'Tipos de Apartamentos',
-        icon: PersonTwoToneIcon,
-        link: '/management/clients',
+        icon: ApartmentTwoToneIcon,
+        link: '/apartments',
       },
       {
         name: 'Clientes',
         icon: PersonTwoToneIcon,
-        link: '/management/clients',
+        link: '/clients',
       },
       {
         name: 'Reservas',
         icon: PersonTwoToneIcon,
-        link: '/management/clients',
+        link: '/clients',
       },
       {
         name: 'Hospedagem',
         icon: PersonTwoToneIcon,
-        link: '/management/clients',
+        link: '/clients',
       },
       {
         name: 'Contratos',
         icon: DescriptionTwoToneIcon,
-        link: '/management/contracts',
+        link: '/contracts',
       },
     ],
   },
