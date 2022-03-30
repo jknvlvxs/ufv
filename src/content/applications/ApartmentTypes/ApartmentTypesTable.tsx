@@ -275,7 +275,7 @@ const ApartmentTypesTable = () => {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-            children="Confirme a exclusão do apartmentType!"
+            children="Confirme a exclusão do tipo de apartamento!"
           />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Grid container>

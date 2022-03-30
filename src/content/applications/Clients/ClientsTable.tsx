@@ -1,39 +1,36 @@
-import * as React from 'react';
-import { ChangeEvent, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import ArticleTwoToneIcon from '@mui/icons-material/ArticleTwoTone';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
+import SearchTwoToneIcon from '@mui/icons-material/Search';
 import {
-  Tooltip,
   Box,
+  Button,
   Card,
+  Grid,
   IconButton,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
+  TextField,
+  Tooltip,
   Typography,
   useTheme,
-  Button,
-  Grid,
-  TextField,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { Client, ClientStatus } from 'src/models/client';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import ArticleTwoToneIcon from '@mui/icons-material/ArticleTwoTone';
-import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
-import SearchTwoToneIcon from '@mui/icons-material/Search';
+import PropTypes from 'prop-types';
+import * as React from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { remove, findAll, findSearch } from 'src/services/client';
+import { Clients } from 'src/models/clients';
+import { findAll, findSearch, remove } from 'src/services/clients';
+import { default as NumberFormat } from 'react-number-format';
 
-interface Filters {
-  status?: ClientStatus;
-}
-
-// const getStatusLabel = (clientStatus: ClientStatus): JSX.Element => {
+// const getStatusLabel = (clientStatus: ClientsStatus): JSX.Element => {
 //   const map = {
 //     active: {
 //       text: 'Ativo',
@@ -64,42 +61,30 @@ const style = {
   textAlign: 'center',
 };
 
-const applyFilters = (clients: Client[], filters: Filters): Client[] => {
-  return clients.filter((client) => {
-    let matches = true;
-
-    if (filters.status && client.status !== filters.status) {
-      matches = false;
-    }
-
-    return matches;
-  });
-};
-
 const applyPagination = (
-  clients: Client[],
+  clients: Clients[],
   page: number,
   limit: number
-): Client[] => {
+): Clients[] => {
   return clients.slice(page * limit, page * limit + limit);
 };
 
-const ClientsTable = () => {
+const ClientssTable = () => {
   const [search, setSearch] = useState('');
   const searchHandle = (event) => {
     setSearch(event.target.value);
   };
 
-  const fetchClients = async () => {
+  const fetchClientss = async () => {
     let clients = [];
     if (search === '') {
       clients = await findAll();
     } else {
       clients = await findSearch(search);
     }
-    setClients(clients);
+    setClientss(clients);
   };
-  const [clients, setClients] = useState<Client[]>([]);
+  const [clients, setClientss] = useState<Clients[]>([]);
   useEffect(() => {
     const fetch = async () => {
       let clients = [];
@@ -108,26 +93,22 @@ const ClientsTable = () => {
       } else {
         clients = await findSearch(search);
       }
-      setClients(clients);
+      setClientss(clients);
     };
     fetch();
-  }, [setClients, search]);
+  }, [setClientss, search]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [selectedClients] = useState<string[]>([]);
   const [selectId, setSelectId] = useState<string>();
 
-  const handleSelectedClientId = (id): void => {
+  const handleSelectedClientsId = (id): void => {
     setSelectId(id);
   };
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
-  const [filters /*setFilters*/] = useState<Filters>({
-    status: null,
-  });
 
   // const statusOptions = [
   //   {
@@ -165,15 +146,14 @@ const ClientsTable = () => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredClients = applyFilters(clients, filters);
-  const paginatedClients = applyPagination(filteredClients, page, limit);
+  const paginatedClientss = applyPagination(clients, page, limit);
   const theme = useTheme();
 
   const handleDelete = async (id) => {
     const clientId = id;
-    const client: Client = await remove(clientId);
-    if (client.id === clientId) {
-      fetchClients();
+    const client: Clients = await remove(clientId);
+    if (client.idCliente === clientId) {
+      fetchClientss();
     } else {
       alert('Erro ao deletar o cliente!');
     }
@@ -181,78 +161,22 @@ const ClientsTable = () => {
 
   return (
     <>
-      <Grid container justifyContent="right">
-        <Grid item mb={2} md={4}>
-          <TextField
-            fullWidth
-            size="small"
-            sx={{ mt: { xs: 2, md: 0 } }}
-            label="Pesquise pelo nome, finalidade ou código do imóvel"
-            onBlur={searchHandle}
-          />
-        </Grid>
-        <Grid item ml={2}>
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-            startIcon={<SearchTwoToneIcon fontSize="small" />}
-            onClick={fetchClients}
-          >
-            Pesquisar
-          </Button>
-        </Grid>
-      </Grid>
       <Card>
-        {/* {selectedBulkActions && (
-          <Box flex={1} p={2}>
-            <BulkActions />
-          </Box>
-        )}
-        {!selectedBulkActions && (
-          <CardHeader
-            action={
-              <Box width={150}>
-                <FormControl fullWidth variant="outlined">
-                  <InputLabel>Status</InputLabel>
-                  <Select
-                    value={filters.status || 'all'}
-                    onChange={handleStatusChange}
-                    label="Status"
-                    autoWidth
-                  >
-                    {statusOptions.map((statusOption) => (
-                      <MenuItem key={statusOption.id} value={statusOption.id}>
-                        {statusOption.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-            }
-          />
-        )}
-        <Divider /> */}
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell>ID</TableCell>
                 <TableCell>Nome</TableCell>
-                <TableCell>Finalidade</TableCell>
-                <TableCell>Código do imóvel</TableCell>
+                <TableCell>Contato</TableCell>
+                <TableCell>Endereço</TableCell>
                 <TableCell align="right">Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedClients.map((client) => {
-                const isCryptoOrderSelected = selectedClients.includes(
-                  client.id
-                );
+              {paginatedClientss.map((client) => {
                 return (
-                  <TableRow
-                    hover
-                    key={client.id}
-                    selected={isCryptoOrderSelected}
-                  >
+                  <TableRow hover key={client.idCliente}>
                     <TableCell>
                       <Typography
                         variant="body1"
@@ -260,14 +184,8 @@ const ClientsTable = () => {
                         color="text.primary"
                         gutterBottom
                         noWrap
-                      >
-                        {(client.personValue === 'physical' &&
-                          client.name_physicalPerson_locatario) ||
-                          client.companyName_juridicalPerson_locatario}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" noWrap>
-                        {/* {format(client.updatedAt, 'MMMM dd yyyy')} */}
-                      </Typography>
+                        children={client.idCliente}
+                      />
                     </TableCell>
                     <TableCell>
                       <Typography
@@ -276,9 +194,8 @@ const ClientsTable = () => {
                         color="text.primary"
                         gutterBottom
                         noWrap
-                      >
-                        {client.goal}
-                      </Typography>
+                        children={client.nome}
+                      />
                     </TableCell>
                     <TableCell>
                       <Typography
@@ -287,44 +204,38 @@ const ClientsTable = () => {
                         color="text.primary"
                         gutterBottom
                         noWrap
-                      >
-                        {client.propertyCode}
-                      </Typography>
+                        children={
+                          <NumberFormat
+                            value={client.telefone}
+                            displayType={'text'}
+                            format={
+                              client.telefone?.length > 10
+                                ? '(##) #####-####'
+                                : '(##) ####-####'
+                            }
+                          />
+                        }
+                      />
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                        children={client.email}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                        children={`${client.rua}, N° ${client.numero}. ${client.bairro}, ${client.cidade} - ${client.estado}, ${client.pais}`}
+                      />
                     </TableCell>
                     <TableCell align="right">
-                      <Tooltip title="Exibir cadastro" arrow>
-                        <IconButton
-                          component={NavLink}
-                          to={{ pathname: `view/${client.id}` }}
-                          sx={{
-                            '&:hover': {
-                              background: theme.colors.primary.lighter,
-                            },
-                            color: theme.palette.primary.main,
-                          }}
-                          color="inherit"
-                          size="small"
-                        >
-                          <ArticleTwoToneIcon />
-                        </IconButton>
-                      </Tooltip>
-
-                      <Tooltip title="Editar cadastro" arrow>
-                        <IconButton
-                          component={NavLink}
-                          to={{ pathname: `edit/${client.id}` }}
-                          sx={{
-                            '&:hover': {
-                              background: theme.colors.primary.lighter,
-                            },
-                            color: theme.palette.primary.main,
-                          }}
-                          color="inherit"
-                          size="small"
-                        >
-                          <EditTwoToneIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
                       <Tooltip title="Excluir cadastro" arrow>
                         <IconButton
                           sx={{
@@ -336,7 +247,7 @@ const ClientsTable = () => {
                           color="inherit"
                           size="small"
                           onClick={() => {
-                            handleSelectedClientId(client.id);
+                            handleSelectedClientsId(client.idCliente);
                             handleOpen();
                           }}
                         >
@@ -353,7 +264,7 @@ const ClientsTable = () => {
         <Box p={2}>
           <TablePagination
             component="div"
-            count={filteredClients.length}
+            count={clients.length}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
@@ -371,7 +282,7 @@ const ClientsTable = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Confirme a exclusão do contrato!
+            Confirme a exclusão do cliente!
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Grid container>
@@ -406,12 +317,12 @@ const ClientsTable = () => {
   );
 };
 
-ClientsTable.propTypes = {
+ClientssTable.propTypes = {
   clients: PropTypes.array.isRequired,
 };
 
-ClientsTable.defaultProps = {
+ClientssTable.defaultProps = {
   clients: [],
 };
 
-export default ClientsTable;
+export default ClientssTable;

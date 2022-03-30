@@ -17,27 +17,23 @@ const Loader = (Component) => (props) =>
 const Home = Loader(lazy(() => import('src/content/dashboards/Home')));
 
 // Applications
-const Clients = Loader(lazy(() => import('src/content/applications/Clients')));
-const CreateClient = Loader(
-  lazy(() => import('src/content/applications/Clients/create'))
-);
-const ViewClient = Loader(
-  lazy(() => import('src/content/applications/Clients/view'))
-);
-const UpdateClient = Loader(
-  lazy(() => import('src/content/applications/Clients/update'))
-);
-
-// SECTION INF 220 
+// SECTION INF 220
 // SECTION Hotel
 const Hotels = Loader(lazy(() => import('src/content/applications/Hotels')));
 const CreateHotel = Loader(
   lazy(() => import('src/content/applications/Hotels/create'))
 );
-// SECTION Hotel
-const ApartmentTypes = Loader(lazy(() => import('src/content/applications/ApartmentTypes')));
+// SECTION Tipo de Apartamento
+const ApartmentTypes = Loader(
+  lazy(() => import('src/content/applications/ApartmentTypes'))
+);
 const CreateApartmentTypes = Loader(
   lazy(() => import('src/content/applications/ApartmentTypes/create'))
+);
+// SECTION Clientes
+const Clients = Loader(lazy(() => import('src/content/applications/Clients')));
+const CreateClient = Loader(
+  lazy(() => import('src/content/applications/Clients/create'))
 );
 
 // Status
@@ -54,141 +50,121 @@ const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
 const routes: PartialRouteObject[] = [
-    {
-      path: '',
-      element: <BaseLayout />,
-      children: [
-        {
-          path: '/',
-          element: <Navigate to="/home" replace />,
-        },
-        {
-          path: 'status',
-          children: [
-            {
-              path: '/',
-              element: <Navigate to="404" replace />,
-            },
-            {
-              path: '404',
-              element: <Status404 />,
-            },
-            {
-              path: '500',
-              element: <Status500 />,
-            },
-            {
-              path: 'maintenance',
-              element: <StatusMaintenance />,
-            },
-            {
-              path: 'coming-soon',
-              element: <StatusComingSoon />,
-            },
-          ],
-        },
-        {
-          path: '*',
-          element: <Status404 />,
-        },
-      ],
-    },
-    {
-      path: 'home',
-      element: <SidebarLayout />,
-      children: [
-        {
-          path: '/',
-          element: <Home />,
-        },
-      ],
-    },
-    {
-      path: '',
-      element: <SidebarLayout />,
-      children: [
-        {
-          path: '/',
-          element: <Navigate to="/" replace />,
-        },
-        {
-          path: 'hotels',
-          children: [
-            {
-              path: '/',
-              element: <Hotels />,
-            },
-            {
-              path: 'new',
-              element: <CreateHotel />,
-            },
-            {
-              path: 'view/:id',
-              element: <ViewClient />,
-            },
-            {
-              path: 'edit/:id',
-              element: <UpdateClient />,
-            },
-          ],
-        },
-        {
-          path: 'apartments',
-          children: [
-            {
-              path: '/',
-              element: <Hotels />,
-            },
-            {
-              path: 'new',
-              element: <CreateHotel />,
-            },
-            {
-              path: 'view/:id',
-              element: <ViewClient />,
-            },
-            {
-              path: 'edit/:id',
-              element: <UpdateClient />,
-            },
-            {
-              path: 'type',
-              children: [
-                {
-                  path: '/',
-                  element: <ApartmentTypes />,
-                },
-                {
-                  path: 'new',
-                  element: <CreateApartmentTypes />,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: 'clients',
-          children: [
-            {
-              path: '/',
-              element: <Clients />,
-            },
-            {
-              path: 'new',
-              element: <CreateClient />,
-            },
-            {
-              path: 'view/:id',
-              element: <ViewClient />,
-            },
-            {
-              path: 'edit/:id',
-              element: <UpdateClient />,
-            },
-          ],
-        },
-      ],
-    }
-  ]
+  {
+    path: '',
+    element: <BaseLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Navigate to="/home" replace />,
+      },
+      {
+        path: 'status',
+        children: [
+          {
+            path: '/',
+            element: <Navigate to="404" replace />,
+          },
+          {
+            path: '404',
+            element: <Status404 />,
+          },
+          {
+            path: '500',
+            element: <Status500 />,
+          },
+          {
+            path: 'maintenance',
+            element: <StatusMaintenance />,
+          },
+          {
+            path: 'coming-soon',
+            element: <StatusComingSoon />,
+          },
+        ],
+      },
+      {
+        path: '*',
+        element: <Status404 />,
+      },
+    ],
+  },
+  {
+    path: 'home',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: '',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Navigate to="/" replace />,
+      },
+      {
+        path: 'hotels',
+        children: [
+          {
+            path: '/',
+            element: <Hotels />,
+          },
+          {
+            path: 'new',
+            element: <CreateHotel />,
+          },
+        ],
+      },
+      {
+        path: 'apartments',
+        children: [
+          {
+            path: '/',
+            element: <ApartmentTypes />,
+          },
+          {
+            path: 'new',
+            element: <CreateApartmentTypes />,
+          },
+          // {
+          //   path: 'edit/:id',
+          //   element: <UpdateClient />,
+          // },
+          {
+            path: 'type',
+            children: [
+              {
+                path: '/',
+                element: <ApartmentTypes />,
+              },
+              {
+                path: 'new',
+                element: <CreateApartmentTypes />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'clients',
+        children: [
+          {
+            path: '/',
+            element: <Clients />,
+          },
+          {
+            path: 'new',
+            element: <CreateClient />,
+          },
+        ],
+      },
+    ],
+  },
+];
 
 export default routes;

@@ -3,6 +3,10 @@ import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
 import LocationCityIcon from '@mui/icons-material/LocationCityTwoTone';
 import PersonTwoToneIcon from '@mui/icons-material/PersonTwoTone';
+import BedTwoToneIcon from '@mui/icons-material/BedTwoTone';
+import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
+import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
+
 import { ReactNode } from 'react';
 
 export interface MenuItem {
@@ -24,7 +28,7 @@ const menuItems: MenuItems[] = [
     items: [
       {
         name: 'Início',
-        link: '/dashboards/home',
+        link: '/home',
         icon: DesignServicesTwoToneIcon,
       },
     ],
@@ -49,18 +53,18 @@ const menuItems: MenuItems[] = [
       },
       {
         name: 'Reservas',
-        icon: PersonTwoToneIcon,
-        link: '/clients',
+        icon: BedTwoToneIcon,
+        link: '/reservations',
       },
       {
         name: 'Hospedagem',
-        icon: PersonTwoToneIcon,
-        link: '/clients',
+        icon: HotelTwoToneIcon,
+        link: '/accommodation',
       },
       {
-        name: 'Contratos',
-        icon: DescriptionTwoToneIcon,
-        link: '/contracts',
+        name: 'Consumos',
+        icon: FastfoodTwoToneIcon,
+        link: '/expenditure',
       },
     ],
   },
