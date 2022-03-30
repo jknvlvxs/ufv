@@ -17,7 +17,6 @@ const Loader = (Component) => (props) =>
 const Home = Loader(lazy(() => import('src/content/dashboards/Home')));
 
 // Applications
-
 const Clients = Loader(lazy(() => import('src/content/applications/Clients')));
 const CreateClient = Loader(
   lazy(() => import('src/content/applications/Clients/create'))
@@ -29,13 +28,19 @@ const UpdateClient = Loader(
   lazy(() => import('src/content/applications/Clients/update'))
 );
 
+// SECTION INF 220 
+// SECTION Hotel
 const Hotels = Loader(lazy(() => import('src/content/applications/Hotels')));
 const CreateHotel = Loader(
   lazy(() => import('src/content/applications/Hotels/create'))
 );
+// SECTION Hotel
+const ApartmentTypes = Loader(lazy(() => import('src/content/applications/ApartmentTypes')));
+const CreateApartmentTypes = Loader(
+  lazy(() => import('src/content/applications/ApartmentTypes/create'))
+);
 
 // Status
-
 const Status404 = Loader(
   lazy(() => import('src/content/pages/Status/Status404'))
 );
@@ -124,6 +129,40 @@ const routes: PartialRouteObject[] = [
             {
               path: 'edit/:id',
               element: <UpdateClient />,
+            },
+          ],
+        },
+        {
+          path: 'apartments',
+          children: [
+            {
+              path: '/',
+              element: <Hotels />,
+            },
+            {
+              path: 'new',
+              element: <CreateHotel />,
+            },
+            {
+              path: 'view/:id',
+              element: <ViewClient />,
+            },
+            {
+              path: 'edit/:id',
+              element: <UpdateClient />,
+            },
+            {
+              path: 'type',
+              children: [
+                {
+                  path: '/',
+                  element: <ApartmentTypes />,
+                },
+                {
+                  path: 'new',
+                  element: <CreateApartmentTypes />,
+                },
+              ],
             },
           ],
         },

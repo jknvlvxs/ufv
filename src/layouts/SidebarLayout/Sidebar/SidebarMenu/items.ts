@@ -40,7 +40,7 @@ const menuItems: MenuItems[] = [
       {
         name: 'Tipos de Apartamentos',
         icon: ApartmentTwoToneIcon,
-        link: '/apartments',
+        link: '/apartments/type',
       },
       {
         name: 'Clientes',

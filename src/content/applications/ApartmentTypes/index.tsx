@@ -2,13 +2,13 @@ import { Container, Grid } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import CreateHotelForm from './CreateHotelForm';
+import ApartmentTypesTable from './ApartmentTypesTable';
 import PageHeader from './PageHeader';
 
-function CreateHotel() {
+function ApartmentTypes() {
   return (
     <>
-      <Helmet children={<title children="Cadastrar Hotel" />} />
+      <Helmet children={<title children="Tipos de Apartamento" />} />
       <PageTitleWrapper children={<PageHeader />} />
       <Container
         maxWidth="lg"
@@ -19,7 +19,7 @@ function CreateHotel() {
             justifyContent="center"
             alignItems="stretch"
             spacing={3}
-            children={<Grid item xs={12} children={<CreateHotelForm />} />}
+            children={<Grid item xs={12} children={<ApartmentTypesTable />} />}
           />
         }
       />
@@ -28,4 +28,4 @@ function CreateHotel() {
   );
 }
 
-export default CreateHotel;
+export default ApartmentTypes;

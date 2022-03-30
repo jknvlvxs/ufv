@@ -15,15 +15,16 @@ import {
   TableRow,
   Tooltip,
   Typography,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import PropTypes from 'prop-types';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Hotels } from 'src/models/hotels';
-import { findAll, remove } from 'src/services/hotels';
+import { ApartmentTypes } from 'src/models/apartmentTypes';
+import { findAll, remove } from 'src/services/apartmentTypes';
+import Label from 'src/components/Label';
 
-// const getStatusLabel = (hotelStatus: ClientStatus): JSX.Element => {
+// const getStatusLabel = (apartmentTypeStatus: ClientStatus): JSX.Element => {
 //   const map = {
 //     active: {
 //       text: 'Ativo',
@@ -35,7 +36,7 @@ import { findAll, remove } from 'src/services/hotels';
 //     },
 //   };
 
-//   const { text, color }: any = map[hotelStatus];
+//   const { text, color }: any = map[apartmentTypeStatus];
 
 //   return <Label color={color}>{text}</Label>;
 // };
@@ -55,24 +56,24 @@ const style = {
 };
 
 const applyPagination = (
-  hotels: Hotels[],
+  apartmentTypes: ApartmentTypes[],
   page: number,
   limit: number
-): Hotels[] => {
-  return hotels.slice(page * limit, page * limit + limit);
+): ApartmentTypes[] => {
+  return apartmentTypes.slice(page * limit, page * limit + limit);
 };
 
-const HotelsTable = () => {
-  const [hotels, setHotels] = useState<Hotels[]>([]);
+const ApartmentTypesTable = () => {
+  const [apartmentTypes, setApartmentTypes] = useState<ApartmentTypes[]>([]);
 
-  const fetchHotels = useCallback(async () => {
-    const hotels = await findAll();
-    setHotels(hotels);
+  const fetchApartmentTypes = useCallback(async () => {
+    const apartmentTypes = await findAll();
+    setApartmentTypes(apartmentTypes);
   }, []);
 
   useEffect(() => {
-    fetchHotels();
-  }, [fetchHotels]);
+    fetchApartmentTypes();
+  }, [fetchApartmentTypes]);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -122,14 +123,18 @@ const HotelsTable = () => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredHotels = hotels;
-  const paginatedHotels = applyPagination(filteredHotels, page, limit);
+  const filteredApartmentTypes = apartmentTypes;
+  const paginatedApartmentTypes = applyPagination(
+    filteredApartmentTypes,
+    page,
+    limit
+  );
   const theme = useTheme();
 
   const handleDelete = async (id) => {
-    const hotel: Hotels = await remove(id);
-    if (hotel.idHotel === id) fetchHotels();
-    else alert('Erro ao deletar o hotel!');
+    const apartmentType: ApartmentTypes = await remove(id);
+    if (apartmentType.idTipo === id) fetchApartmentTypes();
+    else alert('Erro ao deletar o apartmentType!');
   };
 
   return (
@@ -140,17 +145,16 @@ const HotelsTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell children="ID" />
-                <TableCell children="Cidade" />
+                <TableCell children="Camas" />
+                <TableCell children="Variações" />
+                <TableCell children="Valor" />
                 <TableCell align="right" children="Ações" />
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedHotels.map((hotel) => {
+              {paginatedApartmentTypes.map((apartmentType) => {
                 return (
-                  <TableRow
-                    hover
-                    key={hotel.idHotel}
-                  >
+                  <TableRow hover key={apartmentType.idTipo}>
                     <TableCell
                       children={
                         <Typography
@@ -159,25 +163,65 @@ const HotelsTable = () => {
                           color="text.primary"
                           gutterBottom
                           noWrap
-                          children={hotel.idHotel}
+                          children={apartmentType.idTipo}
                         />
                       }
                     />
                     <TableCell
                       children={
+                        <>
+                          <Typography
+                            variant="body1"
+                            fontWeight="bold"
+                            color="text.primary"
+                            gutterBottom
+                            noWrap
+                            children={`${apartmentType.numCamasCasal} de casal`}
+                          />
+                          <Typography
+                            variant="body1"
+                            fontWeight="bold"
+                            color="text.primary"
+                            gutterBottom
+                            noWrap
+                            children={`${apartmentType.numCamasSolteiro} de solteiro`}
+                          />
+                        </>
+                      }
+                    />
+                    <TableCell>
+                      <Label
+                        color={apartmentType.adaptadoPcd ? 'success' : 'error'}
+                        children="Adaptado para pessoas com deficiência"
+                      />
+                      <br />
+                      <Label
+                        color={apartmentType.possuiTv ? 'success' : 'error'}
+                        children="Possui televisão"
+                      />
+                      <br />
+                      <Label
+                        color={
+                          apartmentType.possuiFrigobar ? 'success' : 'error'
+                        }
+                        children="Possui Frigobar"
+                      />
+                    </TableCell>
+                    <TableCell
+                      children={
                         <Typography
                           variant="body1"
                           fontWeight="bold"
                           color="text.primary"
                           gutterBottom
                           noWrap
-                          children={hotel.cidade}
+                          children={`R$ ${apartmentType.valorApartamento}`}
                         />
                       }
                     />
                     <TableCell align="right">
                       <Tooltip
-                        title="Excluir Hotel"
+                        title="Excluir Tipo de Apartamento"
                         arrow
                         children={
                           <IconButton
@@ -190,7 +234,7 @@ const HotelsTable = () => {
                             color="inherit"
                             size="small"
                             onClick={() => {
-                              handleSelectedClientId(hotel.idHotel);
+                              handleSelectedClientId(apartmentType.idTipo);
                               handleOpen();
                             }}
                             children={<DeleteTwoToneIcon fontSize="small" />}
@@ -209,7 +253,7 @@ const HotelsTable = () => {
           children={
             <TablePagination
               component="div"
-              count={filteredHotels.length}
+              count={filteredApartmentTypes.length}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleLimitChange}
               page={page}
@@ -231,7 +275,7 @@ const HotelsTable = () => {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-            children="Confirme a exclusão do hotel!"
+            children="Confirme a exclusão do apartmentType!"
           />
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Grid container>
@@ -264,12 +308,12 @@ const HotelsTable = () => {
   );
 };
 
-HotelsTable.propTypes = {
-  hotels: PropTypes.array.isRequired,
+ApartmentTypesTable.propTypes = {
+  apartmentTypes: PropTypes.array.isRequired,
 };
 
-HotelsTable.defaultProps = {
-  hotels: [],
+ApartmentTypesTable.defaultProps = {
+  apartmentTypes: [],
 };
 
-export default HotelsTable;
+export default ApartmentTypesTable;

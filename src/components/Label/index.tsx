@@ -18,6 +18,7 @@ const LabelWrapper = styled('span')(
       align-items: center;
       justify-content: center;
       max-height: ${theme.spacing(3)};
+      margin-bottom: 2px;
       
       &.MuiLabel {
         &-primary {
@@ -75,8 +76,8 @@ Label.propTypes = {
     'error',
     'warning',
     'success',
-    'info'
-  ])
+    'info',
+  ]),
 };
 
 export default Label;

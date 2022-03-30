@@ -3,13 +3,12 @@ import api from './api';
 
 export const findAll = async () => {
   const response = await api.get('/hotel');
-  console.log(response.data.hotels);
   return response.data.hotels as Hotels[];
 };
 
 export const findOne = async (id) => {
   const response = await api.get(`/hotel/${id}`);
-  return response.data as Hotels;
+  return response.data.hotel as Hotels;
 };
 
 export const create = async (data) => {
