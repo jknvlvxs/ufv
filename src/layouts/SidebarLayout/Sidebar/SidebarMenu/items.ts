@@ -45,6 +45,11 @@ const menuItems: MenuItems[] = [
         link: '/apartments/type',
       },
       {
+        name: 'Apartamentos',
+        icon: ApartmentTwoToneIcon,
+        link: '/apartments',
+      },
+      {
         name: 'Clientes',
         icon: PersonTwoToneIcon,
         link: '/clients',

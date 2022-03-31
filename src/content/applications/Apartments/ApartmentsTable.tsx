@@ -1,6 +1,5 @@
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
-import BedroomParentTwoToneIcon from '@mui/icons-material/BedroomParentTwoTone';
 import {
   Box,
   Button,
@@ -21,11 +20,14 @@ import {
 import Modal from '@mui/material/Modal';
 import PropTypes from 'prop-types';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { Apartments } from 'src/models/apartments';
+import { ApartmentTypes } from 'src/models/apartmentTypes';
 import { Hotels } from 'src/models/hotels';
-import { findAll, remove } from 'src/services/hotels';
-import { NavLink } from 'react-router-dom';
+import { findAll, remove } from 'src/services/apartments';
+import { findAll as findHotel } from 'src/services/hotels';
+import { findAll as findType } from 'src/services/apartmentTypes';
 
-// const getStatusLabel = (hotelStatus: ClientStatus): JSX.Element => {
+// const getStatusLabel = (hotelStatus: ApartmentTypeStatus): JSX.Element => {
 //   const map = {
 //     active: {
 //       text: 'Ativo',
@@ -57,24 +59,24 @@ const style = {
 };
 
 const applyPagination = (
-  hotels: Hotels[],
+  apartments: Apartments[],
   page: number,
   limit: number
-): Hotels[] => {
-  return hotels.slice(page * limit, page * limit + limit);
+): Apartments[] => {
+  return apartments.slice(page * limit, page * limit + limit);
 };
 
-const HotelsTable = () => {
-  const [hotels, setHotels] = useState<Hotels[]>([]);
+const ApartmentsTable = () => {
+  const [apartments, setApartments] = useState<Apartments[]>([]);
 
-  const fetchHotels = useCallback(async () => {
-    const hotels = await findAll();
-    setHotels(hotels);
+  const fetchApartments = useCallback(async () => {
+    const apartments = await findAll();
+    setApartments(apartments);
   }, []);
 
   useEffect(() => {
-    fetchHotels();
-  }, [fetchHotels]);
+    fetchApartments();
+  }, [fetchApartments]);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -82,7 +84,7 @@ const HotelsTable = () => {
 
   const [selectId, setSelectId] = useState<string>();
 
-  const handleSelectedClientId = (id): void => {
+  const handleSelectedApartmentTypeId = (id): void => {
     setSelectId(id);
   };
   const [page, setPage] = useState<number>(0);
@@ -124,14 +126,57 @@ const HotelsTable = () => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredHotels = hotels;
-  const paginatedHotels = applyPagination(filteredHotels, page, limit);
+  const filteredApartments = apartments;
+  const paginatedApartments = applyPagination(filteredApartments, page, limit);
   const theme = useTheme();
 
   const handleDelete = async (id) => {
-    const hotel: Hotels = await remove(id);
-    if (hotel.idHotel === id) fetchHotels();
+    const hotel: Apartments = await remove(id);
+    if (hotel.idHotel === id) fetchApartments();
     else alert('Erro ao deletar o hotel!');
+  };
+
+  const [hotels, setHotels] = useState<Hotels[]>([]);
+  const [apartmentTypes, setApartmentTypes] = useState<ApartmentTypes[]>([]);
+
+  const fetchApartmentTypes = useCallback(async () => {
+    const apartmentTypes = await findType();
+    setApartmentTypes(apartmentTypes);
+  }, []);
+
+  const fetchHotels = useCallback(async () => {
+    const hotels = await findHotel();
+    setHotels(hotels);
+  }, []);
+
+  useEffect(() => {
+    fetchApartmentTypes();
+    fetchHotels();
+  }, [fetchApartmentTypes, fetchHotels]);
+
+  const formatHotel = (id): string => {
+    if (hotels.length > 0) {
+      const hotel = hotels.find((hotel) => hotel.idHotel === id);
+      return hotel.cidade;
+    } else {
+      return 'Buscando...';
+    }
+  };
+
+  const formatBoolean = (value: boolean): string => (value ? 'Sim' : 'Não');
+
+  const formatApartmentType = (id): string => {
+    if (apartmentTypes.length > 0) {
+      const type = apartmentTypes.find((type) => type.idTipo === id);
+      return `
+      ${type.numCamasCasal} Camas de Casal &
+      ${type.numCamasSolteiro} Camas de Solteiro |
+      Frigobar: ${formatBoolean(type.possuiFrigobar)} Tv: ${formatBoolean(
+        type.possuiFrigobar
+      )} PCD: ${formatBoolean(type.adaptadoPcd)}`;
+    } else {
+      return 'Buscando...';
+    }
   };
 
   return (
@@ -142,14 +187,16 @@ const HotelsTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell children="ID" />
-                <TableCell children="Cidade" />
+                <TableCell children="Filial" />
+                <TableCell children="Número do Apartamento" />
+                <TableCell children="Tipo de Apartamento" />
                 <TableCell align="right" children="Ações" />
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedHotels.map((hotel) => {
+              {paginatedApartments.map((apartment) => {
                 return (
-                  <TableRow hover key={hotel.idHotel}>
+                  <TableRow hover key={apartment.idHotel}>
                     <TableCell
                       children={
                         <Typography
@@ -158,7 +205,7 @@ const HotelsTable = () => {
                           color="text.primary"
                           gutterBottom
                           noWrap
-                          children={hotel.idHotel}
+                          children={apartment.idApartamento}
                         />
                       }
                     />
@@ -170,32 +217,35 @@ const HotelsTable = () => {
                           color="text.primary"
                           gutterBottom
                           noWrap
-                          children={hotel.cidade}
+                          children={formatHotel(apartment.idHotel)}
+                        />
+                      }
+                    />
+                    <TableCell
+                      children={
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                          children={apartment.numero}
+                        />
+                      }
+                    />
+                    <TableCell
+                      children={
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                          children={formatApartmentType(apartment.idTipo)}
                         />
                       }
                     />
                     <TableCell align="right">
-                      <Tooltip
-                        title="Cadastrar Apartamento"
-                        arrow
-                        children={
-                          <IconButton
-                            component={NavLink}
-                            to={`/apartments/new?idHotel=${hotel.idHotel}`}
-                            sx={{
-                              '&:hover': {
-                                background: theme.colors.primary.lighter,
-                              },
-                              color: theme.palette.primary.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                            children={
-                              <BedroomParentTwoToneIcon fontSize="small" />
-                            }
-                          />
-                        }
-                      />
                       <Tooltip
                         title="Excluir Hotel"
                         arrow
@@ -210,7 +260,9 @@ const HotelsTable = () => {
                             color="inherit"
                             size="small"
                             onClick={() => {
-                              handleSelectedClientId(hotel.idHotel);
+                              handleSelectedApartmentTypeId(
+                                apartment.idApartamento
+                              );
                               handleOpen();
                             }}
                             children={<DeleteTwoToneIcon fontSize="small" />}
@@ -229,7 +281,7 @@ const HotelsTable = () => {
           children={
             <TablePagination
               component="div"
-              count={filteredHotels.length}
+              count={filteredApartments.length}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleLimitChange}
               page={page}
@@ -284,12 +336,12 @@ const HotelsTable = () => {
   );
 };
 
-HotelsTable.propTypes = {
-  hotels: PropTypes.array.isRequired,
+ApartmentsTable.propTypes = {
+  apartments: PropTypes.array.isRequired,
 };
 
-HotelsTable.defaultProps = {
-  hotels: [],
+ApartmentsTable.defaultProps = {
+  apartments: [],
 };
 
-export default HotelsTable;
+export default ApartmentsTable;

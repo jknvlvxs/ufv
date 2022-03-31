@@ -110,9 +110,7 @@ function CreateReservationForm() {
     fetchApartmentTypeList();
   }, [setHotelList, setClientList, setTypeList]);
 
-  const formatBoolean = (value: boolean): string => {
-    return value ? 'Sim' : 'Não';
-  };
+  const formatBoolean = (value: boolean): string => (value ? 'Sim' : 'Não');
 
   return (
     <Container>
