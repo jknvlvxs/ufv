@@ -56,6 +56,13 @@ const Accommodations = Loader(
 const CreateAccommodation = Loader(
   lazy(() => import('src/content/applications/Accommodations/create'))
 );
+// SECTION Consumos
+const Expenditures = Loader(
+  lazy(() => import('src/content/applications/Expenditures'))
+);
+const CreateExpenditure = Loader(
+  lazy(() => import('src/content/applications/Expenditures/create'))
+);
 
 // Status
 const Status404 = Loader(
@@ -215,11 +222,11 @@ const routes: PartialRouteObject[] = [
         children: [
           {
             path: '/',
-            element: <Accommodations />,
+            element: <Expenditures />,
           },
           {
             path: 'new',
-            element: <CreateAccommodation />,
+            element: <CreateExpenditure />,
           },
         ],
       },

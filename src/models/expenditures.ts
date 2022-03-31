@@ -1,6 +1,8 @@
 export interface Expenditures {
   idConsumo: number;
-  descricao: string;
+  produto: string;
   preco: number;
   dataConsumo: Date;
+  entregueNoQuarto: boolean;
+  idHospedagem: number;
 }

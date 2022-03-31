@@ -1,11 +1,15 @@
 import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
 import DoneTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardTwoTone';
 
 import {
   Box,
+  Button,
   Card,
+  Grid,
   IconButton,
+  Modal,
   Table,
   TableBody,
   TableCell,
@@ -138,7 +142,7 @@ const AccommodationsTable = () => {
 
   const handleDelete = async (id) => {
     const accommodation: Accommodations = await remove(id);
-    if (accommodation.idReserva === id) fetchAccommodations();
+    if (accommodation.idHospedagem === id) fetchAccommodations();
     else alert('Erro ao deletar a hospedagem!');
   };
 
@@ -320,7 +324,7 @@ const AccommodationsTable = () => {
                         children={
                           <IconButton
                             component={NavLink}
-                            to={`/`}
+                            to={`/expenditures/new?idAccommodation=${accommodation.idHospedagem}`}
                             sx={{
                               '&:hover': {
                                 background: theme.colors.primary.lighter,
@@ -398,7 +402,7 @@ const AccommodationsTable = () => {
         />
       </Card>
 
-      {/* <Modal
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -437,7 +441,7 @@ const AccommodationsTable = () => {
             </Grid>
           </Typography>
         </Box>
-      </Modal> */}
+      </Modal>
     </>
   );
 };
