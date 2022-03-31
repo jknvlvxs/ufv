@@ -1,12 +1,10 @@
 import ApartmentTwoToneIcon from '@mui/icons-material/ApartmentTwoTone';
-import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import BedTwoToneIcon from '@mui/icons-material/BedTwoTone';
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
+import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
+import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
 import LocationCityIcon from '@mui/icons-material/LocationCityTwoTone';
 import PersonTwoToneIcon from '@mui/icons-material/PersonTwoTone';
-import BedTwoToneIcon from '@mui/icons-material/BedTwoTone';
-import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
-import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
-
 import { ReactNode } from 'react';
 
 export interface MenuItem {

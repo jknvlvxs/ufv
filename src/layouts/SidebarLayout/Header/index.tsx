@@ -1,7 +1,10 @@
-import { Box } from '@mui/material';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
+import { Box, Hidden, IconButton, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import Icon from 'src/assets/Icon';
+import { SidebarContext } from 'src/contexts/SidebarContext';
 import HeaderUserbox from './Userbox';
 
 const HeaderWrapper = styled(Box)(
@@ -24,16 +27,21 @@ const HeaderWrapper = styled(Box)(
 );
 
 function Header() {
+  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
+
   return (
     <HeaderWrapper display="flex" alignItems="center">
-      <Box
-        display="flex"
-        alignItems="center"
-        component={NavLink}
-        to="/"
-        // children={<Icon width="80%" styles={{marginLeft: "300"}}/>}
-      />
-      <Box display="flex" alignItems="center" children={<HeaderUserbox />} />
+      <Box display="flex" alignItems="center" component={NavLink} to="/" />
+      <Box display="flex" alignItems="center">
+        <HeaderUserbox />
+        <Hidden lgUp>
+          <Tooltip arrow title="Abrir Menu">
+            <IconButton color="primary" onClick={toggleSidebar}>
+              {!sidebarToggle ? <MenuTwoToneIcon /> : <CloseTwoToneIcon />}
+            </IconButton>
+          </Tooltip>
+        </Hidden>
+      </Box>
     </HeaderWrapper>
   );
 }

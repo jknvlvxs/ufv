@@ -2,8 +2,13 @@ import { Clients } from 'src/models/clients';
 import api from './api';
 
 export const findAll = async () => {
-  const response = await api.get('/cliente');
-  return response.data.clientes as Clients[];
+  try {
+    const response = await api.get('/cliente');
+    return response.data.clientes as Clients[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 export const findOne = async (id) => {

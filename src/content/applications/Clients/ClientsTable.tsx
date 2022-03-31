@@ -1,8 +1,5 @@
-import ArticleTwoToneIcon from '@mui/icons-material/ArticleTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
-import SearchTwoToneIcon from '@mui/icons-material/Search';
 import {
   Box,
   Button,
@@ -16,7 +13,6 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Tooltip,
   Typography,
   useTheme,
@@ -25,10 +21,9 @@ import Modal from '@mui/material/Modal';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { default as NumberFormat } from 'react-number-format';
 import { Clients } from 'src/models/clients';
 import { findAll, findSearch, remove } from 'src/services/clients';
-import { default as NumberFormat } from 'react-number-format';
 
 // const getStatusLabel = (clientStatus: ClientsStatus): JSX.Element => {
 //   const map = {
@@ -69,22 +64,22 @@ const applyPagination = (
   return clients.slice(page * limit, page * limit + limit);
 };
 
-const ClientssTable = () => {
+const ClientsTable = () => {
   const [search, setSearch] = useState('');
   const searchHandle = (event) => {
     setSearch(event.target.value);
   };
 
-  const fetchClientss = async () => {
+  const fetchClients = async () => {
     let clients = [];
     if (search === '') {
       clients = await findAll();
     } else {
       clients = await findSearch(search);
     }
-    setClientss(clients);
+    setClients(clients);
   };
-  const [clients, setClientss] = useState<Clients[]>([]);
+  const [clients, setClients] = useState<Clients[]>([]);
   useEffect(() => {
     const fetch = async () => {
       let clients = [];
@@ -93,10 +88,10 @@ const ClientssTable = () => {
       } else {
         clients = await findSearch(search);
       }
-      setClientss(clients);
+      setClients(clients);
     };
     fetch();
-  }, [setClientss, search]);
+  }, [setClients, search]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -146,14 +141,14 @@ const ClientssTable = () => {
     setLimit(parseInt(event.target.value));
   };
 
-  const paginatedClientss = applyPagination(clients, page, limit);
+  const paginatedClients = applyPagination(clients, page, limit);
   const theme = useTheme();
 
   const handleDelete = async (id) => {
     const clientId = id;
     const client: Clients = await remove(clientId);
     if (client.idCliente === clientId) {
-      fetchClientss();
+      fetchClients();
     } else {
       alert('Erro ao deletar o cliente!');
     }
@@ -174,7 +169,7 @@ const ClientssTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedClientss.map((client) => {
+              {paginatedClients.map((client) => {
                 return (
                   <TableRow hover key={client.idCliente}>
                     <TableCell>
@@ -317,12 +312,12 @@ const ClientssTable = () => {
   );
 };
 
-ClientssTable.propTypes = {
+ClientsTable.propTypes = {
   clients: PropTypes.array.isRequired,
 };
 
-ClientssTable.defaultProps = {
+ClientsTable.defaultProps = {
   clients: [],
 };
 
-export default ClientssTable;
+export default ClientsTable;

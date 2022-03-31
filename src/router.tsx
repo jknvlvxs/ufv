@@ -35,6 +35,13 @@ const Clients = Loader(lazy(() => import('src/content/applications/Clients')));
 const CreateClient = Loader(
   lazy(() => import('src/content/applications/Clients/create'))
 );
+// SECTION Reservas
+const Reservations = Loader(
+  lazy(() => import('src/content/applications/Reservations'))
+);
+const CreateReservation = Loader(
+  lazy(() => import('src/content/applications/Reservations/create'))
+);
 
 // Status
 const Status404 = Loader(
@@ -168,11 +175,11 @@ const routes: PartialRouteObject[] = [
         children: [
           {
             path: '/',
-            element: <Hotels />,
+            element: <Reservations />,
           },
           {
             path: 'new',
-            element: <CreateHotel />,
+            element: <CreateReservation />,
           },
         ],
       },

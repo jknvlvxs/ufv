@@ -2,8 +2,13 @@ import { ApartmentTypes } from 'src/models/apartmentTypes';
 import api from './api';
 
 export const findAll = async () => {
-  const response = await api.get('/tipo-apartamento');
-  return response.data.tipoApartamentos as ApartmentTypes[];
+  try {
+    const response = await api.get('/tipo-apartamento');
+    return response.data.tipoApartamentos as ApartmentTypes[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 export const findOne = async (id) => {
