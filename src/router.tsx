@@ -210,6 +210,19 @@ const routes: PartialRouteObject[] = [
           },
         ],
       },
+      {
+        path: 'expenditures',
+        children: [
+          {
+            path: '/',
+            element: <Accommodations />,
+          },
+          {
+            path: 'new',
+            element: <CreateAccommodation />,
+          },
+        ],
+      },
     ],
   },
 ];

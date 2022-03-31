@@ -9,6 +9,7 @@ import {
   Container,
   Divider,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -142,7 +143,7 @@ function CreateHotelForm() {
                   />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors?.idHotel}>
                     <InputLabel children="Selecione a filial do hotel" />
                     <Select
                       value={watch().idHotel ?? ''}
@@ -159,14 +160,15 @@ function CreateHotelForm() {
                         />
                       ))}
                     </Select>
+                    <FormHelperText children={errors?.idHotel?.message || ''} />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel children="Selecione o tipo de apartmento" />
+                  <FormControl fullWidth error={!!errors?.idTipo}>
+                    <InputLabel children="Selecione o tipo de apartamento" />
                     <Select
                       value={watch().idTipo ?? ''}
-                      label="Selecione o tipo de apartmento"
+                      label="Selecione o tipo de apartamento"
                       onChange={(tipo: SelectChangeEvent<string>) =>
                         setValue('idTipo', parseInt(tipo.target.value))
                       }
@@ -186,6 +188,7 @@ function CreateHotelForm() {
                         />
                       ))}
                     </Select>
+                    <FormHelperText children={errors?.idTipo?.message || ''} />
                   </FormControl>
                 </Grid>
               </Grid>

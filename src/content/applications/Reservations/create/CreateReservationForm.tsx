@@ -10,6 +10,7 @@ import {
   Container,
   Divider,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -32,24 +33,20 @@ import { create } from 'src/services/reservations';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  idHotel: yup
-    .string()
-    .required('É obrigatório informar uma cidade para a filial'),
+  idHotel: yup.string().required('É obrigatório informar uma filial'),
   idTipo: yup
     .string()
-    .required('É obrigatório informar uma cidade para a filial'),
-  idCliente: yup
-    .string()
-    .required('É obrigatório informar uma cidade para a filial'),
+    .required('É obrigatório informar um tipo de apartamento'),
+  idCliente: yup.string().required('É obrigatório informar um cliente'),
   numPessoas: yup
     .string()
-    .required('É obrigatório informar uma cidade para a filial'),
+    .required('É obrigatório informar o número de pessoas hospedadas'),
   dataPrevistaEntrada: yup
-    .string()
-    .required('É obrigatório informar uma cidade para a filial'),
+    .date()
+    .required('É obrigatório informar a data prevista de entrada'),
   dataPrevistaSaida: yup
-    .string()
-    .required('É obrigatório informar uma cidade para a filial'),
+    .date()
+    .required('É obrigatório informar a data prevista de saída'),
 });
 
 function CreateReservationForm() {
@@ -137,7 +134,7 @@ function CreateReservationForm() {
                 spacing={2}
               >
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors?.idHotel}>
                     <InputLabel children="Selecione a filial do nosso hotel" />
                     <Select
                       value={watch().idHotel ?? ''}
@@ -154,10 +151,11 @@ function CreateReservationForm() {
                         />
                       ))}
                     </Select>
+                    <FormHelperText children={errors?.idHotel?.message || ''} />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors?.idCliente}>
                     <InputLabel children="Selecione o cliente" />
                     <Select
                       labelId="demo-simple-select-label"
@@ -176,14 +174,17 @@ function CreateReservationForm() {
                         />
                       ))}
                     </Select>
+                    <FormHelperText
+                      children={errors?.idCliente?.message || ''}
+                    />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel children="Selecione o tipo de apartmento" />
+                  <FormControl fullWidth error={!!errors?.idTipo}>
+                    <InputLabel children="Selecione o tipo de apartamento" />
                     <Select
                       value={watch().idTipo ?? ''}
-                      label="Selecione o tipo de apartmento"
+                      label="Selecione o tipo de apartamento"
                       onChange={(tipo: SelectChangeEvent<string>) =>
                         setValue('idTipo', parseInt(tipo.target.value))
                       }
@@ -203,6 +204,7 @@ function CreateReservationForm() {
                         />
                       ))}
                     </Select>
+                    <FormHelperText children={errors?.idTipo?.message || ''} />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>

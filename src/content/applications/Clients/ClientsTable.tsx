@@ -1,5 +1,5 @@
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
+import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturnTwoTone';
 import {
   Box,
   Button,

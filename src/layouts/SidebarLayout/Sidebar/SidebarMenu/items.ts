@@ -67,7 +67,7 @@ const menuItems: MenuItems[] = [
       {
         name: 'Consumos',
         icon: FastfoodTwoToneIcon,
-        link: '/expenditure',
+        link: '/expenditures',
       },
     ],
   },

@@ -1,6 +1,7 @@
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturn';
+import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturnTwoTone';
+import MeetingRoomTwoToneIcon from '@mui/icons-material/MeetingRoomTwoTone';
 import {
   Box,
   Button,
@@ -21,14 +22,16 @@ import {
 import Modal from '@mui/material/Modal';
 import PropTypes from 'prop-types';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import Label from 'src/components/Label';
+import { ApartmentTypes } from 'src/models/apartmentTypes';
 import { Clients } from 'src/models/clients';
 import { Hotels } from 'src/models/hotels';
 import { Reservations } from 'src/models/reservations';
+import { findAll as findType } from 'src/services/apartmentTypes';
 import { findAll as findClient } from 'src/services/clients';
 import { findAll as findHotel } from 'src/services/hotels';
 import { cancel, findAll, remove } from 'src/services/reservations';
-
 // const getStatusLabel = (reservationStatus: ClientStatus): JSX.Element => {
 //   const map = {
 //     active: {
@@ -74,6 +77,7 @@ const ReservationsTable = () => {
   const [reservations, setReservations] = useState<Reservations[]>([]);
   const [hotels, setHotels] = useState<Hotels[]>([]);
   const [clients, setClients] = useState<Clients[]>([]);
+  const [apartmentTypes, setApartmentTypes] = useState<ApartmentTypes[]>([]);
 
   const fetchReservations = useCallback(async () => {
     const reservations = await findAll();
@@ -90,11 +94,17 @@ const ReservationsTable = () => {
     setHotels(hotels);
   }, []);
 
+  const fetchApartmentTypes = useCallback(async () => {
+    const apartmentTypes = await findType();
+    setApartmentTypes(apartmentTypes);
+  }, []);
+
   useEffect(() => {
     fetchReservations();
     fetchClients();
     fetchHotels();
-  }, [fetchReservations, fetchClients, fetchHotels]);
+    fetchApartmentTypes();
+  }, [fetchReservations, fetchClients, fetchHotels, fetchApartmentTypes]);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -153,6 +163,22 @@ const ReservationsTable = () => {
     }
   };
 
+  const formatBoolean = (value: boolean): string => (value ? 'Sim' : 'Não');
+
+  const formatApartmentType = (id): string => {
+    if (apartmentTypes.length > 0) {
+      const type = apartmentTypes.find((type) => type.idTipo === id);
+      return `
+      ${type.numCamasCasal} Camas de Casal &
+      ${type.numCamasSolteiro} Camas de Solteiro |
+      Frigobar: ${formatBoolean(type.possuiFrigobar)} Tv: ${formatBoolean(
+        type.possuiFrigobar
+      )} PCD: ${formatBoolean(type.adaptadoPcd)}`;
+    } else {
+      return 'Buscando...';
+    }
+  };
+
   return (
     <>
       <Card>
@@ -161,9 +187,10 @@ const ReservationsTable = () => {
             <TableHead>
               <TableRow>
                 <TableCell children="ID" />
-                <TableCell children="Dados" />
+                <TableCell children="Filial" />
+                <TableCell children="Cliente" />
+                <TableCell children="Tipo de Apartamento" />
                 <TableCell children="Data" />
-                <TableCell children="Status" />
                 <TableCell align="right" children="Ações" />
               </TableRow>
             </TableHead>
@@ -179,42 +206,53 @@ const ReservationsTable = () => {
                           color="text.primary"
                           gutterBottom
                           noWrap
-                          children={reservation.idReserva}
+                          children={
+                            reservation.cancelada ? (
+                              <Label
+                                color="error"
+                                children="Reserva cancelada"
+                              />
+                            ) : (
+                              reservation.idReserva
+                            )
+                          }
                         />
                       }
                     />
                     <TableCell
                       children={
-                        <>
-                          <Typography
-                            variant="body1"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                            children={`Filial: ${formatHotel(
-                              reservation.idHotel
-                            )}`}
-                          />
-                          <Typography
-                            variant="body1"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                            children={`Cliente: ${formatClient(
-                              reservation.idCliente
-                            )}`}
-                          />
-                          <Typography
-                            variant="body1"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                            children={`Tipo de Apartamento: ${reservation.idTipo}`}
-                          />
-                        </>
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                          children={`${formatHotel(reservation.idHotel)}`}
+                        />
+                      }
+                    />
+                    <TableCell
+                      children={
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                          children={`${formatClient(reservation.idCliente)}`}
+                        />
+                      }
+                    />
+                    <TableCell
+                      children={
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                          children={formatApartmentType(reservation.idTipo)}
+                        />
                       }
                     />
                     <TableCell
@@ -239,19 +277,29 @@ const ReservationsTable = () => {
                         </>
                       }
                     />
-                    <TableCell
-                      children={
-                        <Label
-                          color={reservation.cancelada ? 'error' : 'primary'}
-                          children={
-                            reservation.cancelada
-                              ? 'Reserva cancelada'
-                              : 'Aberta'
-                          }
-                        />
-                      }
-                    />
+                    {/* <TableCell children={} /> */}
                     <TableCell align="right">
+                      <Tooltip
+                        title="Realizar Check-in"
+                        arrow
+                        children={
+                          <IconButton
+                            sx={{
+                              '&:hover': {
+                                background: theme.colors.primary.lighter,
+                              },
+                              color: theme.palette.primary.main,
+                            }}
+                            color="inherit"
+                            size="small"
+                            component={NavLink}
+                            to={`/accommodations/new?idReservation=${reservation.idReserva}`}
+                            children={
+                              <MeetingRoomTwoToneIcon fontSize="small" />
+                            }
+                          />
+                        }
+                      />
                       <Tooltip
                         title="Cancelar Reserva"
                         arrow

@@ -10,6 +10,7 @@ import {
   Container,
   Divider,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -18,15 +19,19 @@ import {
   Snackbar,
   TextField,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Accommodations } from 'src/models/accommodations';
-import { Reservations } from 'src/models/reservations';
 import { Apartments } from 'src/models/apartments';
+import { ApartmentTypes } from 'src/models/apartmentTypes';
+import { Hotels } from 'src/models/hotels';
+import { Reservations } from 'src/models/reservations';
 import { create } from 'src/services/accommodations';
-import { findAll as findApartment } from 'src/services/apartments';
-import { findAll as findReservation } from 'src/services/reservations';
+import { findAll as findAPartments } from 'src/services/apartments';
+import { findAll as findHotels } from 'src/services/hotels';
+import { findAll as findTypes } from 'src/services/apartmentTypes';
+import { findAll as findReservations } from 'src/services/reservations';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
@@ -73,22 +78,103 @@ function CreateReservationForm() {
 
   const [apartmentList, setApartmentList] = useState<Apartments[]>([]);
   const [reservationList, setReservationList] = useState<Reservations[]>([]);
+  const [hotels, setHotels] = useState<Hotels[]>([]);
+  const [types, setTypes] = useState<ApartmentTypes[]>([]);
+
+  const [searchParams] = useSearchParams();
+
+  const setDiaria = useCallback(
+    (idReserva) => {
+      const reserva = reservationList.find(
+        (reservation) => reservation.idReserva === idReserva
+      );
+
+      if (!!reserva) {
+        const idTipo = reserva.idTipo;
+        const tipo = types.find((apartment) => apartment.idTipo === idTipo);
+
+        if (!!tipo) {
+          setValue('diaria', tipo.valorApartamento);
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [setValue, types]
+  );
+
+  const selectReservation = useCallback(
+    (reservation) => {
+      if (!!reservation) {
+        const id = !!reservation.idReserva
+          ? reservation.idReserva
+          : reservation;
+        console.log(id);
+        setValue('idReserva', id);
+        setDiaria(id);
+      }
+    },
+    [setValue, setDiaria]
+  );
 
   useEffect(() => {
     const fetchApartmentList = async () => {
-      findApartment().then((res) => {
+      findAPartments().then((res) => {
         setApartmentList(res);
       });
     };
     const fetchReservationList = async () => {
-      findReservation().then((res) => {
+      findReservations().then((res) => {
         setReservationList(res);
+        const reservation = res.find((reservation) => {
+          return (
+            reservation.idReserva ===
+            (parseInt(searchParams.get('idReservation')) ?? res[0].idReserva)
+          );
+        });
+        selectReservation(reservation);
       });
     };
 
     fetchApartmentList();
     fetchReservationList();
-  }, [setApartmentList, setReservationList]);
+  }, [setApartmentList, setReservationList, searchParams, selectReservation]);
+
+  const fetchHotels = useCallback(async () => {
+    const hotels = await findHotels();
+    setHotels(hotels);
+  }, []);
+
+  const fetchTypes = useCallback(async () => {
+    const types = await findTypes();
+    setTypes(types);
+  }, []);
+
+  useEffect(() => {
+    fetchHotels();
+    fetchTypes();
+  }, [fetchHotels, fetchTypes]);
+
+  const formatHotel = (id): string => {
+    if (hotels.length > 0) {
+      const hotel = hotels.find((hotel) => hotel.idHotel === id);
+      return hotel.cidade;
+    } else {
+      return 'Buscando...';
+    }
+  };
+
+  const formatApartment = (id): string => {
+    if (apartmentList.length > 0) {
+      const apartment = apartmentList.find(
+        (apartment) => apartment.idApartamento === id
+      );
+      return `Filial ${formatHotel(apartment.idHotel)} | Quarto: ${
+        apartment.numero
+      }`;
+    } else {
+      return 'Buscando...';
+    }
+  };
 
   return (
     <Container>
@@ -115,27 +201,30 @@ function CreateReservationForm() {
                 spacing={2}
               >
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors?.idReserva}>
                     <InputLabel children="Selecione a reserva" />
                     <Select
                       value={watch().idReserva ?? ''}
                       label="Selecione a reserva"
                       onChange={(reserva: SelectChangeEvent<string>) =>
-                        setValue('idReserva', parseInt(reserva.target.value))
+                        selectReservation(parseInt(reserva.target.value))
                       }
                     >
                       {reservationList.map((reservation) => (
                         <MenuItem
                           key={reservation.idReserva}
                           value={reservation.idReserva}
-                          children={reservation.idReserva}
+                          children={`ID da Reserva: ${reservation.idReserva}`}
                         />
                       ))}
                     </Select>
+                    <FormHelperText
+                      children={errors?.idReserva?.message || ''}
+                    />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth error={!!errors?.idApartamento}>
                     <InputLabel children="Selecione o apartamento" />
                     <Select
                       labelId="demo-simple-select-label"
@@ -153,10 +242,13 @@ function CreateReservationForm() {
                         <MenuItem
                           key={apartment.idApartamento}
                           value={apartment.idApartamento}
-                          children={apartment.numero}
+                          children={formatApartment(apartment.idApartamento)}
                         />
                       ))}
                     </Select>
+                    <FormHelperText
+                      children={errors?.idApartamento?.message || ''}
+                    />
                   </FormControl>
                 </Grid>
                 <Grid item md={6} xs={12}>
@@ -165,6 +257,7 @@ function CreateReservationForm() {
                     name="diaria"
                     fullWidth
                     error={!!errors?.diaria}
+                    value={watch().diaria || ''}
                     helperText={errors?.diaria?.message || ''}
                     label="Diária"
                     required
@@ -257,9 +350,7 @@ function CreateReservationForm() {
                 onClose={() => setOpenErrors(false)}
                 severity="error"
                 sx={{ width: '100%' }}
-                children={`Ocorreu um erro ao cadastrar a hospedagem! ${console.log(
-                  errors
-                )}`}
+                children={`Ocorreu um erro ao cadastrar a hospedagem!`}
               />
             }
           />
