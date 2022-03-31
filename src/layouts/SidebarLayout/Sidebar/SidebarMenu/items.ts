@@ -62,7 +62,7 @@ const menuItems: MenuItems[] = [
       {
         name: 'Hospedagem',
         icon: HotelTwoToneIcon,
-        link: '/accommodation',
+        link: '/accommodations',
       },
       {
         name: 'Consumos',

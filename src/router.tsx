@@ -49,6 +49,13 @@ const Apartments = Loader(
 const CreateApartments = Loader(
   lazy(() => import('src/content/applications/Apartments/create'))
 );
+// SECTION Hospedagens
+const Accommodations = Loader(
+  lazy(() => import('src/content/applications/Accommodations'))
+);
+const CreateAccommodation = Loader(
+  lazy(() => import('src/content/applications/Accommodations/create'))
+);
 
 // Status
 const Status404 = Loader(
@@ -187,6 +194,19 @@ const routes: PartialRouteObject[] = [
           {
             path: 'new',
             element: <CreateReservation />,
+          },
+        ],
+      },
+      {
+        path: 'accommodations',
+        children: [
+          {
+            path: '/',
+            element: <Accommodations />,
+          },
+          {
+            path: 'new',
+            element: <CreateAccommodation />,
           },
         ],
       },
