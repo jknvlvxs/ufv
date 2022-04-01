@@ -5,4 +5,5 @@ export interface Accommodations {
   dataEntrada: Date;
   dataSaida: Date;
   diaria: number;
+  saida?: boolean;
 }

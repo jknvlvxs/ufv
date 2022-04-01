@@ -1,13 +1,18 @@
-import { Helmet } from "react-helmet-async";
-import PageHeader from "./PageHeader";
-import PageTitleWrapper from "src/components/PageTitleWrapper";
-import { Grid, Container } from "@mui/material";
-import Footer from "src/components/Footer";
+import { Helmet } from 'react-helmet-async';
+import PageHeader from './PageHeader';
+import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import { Grid, Container } from '@mui/material';
+import Footer from 'src/components/Footer';
 
-import AccountBalance from "./AccountBalance";
-import Wallets from "./Wallets";
-import AccountSecurity from "./AccountSecurity";
-import WatchList from "./WatchList";
+import Consultas from './Consultas';
+import Wallets from './Wallets';
+import AccountSecurity from './AccountSecurity';
+import WatchList from './WatchList';
+import ConsultaA from './ConsultaA';
+import ConsultaC from './ConsultaC';
+import ConsultaE from './ConsultaE';
+import ConsultaF from './ConsultaF';
+import ConsultaB from './ConsultaB';
 
 function Home() {
   return (
@@ -27,17 +32,29 @@ function Home() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <AccountBalance />
-          </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
+            <Consultas />
           </Grid>
           <Grid item lg={4} xs={12}>
-            <AccountSecurity />
+            <ConsultaA />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item lg={8} xs={12}>
+            <ConsultaC />
+          </Grid>
+          <Grid item lg={4} xs={12}>
+            <ConsultaE />
+          </Grid>
+          <Grid item lg={4} xs={12}>
+            <ConsultaF />
+          </Grid>
+          <Grid item lg={4} xs={12}>
+            <ConsultaB />
+          </Grid>
+          {/* <Grid item lg={8} xs={12}>
+            <Wallets />
+          </Grid> */}
+          {/* <Grid item xs={12}>
             <WatchList />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
       <Footer />

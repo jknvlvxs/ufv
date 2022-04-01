@@ -76,6 +76,7 @@ const applyPagination = (
 
 const AccommodationsTable = () => {
   const theme = useTheme();
+  const [date] = useState<Date>(new Date());
 
   const [accommodations, setAccommodations] = useState<Accommodations[]>([]);
   const [reservations, setReservations] = useState<Reservations[]>([]);
@@ -300,7 +301,7 @@ const AccommodationsTable = () => {
                             color="text.primary"
                             gutterBottom
                             noWrap
-                            children={`Date de Saída: ${accommodation.dataSaida}`}
+                            children={`Data de Saída: ${accommodation.dataSaida}`}
                           />
                         </>
                       }
@@ -318,44 +319,50 @@ const AccommodationsTable = () => {
                       }
                     />
                     <TableCell align="right">
-                      <Tooltip
-                        title="Registrar Consumo"
-                        arrow
-                        children={
-                          <IconButton
-                            component={NavLink}
-                            to={`/expenditures/new?idAccommodation=${accommodation.idHospedagem}`}
-                            sx={{
-                              '&:hover': {
-                                background: theme.colors.primary.lighter,
-                              },
-                              color: theme.palette.primary.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                            children={<FastfoodTwoToneIcon fontSize="small" />}
+                      {!accommodation.saida ? (
+                        <>
+                          <Tooltip
+                            title="Registrar Consumo"
+                            arrow
+                            children={
+                              <IconButton
+                                component={NavLink}
+                                to={`/expenditures/new?idAccommodation=${accommodation.idHospedagem}`}
+                                sx={{
+                                  '&:hover': {
+                                    background: theme.colors.primary.lighter,
+                                  },
+                                  color: theme.palette.primary.main,
+                                }}
+                                color="inherit"
+                                size="small"
+                                children={
+                                  <FastfoodTwoToneIcon fontSize="small" />
+                                }
+                              />
+                            }
                           />
-                        }
-                      />
-                      <Tooltip
-                        title="Checkout"
-                        arrow
-                        children={
-                          <IconButton
-                            component={NavLink}
-                            to={`/`}
-                            sx={{
-                              '&:hover': {
-                                background: theme.colors.success.lighter,
-                              },
-                              color: theme.palette.success.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                            children={<DoneTwoToneIcon fontSize="small" />}
+                          <Tooltip
+                            title="Checkout"
+                            arrow
+                            children={
+                              <IconButton
+                                component={NavLink}
+                                to={`/checkout/${accommodation.idHospedagem}`}
+                                sx={{
+                                  '&:hover': {
+                                    background: theme.colors.success.lighter,
+                                  },
+                                  color: theme.palette.success.main,
+                                }}
+                                color="inherit"
+                                size="small"
+                                children={<DoneTwoToneIcon fontSize="small" />}
+                              />
+                            }
                           />
-                        }
-                      />
+                        </>
+                      ) : null}
                       <Tooltip
                         title="Excluir Hospedagem"
                         arrow

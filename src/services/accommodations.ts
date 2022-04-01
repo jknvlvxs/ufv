@@ -1,4 +1,5 @@
 import { Accommodations } from 'src/models/accommodations';
+import { Expenditures } from 'src/models/expenditures';
 import api from './api';
 
 export const findAll = async () => {
@@ -33,4 +34,14 @@ export const update = async (id, data) => {
 export const remove = async (id) => {
   const response = await api.delete(`/hospedagem/${id}`);
   return response.data.hospedagem[0] as Accommodations;
+};
+
+export const getDiarias = async (id) => {
+  const response = await api.get(`/hospedagem/diarias/${id}`);
+  return response.data.diarias as Expenditures[];
+};
+
+export const checkout = async (id, data) => {
+  const response = await api.post(`/hospedagem/checkout/${id}`, data);
+  return response.data.hospedagem as Accommodations;
 };

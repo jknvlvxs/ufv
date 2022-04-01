@@ -5,6 +5,7 @@ import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
 import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
 import LocationCityIcon from '@mui/icons-material/LocationCityTwoTone';
 import PersonTwoToneIcon from '@mui/icons-material/PersonTwoTone';
+import CleaningServicesTwoToneIcon from '@mui/icons-material/CleaningServicesTwoTone';
 import { ReactNode } from 'react';
 
 export interface MenuItem {
@@ -68,6 +69,11 @@ const menuItems: MenuItems[] = [
         name: 'Consumos',
         icon: FastfoodTwoToneIcon,
         link: '/expenditures',
+      },
+      {
+        name: 'Faxinas',
+        icon: CleaningServicesTwoToneIcon,
+        link: '/cleanings',
       },
     ],
   },

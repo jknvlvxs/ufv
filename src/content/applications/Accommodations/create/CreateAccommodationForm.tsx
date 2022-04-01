@@ -77,30 +77,14 @@ function CreateReservationForm() {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const [apartmentList, setApartmentList] = useState<Apartments[]>([]);
+  const [filteredApartments, setFilteredApartments] = useState<Apartments[]>(
+    []
+  );
   const [reservationList, setReservationList] = useState<Reservations[]>([]);
   const [hotels, setHotels] = useState<Hotels[]>([]);
   const [types, setTypes] = useState<ApartmentTypes[]>([]);
 
   const [searchParams] = useSearchParams();
-
-  const setDiaria = useCallback(
-    (idReserva) => {
-      const reserva = reservationList.find(
-        (reservation) => reservation.idReserva === idReserva
-      );
-
-      if (!!reserva) {
-        const idTipo = reserva.idTipo;
-        const tipo = types.find((apartment) => apartment.idTipo === idTipo);
-
-        if (!!tipo) {
-          setValue('diaria', tipo.valorApartamento);
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setValue, types]
-  );
 
   const selectReservation = useCallback(
     (reservation) => {
@@ -108,12 +92,29 @@ function CreateReservationForm() {
         const id = !!reservation.idReserva
           ? reservation.idReserva
           : reservation;
-        console.log(id);
         setValue('idReserva', id);
-        setDiaria(id);
+        const reserva = reservationList.find(
+          (reservation) => reservation.idReserva === id
+        );
+
+        if (!!reserva) {
+          const idTipo = reserva.idTipo;
+          const tipo = types.find((apartment) => apartment.idTipo === idTipo);
+
+          if (!!tipo) {
+            setValue('diaria', tipo.valorApartamento);
+          }
+
+          const filterApartments = apartmentList.filter(
+            (ap) =>
+              ap.idHotel === reserva.idHotel && ap.idTipo === reserva.idTipo
+          );
+
+          setFilteredApartments(filterApartments);
+        }
       }
     },
-    [setValue, setDiaria]
+    [setValue, reservationList, apartmentList, types]
   );
 
   useEffect(() => {
@@ -122,22 +123,28 @@ function CreateReservationForm() {
         setApartmentList(res);
       });
     };
-    const fetchReservationList = async () => {
-      findReservations().then((res) => {
-        setReservationList(res);
-        const reservation = res.find((reservation) => {
-          return (
-            reservation.idReserva ===
-            (parseInt(searchParams.get('idReservation')) ?? res[0].idReserva)
-          );
-        });
-        selectReservation(reservation);
-      });
-    };
 
+    const fetchReservationList = async () => {
+      const res = (await findReservations()).filter(
+        (reserve) => !reserve.cancelada
+      );
+
+      setReservationList(res);
+    };
     fetchApartmentList();
     fetchReservationList();
-  }, [setApartmentList, setReservationList, searchParams, selectReservation]);
+  }, [setApartmentList, setReservationList]);
+
+  useEffect(() => {
+    const reservation = reservationList.find((reservation) => {
+      return (
+        reservation.idReserva ===
+        (parseInt(searchParams.get('idReservation')) ??
+          reservationList[0].idReserva)
+      );
+    });
+    selectReservation(reservation);
+  }, [searchParams, reservationList, selectReservation]);
 
   const fetchHotels = useCallback(async () => {
     const hotels = await findHotels();
@@ -238,7 +245,7 @@ function CreateReservationForm() {
                         )
                       }
                     >
-                      {apartmentList.map((apartment) => (
+                      {filteredApartments.map((apartment) => (
                         <MenuItem
                           key={apartment.idApartamento}
                           value={apartment.idApartamento}

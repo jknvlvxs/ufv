@@ -12,7 +12,7 @@ function PageHeader() {
             variant="h3"
             component="h3"
             gutterBottom
-            children="Check-In"
+            children="Check-out"
           />
         }
       />

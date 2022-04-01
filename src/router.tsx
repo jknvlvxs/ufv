@@ -63,6 +63,10 @@ const Expenditures = Loader(
 const CreateExpenditure = Loader(
   lazy(() => import('src/content/applications/Expenditures/create'))
 );
+// SECTION Checkout
+const Checkout = Loader(
+  lazy(() => import('src/content/applications/Checkout'))
+);
 
 // Status
 const Status404 = Loader(
@@ -227,6 +231,15 @@ const routes: PartialRouteObject[] = [
           {
             path: 'new',
             element: <CreateExpenditure />,
+          },
+        ],
+      },
+      {
+        path: 'checkout/:id',
+        children: [
+          {
+            path: '/',
+            element: <Checkout />,
           },
         ],
       },

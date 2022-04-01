@@ -208,10 +208,7 @@ const ReservationsTable = () => {
                           noWrap
                           children={
                             reservation.cancelada ? (
-                              <Label
-                                color="error"
-                                children="Reserva cancelada"
-                              />
+                              <Label color="error" children="Cancelada" />
                             ) : (
                               reservation.idReserva
                             )
@@ -277,49 +274,52 @@ const ReservationsTable = () => {
                         </>
                       }
                     />
-                    {/* <TableCell children={} /> */}
                     <TableCell align="right">
-                      <Tooltip
-                        title="Realizar Check-in"
-                        arrow
-                        children={
-                          <IconButton
-                            sx={{
-                              '&:hover': {
-                                background: theme.colors.primary.lighter,
-                              },
-                              color: theme.palette.primary.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                            component={NavLink}
-                            to={`/accommodations/new?idReservation=${reservation.idReserva}`}
-                            children={
-                              <MeetingRoomTwoToneIcon fontSize="small" />
-                            }
-                          />
-                        }
-                      />
-                      <Tooltip
-                        title="Cancelar Reserva"
-                        arrow
-                        children={
-                          <IconButton
-                            sx={{
-                              '&:hover': {
-                                background: theme.colors.error.lighter,
-                              },
-                              color: theme.palette.error.main,
-                            }}
-                            color="inherit"
-                            size="small"
-                            onClick={() => {
-                              handleCancel(reservation.idReserva);
-                            }}
-                            children={<CancelTwoToneIcon fontSize="small" />}
-                          />
-                        }
-                      />
+                      {!reservation.cancelada ? (
+                        <Tooltip
+                          title="Realizar Check-in"
+                          arrow
+                          children={
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.colors.primary.lighter,
+                                },
+                                color: theme.palette.primary.main,
+                              }}
+                              color="inherit"
+                              size="small"
+                              component={NavLink}
+                              to={`/accommodations/new?idReservation=${reservation.idReserva}`}
+                              children={
+                                <MeetingRoomTwoToneIcon fontSize="small" />
+                              }
+                            />
+                          }
+                        />
+                      ) : null}
+                      {!reservation.cancelada ? (
+                        <Tooltip
+                          title="Cancelar Reserva"
+                          arrow
+                          children={
+                            <IconButton
+                              sx={{
+                                '&:hover': {
+                                  background: theme.colors.error.lighter,
+                                },
+                                color: theme.palette.error.main,
+                              }}
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                handleCancel(reservation.idReserva);
+                              }}
+                              children={<CancelTwoToneIcon fontSize="small" />}
+                            />
+                          }
+                        />
+                      ) : null}
                       <Tooltip
                         title="Excluir Reserva"
                         arrow
