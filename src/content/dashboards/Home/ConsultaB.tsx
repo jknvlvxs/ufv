@@ -13,7 +13,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import Text from 'src/components/Text';
-import { consultaA } from 'src/services/consultas';
+import { consultaB } from 'src/services/consultas';
 
 const AvatarWrapperWarning = styled(Avatar)(
   ({ theme }) => `
@@ -23,18 +23,17 @@ const AvatarWrapperWarning = styled(Avatar)(
 );
 
 function ConsultaB() {
-  const [filial] = useState('Rio de Janeiro');
-  const [quarto] = useState('401');
+  const [filial] = useState('Viçosa');
+  const [quarto] = useState('101');
   const [dataEntrada] = useState('26/02/2022');
-  const [dataSaida] = useState('01/04/2022');
-  const [clientList, setClientList] = useState([]);
+  const [dataSaida] = useState('02/04/2022');
+  const [camareiraList, setCamareiraList] = useState([]);
 
   useEffect(() => {
-    console.log('consultaA');
-    consultaA(filial, dataEntrada, dataSaida).then((res) => {
-      setClientList(res);
-    });
-  }, [filial, dataEntrada, dataSaida]);
+    consultaB(filial, quarto, dataEntrada, dataSaida).then((res) =>
+      setCamareiraList(res)
+    );
+  }, [filial, quarto, dataEntrada, dataSaida]);
 
   return (
     <Card>
@@ -66,11 +65,11 @@ function ConsultaB() {
           />
         </ListItem>
         <Divider />
-        {clientList.map((client, index) => (
+        {camareiraList.map((camareira, index) => (
           <Box key={index}>
             <ListItem sx={{ py: 2 }}>
               <ListItemText
-                primary={<Text color="black">{client.nome}</Text>}
+                primary={<Text color="black">{camareira.nome}</Text>}
                 primaryTypographyProps={{
                   variant: 'body1',
                   fontWeight: 'bold',
@@ -78,8 +77,6 @@ function ConsultaB() {
                   gutterBottom: true,
                   noWrap: true,
                 }}
-                secondary={<Text color="primary">{client.email}</Text>}
-                secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
               />
             </ListItem>
             <Divider />

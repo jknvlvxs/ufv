@@ -21,6 +21,33 @@ export const consultaA = async (cidade, dataEntrada, dataSaida) => {
   }
 };
 
+export interface ConsultaB {
+  nome: string;
+}
+
+export const consultaB = async (
+  cidade,
+  numeroQuarto,
+  dataEntrada,
+  dataSaida
+) => {
+  try {
+    const response = await api.get('/consulta-b', {
+      params: {
+        cidade,
+        numeroQuarto,
+        dataEntrada,
+        dataSaida,
+      },
+    });
+    console.log(response.data);
+    return response.data.funcionarios as ConsultaB[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
 export interface ConsultaC {
   cidade_hotel: string;
   numero_ap: string;

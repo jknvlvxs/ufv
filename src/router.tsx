@@ -67,6 +67,13 @@ const CreateExpenditure = Loader(
 const Checkout = Loader(
   lazy(() => import('src/content/applications/Checkout'))
 );
+// SECTION Hotel
+const Cleanings = Loader(
+  lazy(() => import('src/content/applications/Cleanings'))
+);
+const CreateCleaning = Loader(
+  lazy(() => import('src/content/applications/Cleanings/create'))
+);
 
 // Status
 const Status404 = Loader(
@@ -163,10 +170,6 @@ const routes: PartialRouteObject[] = [
             path: 'new',
             element: <CreateApartments />,
           },
-          // {
-          //   path: 'edit/:id',
-          //   element: <UpdateClient />,
-          // },
           {
             path: 'type',
             children: [
@@ -240,6 +243,19 @@ const routes: PartialRouteObject[] = [
           {
             path: '/',
             element: <Checkout />,
+          },
+        ],
+      },
+      {
+        path: 'cleanings',
+        children: [
+          {
+            path: '/',
+            element: <Cleanings />,
+          },
+          {
+            path: 'new',
+            element: <CreateCleaning />,
           },
         ],
       },
