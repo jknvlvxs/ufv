@@ -1,6 +1,5 @@
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturnTwoTone';
-import BedroomParentTwoToneIcon from '@mui/icons-material/BedroomParentTwoTone';
 import {
   Box,
   Button,
@@ -23,7 +22,6 @@ import PropTypes from 'prop-types';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { CleaningsTable as Cleanings } from 'src/models/cleanings';
 import { findAll, remove } from 'src/services/cleanings';
-import { NavLink } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -52,7 +50,6 @@ const CleaningsTable = () => {
 
   const fetchCleanings = useCallback(async () => {
     const cleanings = await findAll();
-    console.log(cleanings);
     setCleanings(cleanings);
   }, []);
 

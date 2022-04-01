@@ -29,7 +29,6 @@ function ConsultaA() {
   const [clientList, setClientList] = useState([]);
 
   useEffect(() => {
-    console.log('consultaA');
     consultaA(filial, dataEntrada, dataSaida).then((res) => {
       setClientList(res);
     });

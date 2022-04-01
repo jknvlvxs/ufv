@@ -40,7 +40,6 @@ export const consultaB = async (
         dataSaida,
       },
     });
-    console.log(response.data);
     return response.data.funcionarios as ConsultaB[];
   } catch (error) {
     console.error(error);

@@ -37,6 +37,5 @@ export const cancel = async (id) => {
 
 export const remove = async (id) => {
   const response = await api.delete(`/reserva/${id}`);
-  console.log(response.data);
   return response.data.reserva[0] as Reservations;
 };

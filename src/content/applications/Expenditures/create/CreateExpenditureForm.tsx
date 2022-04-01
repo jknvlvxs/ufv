@@ -27,15 +27,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Label from 'src/components/Label';
 import { MoneyMaskCustom } from 'src/components/Masks/currencyMask';
 import { Accommodations } from 'src/models/accommodations';
-import { Apartments } from 'src/models/apartments';
-import { ApartmentTypes } from 'src/models/apartmentTypes';
 import { Expenditures } from 'src/models/expenditures';
-import { Hotels } from 'src/models/hotels';
 import { findAll as findAccommodations } from 'src/services/accommodations';
-import { findAll as findAPartments } from 'src/services/apartments';
-import { findAll as findTypes } from 'src/services/apartmentTypes';
 import { create } from 'src/services/expenditures';
-import { findAll as findHotels } from 'src/services/hotels';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
@@ -80,12 +74,9 @@ function CreateReservationForm() {
   const [openErrors, setOpenErrors] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
 
-  const [apartmentList, setApartmentList] = useState<Apartments[]>([]);
   const [accommodationList, setReservationList] = useState<Accommodations[]>(
     []
   );
-  const [hotels, setHotels] = useState<Hotels[]>([]);
-  const [types, setTypes] = useState<ApartmentTypes[]>([]);
 
   const [searchParams] = useSearchParams();
 
@@ -102,11 +93,6 @@ function CreateReservationForm() {
   );
 
   useEffect(() => {
-    const fetchApartmentList = async () => {
-      findAPartments().then((res) => {
-        setApartmentList(res);
-      });
-    };
     const fetchReservationList = async () => {
       findAccommodations().then((res) => {
         setReservationList(res);
@@ -121,46 +107,8 @@ function CreateReservationForm() {
       });
     };
 
-    fetchApartmentList();
     fetchReservationList();
-  }, [setApartmentList, setReservationList, searchParams, selectAccommodation]);
-
-  const fetchHotels = useCallback(async () => {
-    const hotels = await findHotels();
-    setHotels(hotels);
-  }, []);
-
-  const fetchTypes = useCallback(async () => {
-    const types = await findTypes();
-    setTypes(types);
-  }, []);
-
-  useEffect(() => {
-    fetchHotels();
-    fetchTypes();
-  }, [fetchHotels, fetchTypes]);
-
-  const formatHotel = (id): string => {
-    if (hotels.length > 0) {
-      const hotel = hotels.find((hotel) => hotel.idHotel === id);
-      return hotel.cidade;
-    } else {
-      return 'Buscando...';
-    }
-  };
-
-  const formatApartment = (id): string => {
-    if (apartmentList.length > 0) {
-      const apartment = apartmentList.find(
-        (apartment) => apartment.idApartamento === id
-      );
-      return `Filial ${formatHotel(apartment.idHotel)} | Quarto: ${
-        apartment.numero
-      }`;
-    } else {
-      return 'Buscando...';
-    }
-  };
+  }, [setReservationList, searchParams, selectAccommodation]);
 
   return (
     <Container>

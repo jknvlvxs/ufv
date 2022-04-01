@@ -23,7 +23,7 @@ import * as React from 'react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { default as NumberFormat } from 'react-number-format';
 import { Clients } from 'src/models/clients';
-import { findAll, findSearch, remove } from 'src/services/clients';
+import { findAll, remove } from 'src/services/clients';
 
 // const getStatusLabel = (clientStatus: ClientsStatus): JSX.Element => {
 //   const map = {
@@ -65,33 +65,20 @@ const applyPagination = (
 };
 
 const ClientsTable = () => {
-  const [search, setSearch] = useState('');
-  const searchHandle = (event) => {
-    setSearch(event.target.value);
-  };
-
   const fetchClients = async () => {
     let clients = [];
-    if (search === '') {
-      clients = await findAll();
-    } else {
-      clients = await findSearch(search);
-    }
+    clients = await findAll();
     setClients(clients);
   };
   const [clients, setClients] = useState<Clients[]>([]);
   useEffect(() => {
     const fetch = async () => {
       let clients = [];
-      if (search === '') {
-        clients = await findAll();
-      } else {
-        clients = await findSearch(search);
-      }
+      clients = await findAll();
       setClients(clients);
     };
     fetch();
-  }, [setClients, search]);
+  }, [setClients]);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);

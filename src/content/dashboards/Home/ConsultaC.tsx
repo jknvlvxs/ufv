@@ -66,7 +66,6 @@ function ConsultaC() {
   const [clientListC, setClientListC] = useState<Consulta[]>([]);
 
   useEffect(() => {
-    console.log('consultaC');
     consultaC(produtoA).then((res) => setClientListA(res));
     consultaC(produtoB).then((res) => setClientListB(res));
     consultaC(produtoC).then((res) => setClientListC(res));

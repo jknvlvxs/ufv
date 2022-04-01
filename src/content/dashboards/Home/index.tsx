@@ -1,18 +1,14 @@
+import { Container, Grid } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
-import PageHeader from './PageHeader';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
-
-import Consultas from './Consultas';
-import Wallets from './Wallets';
-import AccountSecurity from './AccountSecurity';
-import WatchList from './WatchList';
+import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import ConsultaA from './ConsultaA';
+import ConsultaB from './ConsultaB';
 import ConsultaC from './ConsultaC';
 import ConsultaE from './ConsultaE';
 import ConsultaF from './ConsultaF';
-import ConsultaB from './ConsultaB';
+import Consultas from './Consultas';
+import PageHeader from './PageHeader';
 
 function Home() {
   return (
@@ -49,12 +45,6 @@ function Home() {
           <Grid item lg={4} xs={12}>
             <ConsultaB />
           </Grid>
-          {/* <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid> */}
-          {/* <Grid item xs={12}>
-            <WatchList />
-          </Grid> */}
         </Grid>
       </Container>
       <Footer />

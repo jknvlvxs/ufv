@@ -1,6 +1,4 @@
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import DoneTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
-import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardReturnTwoTone';
 import {
   Box,
@@ -22,7 +20,6 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import Label from 'src/components/Label';
 import { Expenditures } from 'src/models/expenditures';
 import { findAll, remove } from 'src/services/expenditures';

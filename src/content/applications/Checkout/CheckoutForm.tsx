@@ -19,7 +19,6 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { Accommodations } from 'src/models/accommodations';
 import { Clients } from 'src/models/clients';
 import { checkout, findOne, getDiarias } from 'src/services/accommodations';
 import { findOne as findClient } from 'src/services/clients';
@@ -35,16 +34,13 @@ function CheckoutForm() {
     checkout(id, 'dinheiro').then((res) => navigate('/accommodations'));
   };
 
-  const [openErrors, setOpenErrors] = useState(false);
-  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openConfirm] = useState(false);
 
-  const [hospedagem, setHospedagem] = useState<Accommodations>();
   const [cliente, setCliente] = useState<Clients>();
   const [consumo, setConsumo] = useState<any[]>([]);
 
   useEffect(() => {
     findOne(id).then((res) => {
-      setHospedagem(res);
       findReserve(res.idReserva).then((res) => {
         findClient(res.idCliente).then((res) => setCliente(res));
       });

@@ -1,8 +1,7 @@
-import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
-import DoneTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import DoneTwoToneIcon from '@mui/icons-material/DoneAllTwoTone';
+import FastfoodTwoToneIcon from '@mui/icons-material/FastfoodTwoTone';
 import KeyboardReturnTwoToneIcon from '@mui/icons-material/KeyboardTwoTone';
-
 import {
   Box,
   Button,
@@ -26,14 +25,14 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Accommodations } from 'src/models/accommodations';
 import { Apartments } from 'src/models/apartments';
+import { Clients } from 'src/models/clients';
+import { Hotels } from 'src/models/hotels';
 import { Reservations } from 'src/models/reservations';
 import { findAll, remove } from 'src/services/accommodations';
 import { findAll as findApartments } from 'src/services/apartments';
-import { findAll as findReservations } from 'src/services/reservations';
-import { findAll as findHotels } from 'src/services/hotels';
 import { findAll as findClients } from 'src/services/clients';
-import { Hotels } from 'src/models/hotels';
-import { Clients } from 'src/models/clients';
+import { findAll as findHotels } from 'src/services/hotels';
+import { findAll as findReservations } from 'src/services/reservations';
 
 // const getStatusLabel = (accommodationStatus: ClientStatus): JSX.Element => {
 //   const map = {
@@ -76,7 +75,6 @@ const applyPagination = (
 
 const AccommodationsTable = () => {
   const theme = useTheme();
-  const [date] = useState<Date>(new Date());
 
   const [accommodations, setAccommodations] = useState<Accommodations[]>([]);
   const [reservations, setReservations] = useState<Reservations[]>([]);

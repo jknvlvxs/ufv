@@ -93,7 +93,6 @@ const AuthProvider: FC = ({ children }) => {
       signIn: async (email: string, password: string) => {
         try {
           const response = await login(email, password);
-          console.log(response)
           if (response.status === 201 && response.access_token) {
             const token = response.access_token;
             localStorage.setItem('token', JSON.stringify(token));
