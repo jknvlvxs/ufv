@@ -9,3 +9,5 @@ Each folder refers to a course from major in Computer Science held at the Univer
 ## INF 112 - Computer Programming II
 
 ## INF 213 - Data Structure
+
+## INF 310 - Programação Concorrente e Distribuída
