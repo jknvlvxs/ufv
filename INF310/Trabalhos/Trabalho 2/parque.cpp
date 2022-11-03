@@ -57,17 +57,23 @@ public:
         while (carro.size() >= TAMANHO_CARRO)
             carro_cheio.wait(lck);
 
-        carro.push_back(id);
         printf("Visitante %d entrou no carro\n", id);
-        carro_livre.notify_all();
+        carro.push_back(id);
+        passageiro[id].wait(lck);
+        carro_livre.notify_one();
     };
 
     void sai_do_carro(int id)
     {
         unique_lock<mutex> lck(mux);
 
-        carro.erase(carro.begin());
+        while (carro.size() <= 0)
+            carro_livre.wait(lck);
+
+        printf("Visitante %d saiu no carro\n", id);
+
         carro_cheio.notify_all();
+        passageiro[id].notify_one();
     };
 };
 
@@ -86,7 +92,10 @@ void carrinho(MonitorMontanhaRussa &montanharussa, int n)
     for (int i = 0; i < n; ++i)
     {
         montanharussa.espera_encher();
+
         /* Da Volta*/
+        printf("Carrinho deu a volta %d", i);
+
         montanharussa.espera_esvaziar();
     }
 }
