@@ -12,32 +12,38 @@ int *bebeu = new int[3];
 bool fimFesta = false;
 condition_variable copoLivre, copoCheio;
 
-
-void setFimFesta(bool fim) {
+void setFimFesta(bool fim)
+{
     fimFesta = fim;
     copoCheio.notify_all();
 }
 
-void serve(int b) {
+void serve(int b)
+{
     unique_lock<mutex> lck(mux);
 
-    while(copo != -1) copoLivre.wait(lck);
-    
+    while (copo != -1)
+        copoLivre.wait(lck);
+
     copo = b;
     cout << "Serviu " << copo << endl;
     copoCheio.notify_all();
 }
 
-bool bebe(int c) {
+bool bebe(int c)
+{
     unique_lock<mutex> lck(mux);
 
-    
-    while((copo == -1 || copo > c) && !fimFesta) copoCheio.wait(lck);
+    while ((copo == -1 || copo > c) && !fimFesta)
+        copoCheio.wait(lck);
 
-    if(fimFesta) {
+    if (fimFesta)
+    {
         cout << "Convidado " << c << " bebeu " << bebeu[c] << endl;
         return false;
-    } else {
+    }
+    else
+    {
         cout << "Bebeu " << c << endl;
         copo = -1;
         ++bebeu[c];
@@ -46,8 +52,10 @@ bool bebe(int c) {
     }
 }
 
-void garcom(){
-    for (int i=0; i<1000; ++i) {
+void garcom()
+{
+    for (int i = 0; i < 1000; ++i)
+    {
         int b = rand() % 3;
         serve(b);
     }
@@ -55,27 +63,30 @@ void garcom(){
     setFimFesta(true);
 };
 
-void convidado(int c){
-    while(bebe(c));
+void convidado(int c)
+{
+    while (bebe(c))
+        ;
 };
 
-int main(){
+int main()
+{
     // 1 -> 1/3 * 1/3
     // 2 -> 1/3 * 1/3 + 1/3 * 1/2
     // 3 -> 1/3 * 1/3 + 1/3 * 1/2 + 1/3
 
     vector<thread> convidados;
-    for(int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++)
+    {
         convidados.push_back(thread(convidado, i));
     }
 
     thread g = thread(garcom);
 
-    for(thread &c: convidados)
+    for (thread &c : convidados)
         c.join();
-    
-    g.join();
 
+    g.join();
 
     return 0;
 };
