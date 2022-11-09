@@ -25,30 +25,25 @@ int main()
         for (int j = 0; j < n; j++)
             cin >> graus[j];
 
-        vector<int> soma_grau(n, 0);
-        for (int j = n - 1; j >= 0; j--)
-        {
-            int pos = n - 1 - j;
-            soma_grau[pos] = graus[j] + soma_grau[pos - 1];
-        }
+        sort(graus.begin(), graus.end(), greater<int>());
 
-        // for (int k = 0; k < n; k++)
-        //     cout << graus[k] << " ";
-        // cout << endl;
-        // for (int k = 0; k < n; k++)
-        //     cout << soma_grau[k] << " ";
-        // cout << endl;
+        cout << endl;
+        for (int k = 0; k < n; k++)
+            cout << graus[k] << " ";
+        cout << endl;
 
-        int p = n;
         for (int k = 1; k <= n; k++)
         {
-            while (k < p && k > graus[n - p])
-                p--;
-            while (k > p)
-                p++;
-            int soma = k * (p - k) + soma_grau[n - 1] - soma_grau[p - 1];
-            if (!(soma_grau[k - 1] <= k * (k - 1) + soma))
-                isSequence = false;
+            int somatorio_graus_1_a_k = 0;
+            for (int i = 0; i < k; i++)
+                somatorio_graus_1_a_k += graus[i];
+
+            int somatorio_minimo = 0;
+            for (int i = k; i < n; i++)
+                somatorio_minimo += min(k, graus[i]);
+
+            bool teste = somatorio_graus_1_a_k <= k * (k - 1) + somatorio_minimo;
+            cout << "bool teste = " << somatorio_graus_1_a_k << " <= " << k << " * " << (k - 1) << " + " << somatorio_minimo << "\t" << teste << endl;
         }
 
         cout << (isSequence ? "HAPPY" : "SAD") << endl;
