@@ -25,12 +25,13 @@ int main()
             for (int k = 0; k < m; k++)
                 cin >> matriz[j][k];
 
-        int u, v;
         int arestas[n][n] = {};
 
         for (int k = 0; k < m; k++)
         {
             int cont = 0;
+            int u, v;
+
             for (int j = 0; j < n; j++)
                 if (matriz[j][k])
                     cont++ == 0 ? u = j : v = j;
