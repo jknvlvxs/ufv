@@ -8,36 +8,37 @@ using namespace std;
 
 #define NUM_VOLTAS 1000
 #define CAPACIDADE_CARRO 10
-#define TOTAL_VISITANTES 100
+#define TOTAL_CLIENTES 100
 
 class MonitorMontanhaRussa
 {
 private:
-    int totalVoltas;
-    vector<int> carro;
     mutex mux;
     condition_variable carro_livre, carro_cheio;
     condition_variable encheu, esvaziou;
-    condition_variable trans_in, trans_out;
+
+    vector<int> carro;
+    int capacidade_carro;
+    bool dando_voltas = false, esvaziando = false;
 
 public:
-    MonitorMontanhaRussa(int numPassageiros)
+    MonitorMontanhaRussa(int capacidade)
     {
+        capacidade_carro = capacidade;
     }
-
-    // ~MonitorMontanhaRussa()
-    // {
-    // }
 
     void espera_encher()
     {
         unique_lock<mutex> lck(mux);
 
+        dando_voltas = false;
+
         carro_livre.notify_all();
 
         encheu.wait(lck, [this]
-                    { return carro.size() == CAPACIDADE_CARRO; });
+                    { return carro.size() == capacidade_carro; });
 
+        dando_voltas = true;
         printf("Carro cheio\n");
     };
 
@@ -45,11 +46,15 @@ public:
     {
         unique_lock<mutex> lck(mux);
 
+        dando_voltas = false;
+        esvaziando = true;
+
         carro_cheio.notify_all();
 
         esvaziou.wait(lck, [this]
                       { return carro.size() == 0; });
 
+        esvaziando = false;
         printf("Carro vazio\n");
     };
 
@@ -58,12 +63,12 @@ public:
         unique_lock<mutex> lck(mux);
 
         carro_livre.wait(lck, [this]
-                         { return carro.size() < CAPACIDADE_CARRO; });
+                         { return carro.size() < capacidade_carro && !dando_voltas && !esvaziando; });
 
-        printf("Visitante %d entrou no carro\n", id);
         carro.push_back(id);
+        printf("Visitante %d entrou no carro\n", id);
 
-        if (carro.size() == CAPACIDADE_CARRO)
+        if (carro.size() == capacidade_carro)
             encheu.notify_all();
     };
 
@@ -72,7 +77,7 @@ public:
         unique_lock<mutex> lck(mux);
 
         carro_cheio.wait(lck, [this]
-                         { return carro.size() > 0; });
+                         { return carro.size() > 0 && !dando_voltas && esvaziando; });
 
         for (int i = 0; i < carro.size(); i++)
         {
@@ -91,7 +96,20 @@ public:
 
 pthread_barrier_t *barreira;
 
-void passageiro(MonitorMontanhaRussa &montanharussa, int id, int n)
+void carro(MonitorMontanhaRussa &montanharussa, int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        montanharussa.espera_encher();
+
+        /* Da Volta*/
+        printf("Carrinho deu a volta %d\n", i + 1);
+
+        montanharussa.espera_esvaziar();
+    }
+}
+
+void cliente(MonitorMontanhaRussa &montanharussa, int id, int n)
 {
     for (int i = 0; i < n; ++i)
     {
@@ -105,35 +123,21 @@ void passageiro(MonitorMontanhaRussa &montanharussa, int id, int n)
     printf("->>>>>>>> Visitante %d terminou de passear\n", id);
 }
 
-void carrinho(MonitorMontanhaRussa &montanharussa, int n)
-{
-    for (int i = 0; i < n; ++i)
-    {
-        montanharussa.espera_encher();
-
-        this_thread::yield();
-        /* Da Volta*/
-        printf("Carrinho deu a volta %d\n", i);
-
-        montanharussa.espera_esvaziar();
-    }
-}
-
 int main()
 {
     MonitorMontanhaRussa montanharussa(CAPACIDADE_CARRO);
 
-    int voltasPorCliente = NUM_VOLTAS / TOTAL_VISITANTES;
+    int voltasPorCliente = NUM_VOLTAS / CAPACIDADE_CARRO;
     barreira = new pthread_barrier_t[voltasPorCliente];
 
     for (int i = 0; i < voltasPorCliente; ++i)
-        pthread_barrier_init(&barreira[i], NULL, TOTAL_VISITANTES);
+        pthread_barrier_init(&barreira[i], NULL, TOTAL_CLIENTES);
 
     vector<thread> threads;
-    for (int i = 0; i < TOTAL_VISITANTES; ++i)
-        threads.push_back(thread(passageiro, ref(montanharussa), i, voltasPorCliente));
+    threads.push_back(thread(carro, ref(montanharussa), NUM_VOLTAS));
 
-    threads.push_back(thread(carrinho, ref(montanharussa), NUM_VOLTAS));
+    for (int i = 0; i < TOTAL_CLIENTES; ++i)
+        threads.push_back(thread(cliente, ref(montanharussa), i, voltasPorCliente));
 
     for (thread &p : threads)
         p.join();
