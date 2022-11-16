@@ -1,0 +1,294 @@
+Cliente 1 entrou na fila
+Cliente 2 entrou na fila
+Cliente 6 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 1 foi atendido
+Cliente 4 entrou na fila
+Cliente 0 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 5 entrou na fila
+Cliente 3 entrou na fila
+Cliente 2 foi atendido
+Cliente 7 vai embora
+Cliente 9 vai embora
+Cliente 8 vai embora
+Barbeiro chama o próximo cliente
+Cliente 6 foi atendido
+Cliente 10 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 11 entrou na fila
+Cliente 10 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 0 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 3 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 5 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 4 foi atendido
+Cliente 12 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 11 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 13 entrou na fila
+Cliente 12 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 14 entrou na fila
+Cliente 13 foi atendido
+Cliente 15 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 15 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 14 foi atendido
+Cliente 16 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 16 foi atendido
+Cliente 17 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 17 foi atendido
+Cliente 18 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 18 foi atendido
+Cliente 20 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 20 foi atendido
+Cliente 19 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 21 entrou na fila
+Cliente 19 foi atendido
+Cliente 22 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 21 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 22 foi atendido
+Cliente 23 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 23 foi atendido
+Cliente 25 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 25 foi atendido
+Cliente 24 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 24 foi atendido
+Cliente 26 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 26 foi atendido
+Cliente 27 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 27 foi atendido
+Cliente 28 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 29 entrou na fila
+Cliente 28 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 29 foi atendido
+Cliente 31 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 30 entrou na fila
+Cliente 31 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 30 foi atendido
+Cliente 32 entrou na fila
+Cliente 33 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 32 foi atendido
+Cliente 34 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 33 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 34 foi atendido
+Cliente 35 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 35 foi atendido
+Cliente 36 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 36 foi atendido
+Cliente 37 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 37 foi atendido
+Cliente 38 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 39 entrou na fila
+Cliente 38 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 39 foi atendido
+Cliente 40 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 40 foi atendido
+Cliente 41 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 41 foi atendido
+Cliente 43 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 43 foi atendido
+Cliente 42 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 44 entrou na fila
+Cliente 42 foi atendido
+Cliente 45 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 46 entrou na fila
+Cliente 44 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 45 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 46 foi atendido
+Cliente 47 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 47 foi atendido
+Cliente 49 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 49 foi atendido
+Cliente 48 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 48 foi atendido
+Cliente 50 entrou na fila
+Cliente 51 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 51 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 53 entrou na fila
+Cliente 52 entrou na fila
+Cliente 50 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 54 entrou na fila
+Cliente 53 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 52 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 54 foi atendido
+Cliente 55 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 56 entrou na fila
+Cliente 57 entrou na fila
+Cliente 55 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 58 entrou na fila
+Cliente 59 entrou na fila
+Cliente 56 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 57 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 60 entrou na fila
+Cliente 59 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 61 entrou na fila
+Cliente 58 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 62 entrou na fila
+Cliente 63 entrou na fila
+Cliente 60 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 61 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 62 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 63 foi atendido
+Cliente 64 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 64 foi atendido
+Cliente 65 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 66 entrou na fila
+Cliente 65 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 66 foi atendido
+Cliente 67 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 67 foi atendido
+Cliente 68 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 68 foi atendido
+Cliente 69 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 69 foi atendido
+Cliente 70 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 70 foi atendido
+Cliente 72 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 71 entrou na fila
+Cliente 72 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 71 foi atendido
+Cliente 73 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 73 foi atendido
+Cliente 74 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 74 foi atendido
+Cliente 75 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 75 foi atendido
+Cliente 76 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 76 foi atendido
+Cliente 78 entrou na fila
+Cliente 77 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 78 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 77 foi atendido
+Cliente 79 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 79 foi atendido
+Cliente 81 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 81 foi atendido
+Cliente 80 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 82 entrou na fila
+Cliente 80 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 83 entrou na fila
+Cliente 82 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 83 foi atendido
+Cliente 84 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 84 foi atendido
+Cliente 85 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 86 entrou na fila
+Cliente 85 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 86 foi atendido
+Cliente 87 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 87 foi atendido
+Cliente 88 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 88 foi atendido
+Cliente 89 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 89 foi atendido
+Cliente 90 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 90 foi atendido
+Cliente 91 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 91 foi atendido
+Cliente 92 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 92 foi atendido
+Cliente 93 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 93 foi atendido
+Cliente 94 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 94 foi atendido
+Cliente 96 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 96 foi atendido
+Cliente 95 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 97 entrou na fila
+Cliente 95 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 98 entrou na fila
+Cliente 97 foi atendido
+Barbeiro chama o próximo cliente
+Cliente 98 foi atendido
+Cliente 99 entrou na fila
+Barbeiro chama o próximo cliente
+Cliente 99 foi atendido
