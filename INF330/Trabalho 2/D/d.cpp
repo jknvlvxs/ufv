@@ -32,7 +32,7 @@ void tarjan(int u, const vector<vector<int>> &adj, vector<int> &dfsParent, vecto
             if (dfsLow[v] >= dfsNum[u])   // apos visitar v recursivamente, conseguimos chegar em um vertice em v ou antes passando por u? (sem voltar pela aresta v,u)
                 isArticulation[u] = true; // store this information first
             if (dfsLow[v] > dfsNum[u])    // ponte?
-                bridges.push_back(make_pair(u, v));
+                bridges.push_back(u < v ? make_pair(u, v) : make_pair(v, u));
             dfsLow[u] = min(dfsLow[u], dfsLow[v]); // update dfsLow[u]
         }
         else if (v != dfsParent[u])                // cheguei de volta em um vertice ja descoberto... se nao passei pela aresta v,u de volta --> ciclo...
@@ -66,20 +66,21 @@ void tarjan(const vector<vector<int>> &adj,
 int main()
 {
 
-    int t, space = 0, n = 1;
+    int t, n = 1;
     string st;
+    stringstream stream;
 
-    while (n > 0)
+    getline(cin, st);
+
+    while (st != "")
     {
-        cin >> n;
-        cin.ignore();
+        n = stoi(st);
 
         vector<vector<int>> adj(n);
 
         for (int i = 0; i < n; i++)
         {
             getline(cin, st);
-            stringstream stream;
             stream << st;
 
             regex regex(R"(\d+)");
@@ -104,14 +105,16 @@ int main()
         vector<pair<int, int>> bridges;
         tarjan(adj, isArticulation, bridges);
 
-        if (space++ > 0)
-            cout << endl;
-
         printf("%d critical links\n", (int)bridges.size());
         sort(bridges.begin(), bridges.end());
+
         for (auto b : bridges)
             cout << b.first << " - " << b.second << endl;
+        cout << endl;
+
         cin.ignore();
+
+        getline(cin, st);
     }
 
     return 0;
