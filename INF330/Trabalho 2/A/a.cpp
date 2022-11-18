@@ -1,32 +1,50 @@
 /*
 README
 Fontes de consulta:
+https://stackoverflow.com/questions/26281979/c-loop-through-map
+https://stackoverflow.com/questions/53610778/how-to-use-stdunique-to-remove-unique-character-in-vector-c
 Pessoas com as quais discuti sobre este exercício:
 */
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <iostream>
 #include <string>
 #include <map>
 #include <queue>
+#include <set>
 
 using namespace std;
 
-int adicionaAresta(vector<string> &palavras, map<char, vector<char>> &adj)
+void adicionaGrau(char c, vector<char> v, vector<pair<char, int>> &graus, map<char, vector<char>> &adj)
 {
-    for (int i = 0; i < palavras.size() - 1; i++)
+    for (char i : v)
+        if (i == c)
+            return;
+
+    for (pair<char, int> &g : graus)
     {
-        string palavra1 = palavras[i];
-        string palavra2 = palavras[i + 1];
-        int j = 0;
-        while (j < palavra1.size() && j < palavra2.size())
+        if (g.first == c)
         {
-            if (palavra1[j] != palavra2[j])
+            int grau = g.second;
+
+            for (char c : v)
             {
-                adj[palavra1[j]].push_back(palavra2[j]);
-                break;
+                for (pair<char, int> &g2 : graus)
+                {
+                    if (g2.first == c)
+                    {
+                        g2.second = grau + 1;
+
+                        for (auto it = adj.begin(); it != adj.end(); it++)
+                            if (it->first == g2.first)
+                                v = it->second;
+
+                        if (v.size() > 0)
+                            adicionaGrau(c, v, graus, adj);
+                    }
+                }
             }
-            j++;
         }
     }
 }
@@ -35,6 +53,7 @@ int main()
 {
 
     vector<string> palavras;
+    vector<char> letras;
     string st;
 
     while (getline(cin, st))
@@ -44,83 +63,99 @@ int main()
         palavras.push_back(st);
     }
 
-    // Create a graph
     map<char, vector<char>> adj;
 
-    adicionaAresta(palavras, adj);
-
-    // Print the graph
-    // for (auto it = graph.begin(); it != graph.end(); it++)
-    // {
-    //     cout << it->first << " -> ";
-    //     for (int i = 0; i < it->second.size(); i++)
-    //     {
-    //         cout << it->second[i] << " ";
-    //     }
-    //     cout << endl;
-    // }
-    // cout << endl;
-
-    // Create a map to store indegrees of all
-    // vertices. Initialize all indegrees as 0.
-    map<char, int>
-        grau_vertice;
-
-    // Traverse adjacency lists to fill indegrees of
-    // vertices.  This step takes O(V+E) time
-    for (auto it = adj.begin(); it != adj.end(); it++)
+    for (int i = 0; i < palavras.size() - 1; i++)
     {
-        grau_vertice[it->first] = 0;
-        for (int i = 0; i < it->second.size(); i++)
-            grau_vertice[it->second[i]]++;
-    }
+        string p1 = palavras[i];
+        string p2 = palavras[i + 1];
 
-    // Print the indegrees
-    // for (auto it = in_degree.begin(); it != in_degree.end(); it++)
-    // {
-    //     cout << it->first << " -> " << it->second << endl;
-    // }
-
-    // Create an queue and enqueue all vertices with
-    // indegree 0
-    queue<char> q;
-    for (auto it = grau_vertice.begin(); it != grau_vertice.end(); it++)
-    {
-        if (it->second == 0)
+        for (int j = 0; j < p1.length(); j++)
         {
-            q.push(it->first);
+            if (p1[j] != p2[j])
+            {
+                letras.push_back(p1[j]);
+                letras.push_back(p2[j]);
+
+                adj[p1[j]].push_back(p2[j]);
+                break;
+            }
         }
     }
 
-    // Create a vector to store result (A topological
-    // ordering of the vertices)
-    vector<char> top_order;
+    // Remover letras duplicadas
+    set<char> seen;
+    letras.erase(remove_if(letras.begin(), letras.end(), [&seen](char c)
+                           { return !seen.insert(c).second; }),
+                 letras.end());
 
-    // One by one dequeue vertices from queue and enqueue
-    // adjacents if indegree of adjacent becomes 0
+    vector<pair<char, int>> graus;
 
-    while (!q.empty())
+    for (int i = 0; i < letras.size(); i++)
+        graus.push_back(make_pair(letras[i], -1));
+
+    // Seta os vetores que possuem grau = 0;
+    for (auto it = adj.begin(); it != adj.end(); it++)
     {
-        // Extract front of queue (or perform dequeue)
-        // and add it to topological order
-        char u = q.front();
-        q.pop();
-        top_order.push_back(u);
+        char c = it->first;
+        int isDependencia = false;
 
-        // Iterate through all its neighbouring nodes
-        // of dequeued node u and decrease their in-degree
-        // by 1
-        for (int i = 0; i < adj[u].size(); i++)
-            if (--grau_vertice[adj[u][i]] == 0)
-                q.push(adj[u][i]);
+        for (auto it2 = adj.begin(); it2 != adj.end(); it2++)
+        {
+            char c2 = it2->first;
+            vector<char> v = it2->second;
 
-        // If in-degree becomes zero, add it to queue
+            for (int i = 0; i < v.size(); i++)
+                if (v[i] == c)
+                {
+                    isDependencia = true;
+                    break;
+                }
+        }
+
+        if (!isDependencia)
+            for (int i = 0; i < graus.size(); i++)
+            {
+                if (graus[i].first == c)
+                {
+                    graus[i].second = 0;
+                    break;
+                }
+            }
     }
 
-    // Print topological order
-    for (int i = 0; i < top_order.size(); i++)
+    // Seta os graus dos outros vértices
+    for (auto it = adj.begin(); it != adj.end(); it++)
     {
-        cout << top_order[i];
+        char c = it->first;
+        vector<char> v = it->second;
+
+        for (int i = 0; i < graus.size(); i++)
+            if (c == graus[i].first && graus[i].second == 0)
+                adicionaGrau(c, v, graus, adj);
+    }
+
+    // print graus
+    // for (auto it = graus.begin(); it != graus.end(); it++)
+    // {
+    //     cout << it->first << " " << it->second << endl;
+    // }
+
+    int numPrint = 0;
+    int order = 0;
+
+    while (numPrint < letras.size())
+    {
+        for (auto it = graus.begin(); it != graus.end(); it++)
+        {
+            if (it->second == order)
+            {
+                cout << it->first;
+                numPrint++;
+            }
+        }
+
+        order++;
     }
 
     cout << endl;
