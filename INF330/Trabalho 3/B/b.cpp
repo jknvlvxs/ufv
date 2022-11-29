@@ -119,33 +119,34 @@ int main() {
             cin >> chaves[i];
 
         vector<Edge> arestas;
-        for (int i = 0; i <= n; i++)
-            for (int j = 0; j < i; j++) {
+        for (int i = 0; i <= n; i++) {
+            for (int j = i; j <= n; j++) {
+                // for (int j = 0; j < i; j++) {
                 if (i != j) {
                     arestas.push_back(Edge(i, j, voltas(chaves[i], chaves[j])));
-                    // printf("Distancia de %d para %d: %d\n", chaves[j], chaves[i], voltas(chaves[i], chaves[j]));
                 }
             }
+        }
 
         // print arestas
         for (int i = 0; i < arestas.size(); i++)
             printf("Aresta %d: %d %d %d\n", i, arestas[i].v, arestas[i].w, arestas[i].peso);
+        cout << "---------------------" << endl;
 
         vector<bool> arestasUtilizadas;
         kruskal(arestas, arestasUtilizadas, n + 1);
 
         int custoMinimo = 0;
 
-        // vector<int> listaIdsArestasUtilizadas;
         for (int i = 0; i < arestas.size(); i++) {
             if (arestasUtilizadas[i]) {
                 printf("Aresta %d: %d %d %d\n", i, arestas[i].v, arestas[i].w, arestas[i].peso);
-                // listaIdsArestasUtilizadas.push_back(i);
                 custoMinimo += arestas[i].peso;
             }
         }
 
         printf("Custo minimo: %d\n\n", custoMinimo);
+        // cout << custoMinimo << endl;
     }
 
     return 0;
