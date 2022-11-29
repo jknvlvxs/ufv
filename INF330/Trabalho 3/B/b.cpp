@@ -1,7 +1,7 @@
 /*
 README
 Fontes de consulta:
-Pessoas com as quais discuti sobre este exercício:
+Pessoas com as quais discuti sobre este exercício: Salles
 */
 #include <algorithm>
 #include <iostream>
@@ -74,79 +74,69 @@ int kruskal(vector<Edge> &arestas, vector<bool> &arestasUtilizadas, int numVerti
 }
 
 int voltas(int n, int m) {
-    int num_voltas = 0, diff = 0;
+    int numVoltas = 0, diff = 0;
 
     // primeiro digito
     int origin_d1 = n / 1000;
     int dest_d1 = m / 1000;
     diff = abs(origin_d1 - dest_d1);
-    num_voltas += min(diff, 10 - diff);
+    numVoltas += min(diff, 10 - diff);
 
     // segundo digito
     int origin_d2 = (n % 1000) / 100;
     int dest_d2 = (m % 1000) / 100;
     diff = abs(origin_d2 - dest_d2);
-    num_voltas += min(diff, 10 - diff);
+    numVoltas += min(diff, 10 - diff);
 
     // terceiro digito
     int origin_d3 = (n % 100) / 10;
     int dest_d3 = (m % 100) / 10;
     diff = abs(origin_d3 - dest_d3);
-    num_voltas += min(diff, 10 - diff);
+    numVoltas += min(diff, 10 - diff);
 
     // quarto digito
     int origin_d4 = n % 10;
     int dest_d4 = m % 10;
     diff = abs(origin_d4 - dest_d4);
-    num_voltas += min(diff, 10 - diff);
+    numVoltas += min(diff, 10 - diff);
 
-    return num_voltas;
+    return numVoltas;
 }
 
 int main() {
-    int test_cases;
-    cin >> test_cases;
+    int testCases;
+    cin >> testCases;
 
-    for (int t = 0; t < test_cases; t++) {
+    for (int t = 0; t < testCases; t++) {
         int n; // numero de chaves
         cin >> n;
 
-        vector<int> chaves(n + 1);
+        vector<int> chaves(n);
+        vector<Edge> arestas;
 
-        chaves[0] = 0;
-
-        for (int i = 1; i <= n; i++)
+        for (int i = 0; i < n; i++)
             cin >> chaves[i];
 
-        vector<Edge> arestas;
-        for (int i = 0; i <= n; i++) {
-            for (int j = i; j <= n; j++) {
-                // for (int j = 0; j < i; j++) {
-                if (i != j) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (i != j)
                     arestas.push_back(Edge(i, j, voltas(chaves[i], chaves[j])));
-                }
-            }
-        }
-
-        // print arestas
-        for (int i = 0; i < arestas.size(); i++)
-            printf("Aresta %d: %d %d %d\n", i, arestas[i].v, arestas[i].w, arestas[i].peso);
-        cout << "---------------------" << endl;
 
         vector<bool> arestasUtilizadas;
-        kruskal(arestas, arestasUtilizadas, n + 1);
+        kruskal(arestas, arestasUtilizadas, n);
 
         int custoMinimo = 0;
 
-        for (int i = 0; i < arestas.size(); i++) {
-            if (arestasUtilizadas[i]) {
-                printf("Aresta %d: %d %d %d\n", i, arestas[i].v, arestas[i].w, arestas[i].peso);
+        for (int i = 0; i < arestas.size(); i++)
+            if (arestasUtilizadas[i])
                 custoMinimo += arestas[i].peso;
-            }
-        }
 
-        printf("Custo minimo: %d\n\n", custoMinimo);
-        // cout << custoMinimo << endl;
+        int menorCustoParaIniciar = voltas(chaves[0], 0000);
+
+        for (int i = 1; i < n; i++)
+            menorCustoParaIniciar = min(menorCustoParaIniciar, voltas(chaves[i], 0000));
+
+        cout << custoMinimo + menorCustoParaIniciar << endl;
     }
 
     return 0;
