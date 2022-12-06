@@ -82,7 +82,7 @@ int main() {
         vector<vector<int>> only_rat_doors(number_of_rooms); // rat doors that are not visited by cat
 
         int u, v;
-        int reverse = false;
+        int reading_rats = false;
 
         string c;
         cin.ignore();
@@ -98,10 +98,10 @@ int main() {
             ss >> u >> v;
 
             if (u == -1 && v == -1) {
-                reverse = true;
+                reading_rats = true;
                 distances(cat_doors, cat_distances, cat_visited, cat_room - 1);
             } else {
-                if (!reverse)
+                if (!reading_rats)
                     cat_doors[u - 1].push_back(v - 1);
                 else {
                     rat_doors[u - 1].push_back(v - 1);
@@ -124,7 +124,8 @@ int main() {
         bool can_walk = canWalk(only_rat_doors, number_of_rooms, rat_room - 1);
         cout << (can_walk ? "Y" : "N") << endl;
 
-        cout << endl;
+        if (i != n - 1)
+            cout << endl;
     }
 
     return 0;
