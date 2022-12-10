@@ -4,39 +4,193 @@ Fontes de consulta:
 Pessoas com as quais discuti sobre este exercício:
 */
 #include <algorithm>
+#include <bits/stdc++.h>
 #include <iostream>
 #include <sstream>
+#include <stdio.h>
+#include <string.h>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-int main() {
+// the maximum number of vertices + 1
+#define NN 1024
 
-    int number_of_regulators, number_of_links;
+// adjacency matrix (fill this up)
+int cap[NN][NN];
 
-    vector<int> capacity(number_of_regulators);
+// cost per unit of flow matrix (fill this up)
+int cost[NN][NN];
 
-    // for (int n = 0; n < number_of_regulators; n++)
-    for (auto &b : capacity)
-        cin >> b;
+// flow network and adjacency list
+int fnet[NN][NN], adj[NN][NN], deg[NN];
 
-    cin >> number_of_links;
+// Dijkstra's predecessor, depth and priority queue
+int par[NN], d[NN], q[NN], inq[NN], qs;
 
-    int i, j, c;
+// Labelling function
+int pi[NN];
 
-    for (int m = 0; m < number_of_links; m++) {
-        cin >> i >> j >> c;
+#define CLR(a, x) memset(a, x, sizeof(a))
+#define Inf (INT_MAX / 2)
+
+#define BUBL                   \
+    {                          \
+        t = q[i];              \
+        q[i] = q[j];           \
+        q[j] = t;              \
+        t = inq[q[i]];         \
+        inq[q[i]] = inq[q[j]]; \
+        inq[q[j]] = t;         \
     }
 
-    int b, d;
+// Dijkstra's using non-negative edge weights (cost + potential)
+#define Pot(u, v) (d[u] + pi[u] - pi[v])
+bool dijkstra(int n, int s, int t) {
+    CLR(d, 0x3F);
+    CLR(par, -1);
+    CLR(inq, -1);
+    // for( int i = 0; i < n; i++ ) d[i] = Inf, par[i] = -1;
+    d[s] = qs = 0;
+    inq[q[qs++] = s] = 0;
+    par[s] = n;
 
-    cin >> b, d;
+    while (qs) {
+        // get the minimum from q and bubble down
+        int u = q[0];
+        inq[u] = -1;
+        q[0] = q[--qs];
+        if (qs)
+            inq[q[0]] = 0;
+        for (int i = 0, j = 2 * i + 1, t; j < qs; i = j, j = 2 * i + 1) {
+            if (j + 1 < qs && d[q[j + 1]] < d[q[j]])
+                j++;
+            if (d[q[j]] >= d[q[i]])
+                break;
+            BUBL;
+        }
 
-    vector<int> index(b + d);
+        // relax edge (u,i) or (i,u) for all i;
+        for (int k = 0, v = adj[u][k]; k < deg[u]; v = adj[u][++k]) {
+            // try undoing edge v->u
+            if (fnet[v][u] && d[v] > Pot(u, v) - cost[v][u])
+                d[v] = Pot(u, v) - cost[v][par[v] = u];
 
-    for (auto &bd : index)
-        cin >> bd;
+            // try using edge u->v
+            if (fnet[u][v] < cap[u][v] && d[v] > Pot(u, v) + cost[u][v])
+                d[v] = Pot(u, v) + cost[par[v] = u][v];
+
+            if (par[v] == u) {
+                // bubble up or decrease key
+                if (inq[v] < 0) {
+                    inq[q[qs] = v] = qs;
+                    qs++;
+                }
+                for (int i = inq[v], j = (i - 1) / 2, t;
+                     d[q[i]] < d[q[j]]; i = j, j = (i - 1) / 2)
+                    BUBL;
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++)
+        if (pi[i] < Inf)
+            pi[i] += d[i];
+
+    return par[t] >= 0;
+}
+#undef Pot
+
+int mcmf4(int n, int s, int t, int &fcost) {
+    // build the adjacency list
+    CLR(deg, 0);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            if (cap[i][j] || cap[j][i])
+                adj[i][deg[i]++] = j;
+
+    CLR(fnet, 0);
+    CLR(pi, 0);
+    int flow = fcost = 0;
+
+    // repeatedly, find a cheapest path from s to t
+    while (dijkstra(n, s, t)) {
+        // get the bottleneck capacity
+        int bot = INT_MAX;
+        for (int v = t, u = par[v]; v != s; u = par[v = u])
+            bot = min(bot, fnet[v][u] ? fnet[v][u] : (cap[u][v] - fnet[u][v]));
+
+        // update the flow network
+        for (int v = t, u = par[v]; v != s; u = par[v = u])
+            if (fnet[v][u]) {
+                fnet[v][u] -= bot;
+                fcost -= bot * cost[v][u];
+            } else {
+                fnet[u][v] += bot;
+                fcost += bot * cost[u][v];
+            }
+
+        flow += bot;
+    }
+
+    return flow;
+}
+
+int main() {
+
+    int n;
+
+    cin >> n;
+
+    while (n != 0) {
+
+        memset(cap, 0, sizeof(cap));
+        memset(cost, 0, sizeof(cost));
+
+        int nv = n + 2;
+
+        vector<int> capacity(n + 1, 0);
+
+        for (int a = 1; a <= n; a++)
+            cin >> capacity[a];
+
+        int m, i, j, c;
+        cin >> m;
+        while (m--) {
+            cin >> i >> j >> c;
+            cap[i][j] = min(c, min(capacity[j], capacity[i]));
+            // cost[i][j] = capacity[i];
+        }
+
+        int b, d, u;
+        cin >> b >> d;
+
+        while (b--) {
+            cin >> u;
+            cap[0][u] = capacity[u - 1];
+            // cost[0][u] = 0;
+        }
+
+        while (d--) {
+            cin >> u;
+            cap[u][nv - 1] = INT_MAX;
+            // cost[u][nv - 1] = capacity[u];
+
+            for (int k = 0; k < nv - 1; k++)
+                cap[u][k] = 0;
+        }
+
+        int fcost;
+        int flow = mcmf4(nv, 0, nv - 1, fcost);
+
+        cout << flow << endl;
+
+        cin >> n;
+
+        if (cin.eof())
+            break;
+    }
 
     return 0;
 }
