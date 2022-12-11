@@ -1,7 +1,7 @@
 /*
 README
-Fontes de consulta:
-Pessoas com as quais discuti sobre este exercício:
+Fontes de consulta: http://shygypsy.com/tools/flow.cpp
+Pessoas com as quais discuti sobre este exercício: Samuel
 */
 #include <algorithm>
 #include <bits/stdc++.h>
@@ -14,122 +14,89 @@ Pessoas com as quais discuti sobre este exercício:
 
 using namespace std;
 
-// the maximum number of vertices + 1
+/**
+ *   //////////////////
+ *   // MAXIMUM FLOW //
+ *   //////////////////
+ *
+ * This file is part of my library of algorithms found here:
+ *      http://www.palmcommander.com:8081/tools/
+ * LICENSE:
+ *      http://www.palmcommander.com:8081/tools/LICENSE.html
+ * Copyright (c) 2004
+ * Contact author:
+ *      igor at cs.ubc.ca
+ **/
+
+/****************
+ * Maximum flow * (Ford-Fulkerson on an adjacency matrix)
+ ****************
+ * Takes a weighted directed graph of edge capacities as an adjacency
+ * matrix 'cap' and returns the maximum flow from s to t.
+ *
+ * PARAMETERS:
+ *      - cap (global): adjacency matrix where cap[u][v] is the capacity
+ *          of the edge u->v. cap[u][v] is 0 for non-existent edges.
+ *      - n: the number of vertices ([0, n-1] are considered as vertices).
+ *      - s: source vertex.
+ *      - t: sink.
+ * RETURNS:
+ *      - the flow
+ *      - fnet contains the flow network. Careful: both fnet[u][v] and
+ *          fnet[v][u] could be positive. Take the difference.
+ *      - prev contains the minimum cut. If prev[v] == -1, then v is not
+ *          reachable from s; otherwise, it is reachable.
+ * DETAILS:
+ * FIELD TESTING:
+ *      - Valladolid 10330: Power Transmission
+ *      - Valladolid 653:   Crimewave
+ *      - Valladolid 753:   A Plug for UNIX
+ *      - Valladolid 10511: Councilling
+ *      - Valladolid 820:   Internet Bandwidth
+ *      - Valladolid 10779: Collector's Problem
+ * #include <string.h>
+ * #include <queue>
+ **/
+
+// the maximum number of vertices
 #define NN 1024
 
 // adjacency matrix (fill this up)
 int cap[NN][NN];
 
-// cost per unit of flow matrix (fill this up)
-int cost[NN][NN];
+// flow network
+int fnet[NN][NN];
 
-// flow network and adjacency list
-int fnet[NN][NN], adj[NN][NN], deg[NN];
+int fordFulkerson(int n, int s, int t) {
+    // BFS
+    int q[NN], qf, qb, prev[NN];
+    // init the flow network
+    memset(fnet, 0, sizeof(fnet));
 
-// Dijkstra's predecessor, depth and priority queue
-int par[NN], d[NN], q[NN], inq[NN], qs;
+    int flow = 0;
 
-// Labelling function
-int pi[NN];
+    while (true) {
+        // find an augmenting path
+        memset(prev, -1, sizeof(prev));
+        qf = qb = 0;
+        prev[q[qb++] = s] = -2;
+        while (qb > qf && prev[t] == -1)
+            for (int u = q[qf++], v = 0; v < n; v++)
+                if (prev[v] == -1 && fnet[u][v] - fnet[v][u] < cap[u][v])
+                    prev[q[qb++] = v] = u;
 
-#define CLR(a, x) memset(a, x, sizeof(a))
-#define Inf (INT_MAX / 2)
+        // see if we're done
+        if (prev[t] == -1)
+            break;
 
-#define BUBL                   \
-    {                          \
-        t = q[i];              \
-        q[i] = q[j];           \
-        q[j] = t;              \
-        t = inq[q[i]];         \
-        inq[q[i]] = inq[q[j]]; \
-        inq[q[j]] = t;         \
-    }
-
-// Dijkstra's using non-negative edge weights (cost + potential)
-#define Pot(u, v) (d[u] + pi[u] - pi[v])
-bool dijkstra(int n, int s, int t) {
-    CLR(d, 0x3F);
-    CLR(par, -1);
-    CLR(inq, -1);
-    // for( int i = 0; i < n; i++ ) d[i] = Inf, par[i] = -1;
-    d[s] = qs = 0;
-    inq[q[qs++] = s] = 0;
-    par[s] = n;
-
-    while (qs) {
-        // get the minimum from q and bubble down
-        int u = q[0];
-        inq[u] = -1;
-        q[0] = q[--qs];
-        if (qs)
-            inq[q[0]] = 0;
-        for (int i = 0, j = 2 * i + 1, t; j < qs; i = j, j = 2 * i + 1) {
-            if (j + 1 < qs && d[q[j + 1]] < d[q[j]])
-                j++;
-            if (d[q[j]] >= d[q[i]])
-                break;
-            BUBL;
-        }
-
-        // relax edge (u,i) or (i,u) for all i;
-        for (int k = 0, v = adj[u][k]; k < deg[u]; v = adj[u][++k]) {
-            // try undoing edge v->u
-            if (fnet[v][u] && d[v] > Pot(u, v) - cost[v][u])
-                d[v] = Pot(u, v) - cost[v][par[v] = u];
-
-            // try using edge u->v
-            if (fnet[u][v] < cap[u][v] && d[v] > Pot(u, v) + cost[u][v])
-                d[v] = Pot(u, v) + cost[par[v] = u][v];
-
-            if (par[v] == u) {
-                // bubble up or decrease key
-                if (inq[v] < 0) {
-                    inq[q[qs] = v] = qs;
-                    qs++;
-                }
-                for (int i = inq[v], j = (i - 1) / 2, t;
-                     d[q[i]] < d[q[j]]; i = j, j = (i - 1) / 2)
-                    BUBL;
-            }
-        }
-    }
-
-    for (int i = 0; i < n; i++)
-        if (pi[i] < Inf)
-            pi[i] += d[i];
-
-    return par[t] >= 0;
-}
-#undef Pot
-
-int mcmf4(int n, int s, int t, int &fcost) {
-    // build the adjacency list
-    CLR(deg, 0);
-    for (int i = 0; i < n; i++)
-        for (int j = 0; j < n; j++)
-            if (cap[i][j] || cap[j][i])
-                adj[i][deg[i]++] = j;
-
-    CLR(fnet, 0);
-    CLR(pi, 0);
-    int flow = fcost = 0;
-
-    // repeatedly, find a cheapest path from s to t
-    while (dijkstra(n, s, t)) {
         // get the bottleneck capacity
-        int bot = INT_MAX;
-        for (int v = t, u = par[v]; v != s; u = par[v = u])
-            bot = min(bot, fnet[v][u] ? fnet[v][u] : (cap[u][v] - fnet[u][v]));
+        int bot = 0x7FFFFFFF;
+        for (int v = t, u = prev[v]; u >= 0; v = u, u = prev[v])
+            bot = min(bot, cap[u][v] - fnet[u][v] + fnet[v][u]);
 
         // update the flow network
-        for (int v = t, u = par[v]; v != s; u = par[v = u])
-            if (fnet[v][u]) {
-                fnet[v][u] -= bot;
-                fcost -= bot * cost[v][u];
-            } else {
-                fnet[u][v] += bot;
-                fcost += bot * cost[u][v];
-            }
+        for (int v = t, u = prev[v]; u >= 0; v = u, u = prev[v])
+            fnet[u][v] += bot;
 
         flow += bot;
     }
@@ -146,9 +113,8 @@ int main() {
     while (n != 0) {
 
         memset(cap, 0, sizeof(cap));
-        memset(cost, 0, sizeof(cost));
 
-        int nv = n + 2;
+        int nv = n + n + 2;
 
         vector<int> capacity(n + 1, 0);
 
@@ -159,8 +125,8 @@ int main() {
         cin >> m;
         while (m--) {
             cin >> i >> j >> c;
-            cap[i][j] = min(c, min(capacity[j], capacity[i]));
-            // cost[i][j] = capacity[i];
+            cap[i][i + n] = capacity[i];
+            cap[i + n][j] += c;
         }
 
         int b, d, u;
@@ -168,23 +134,16 @@ int main() {
 
         while (b--) {
             cin >> u;
-            cap[0][u] = capacity[u - 1];
-            // cost[0][u] = 0;
+            cap[0][u] = INT_MAX;
         }
 
         while (d--) {
             cin >> u;
-            cap[u][nv - 1] = INT_MAX;
-            // cost[u][nv - 1] = capacity[u];
-
-            for (int k = 0; k < nv - 1; k++)
-                cap[u][k] = 0;
+            cap[u][u + n] = capacity[u];
+            cap[u + n][nv - 1] = INT_MAX;
         }
 
-        int fcost;
-        int flow = mcmf4(nv, 0, nv - 1, fcost);
-
-        cout << flow << endl;
+        cout << fordFulkerson(nv, 0, nv - 1) << endl;
 
         cin >> n;
 
