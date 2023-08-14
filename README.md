@@ -10,4 +10,10 @@ Each folder refers to a course from major in Computer Science held at the Univer
 
 ## INF 213 - Data Structure
 
-## INF 310 - Programação Concorrente e Distribuída
+## INF 220 - Database I
+
+## INF 310 - Competitive and Distributed Programming
+
+## INF 330 - Graph Theory and Models
+
+## INF 450 - Computer Architecture
