@@ -1,0 +1,40 @@
+program P
+    final int size = 100;
+
+    class Values {
+        int[] values;
+    }
+
+    Values v;
+
+    {
+        void main()
+        int val, i, sum, j;
+        {
+            v = new Values;
+            v.values = new int[size];
+
+            i = 0;
+            j = 0;
+            sum = 0;
+
+            read(val);
+
+            while(val >= 0) {
+                v.values[i] = val;
+                sum = sum + val;
+                i = i + 1;
+
+                if(i < size)
+                    read(val);
+                else
+                    val = -1;
+            }
+
+            while(j < i) {
+                if(v.values[j] > (sum / i))
+                    print(v.values[j]);
+                j = j + 1;
+            }
+        }
+    }
