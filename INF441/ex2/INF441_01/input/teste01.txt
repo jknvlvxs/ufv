@@ -1,0 +1,13 @@
+abc def
+while if class
+123 // exemplo de coment�rio de linha
+456.78 /* coment�rio em mais
+de uma linha */
+(a;b)
+program
+456.78
+.78
+456e10
+456E+5
+.78E-4
+....
