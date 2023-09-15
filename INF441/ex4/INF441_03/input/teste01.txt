@@ -1,0 +1,10 @@
+program P
+int f()
+ int a, b;
+ float c, d, e;
+{
+ a = b * (c - 1);
+ d = -a + e / 2;
+ if (a < d) if (d > 0) d = 0; else a = 0;
+ return d;
+}
