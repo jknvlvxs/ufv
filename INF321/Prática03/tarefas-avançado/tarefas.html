@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lista de Tarefas JavaScript</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/tarefas.css" />
+        <script src="js/tarefas.js" defer></script>
+        <script src="js/estado.js" defer></script>
+    </head>
+    <body>
+        <div class="painel">
+            <header>
+                <h1 class="titulo">Lista de Tarefas Avançada</h1>
+                <button id="reset" class="tiny">&#9851;</button>
+            </header>
+            <div id="insercao" class="container">
+                <span class="rotulo">Nova tarefa:</span>
+                <input type="text" id="nova" placeholder="Digite um texto..." />
+                <button class="inserir" id="btnInserir">Inserir</button>
+            </div>
+            <div id="edicao" class="container oculto">
+                <span class="rotulo">Edite a tarefa:</span>
+                <input type="text" id="edita" />
+                <button class="inserir" id="btnAtualizar">Atualizar</button>
+                <button class="inserir" id="btnCancelar">Cancelar</button>
+            </div>
+            <div id="ferramentas" class="container">
+                <span id="filtra">
+                    <span class="rotulo">Filtrar:</span>
+                    <select id="filtro">
+                        <option value="todas">Todas</option>
+                        <option value="feitas">Feitas</option>
+                        <option value="afazer">A fazer</option>
+                    </select>
+                </span>
+                <span id="busca">
+                    <span class="rotulo">Pequisar:</span>
+                    <input type="text" id="pesquisa" placeholder="Pequisar" />
+                    <button id="apaga" class="small">&#10006;</button>
+                </span>
+            </div>
+            <!-- Nesta versão, as listas <ul> começam vazias -->
+            <ul id="pendentes">
+            </ul>
+            <ul id="concluidas">
+            </ul>
+        </div>
+    </body>
+</html>
