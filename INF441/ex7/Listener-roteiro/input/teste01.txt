@@ -1,0 +1,6 @@
+a = -1 + 2 + 4 * 3 + 4 / 2;
+print a;
+print b;
+b = 2 / 5;
+print b;
+print 4 * 2 / 2;
