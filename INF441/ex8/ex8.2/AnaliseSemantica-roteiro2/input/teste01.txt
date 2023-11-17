@@ -1,0 +1,40 @@
+program P
+
+final int size = 10;
+int i, j, k;
+
+class Table {
+  int[] pos;
+  int[] neg;
+  Table prox;
+  int i;
+}
+
+Table val;
+
+{
+  
+  int f1(int a, int b)
+  int i;
+  float f;
+  {
+  
+  }
+
+  void main()
+  int x, y, i;
+  int[] sum;
+  Table t;
+  {
+  	x = 2;
+  	//y = "a";
+  	y = -x;
+  	
+  	sum = new int[2];
+  	sum[0] = x + y;
+  	
+  	t = new Table;
+  	t.i = x * y;
+  }
+
+}

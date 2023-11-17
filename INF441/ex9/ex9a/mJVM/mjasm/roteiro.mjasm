@@ -1,0 +1,82 @@
+jmp main
+
+#---------------------------------------------------------------------------#
+label f
+enter 2,4       # 2 parâmetros, 4 variáveis(a, b, x1, x)
+
+load0           # empilha a
+load1           # empilha b
+
+                # x1 = new C
+new 8           # empilha 8 bytes
+store2          # atribuir esses 8 bytes para x1      
+
+                # x1.v = a
+load2           # empilha x1
+load0           # empilha a
+putfield 0      # armazena a no primeiro parâmetro de x1
+
+                # x1.prox = new C
+load2           # empilha x1
+new 8           # aloca 8 bytes
+putfield 1      # armazena no segundo parâmetro de x1 8 bytes
+
+                # x2 = x1.prox
+load2           # empilha x1
+getfield 1      # na pilha x1 agora é o prox
+store3          # atribui x1.prox para x2
+
+                # x2.v = b
+load3           # empilha x2
+load1           # empilha b
+putfield 0      # armazena b no primeiro parâmetro de x2
+
+                # x2.prox = null
+load3           # empilha x2
+const 0         # empilha 0
+putfield 1      # armazena 0 no segundo parâmetro de x2
+
+pop             # remover x2
+pop             # remover x1
+
+load2           # empilha x1
+
+exit            # como usamos enter no iníco, precisamos desalocar
+return
+#---------------------------------------------------------------------------#
+
+label main
+enter 0,1       # 0 parâmetros, 1 variável (x)
+
+                # x = f(1,2)
+const 1         # empilha o valor 1
+const 2         # empilha o valor 2
+call f          # chama a função f(1,2), pois temos esses 2 valores na pilha
+store0          # atribui para x o que ficou retornou de f
+
+                # while (x != null)
+label LABEL1
+load0           # empilhar x
+const 0         # empilha 0 para representar null
+
+jne LABEL2
+jmp LABEL3
+
+label LABEL2                  
+                # print(x.v, 4)
+load0           # empilhar x
+getfield 0      # x agora na pilha é x.v
+const 4         # empilha o tamanho dos bytes lidos
+print           # imprime os 4 bytes
+
+                # x = x.prox
+load0           # empilhar x
+getfield 1      # x agora na pilha é x.prox
+store0          # atribui x.prox para x
+
+jmp LABEL1
+label LABEL3
+
+exit
+return
+#---------------------------------------------------------------------------#

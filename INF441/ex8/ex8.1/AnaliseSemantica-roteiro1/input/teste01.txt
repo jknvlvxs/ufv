@@ -1,0 +1,21 @@
+program P
+
+final int size = 10;
+final int size = 20;
+final int c = "a";
+
+int i, j, k, i;
+
+class Table {
+  int[] pos;
+  int[] neg;
+  Table prox;
+  int j;
+}
+
+Table val;
+
+{
+  
+}
+

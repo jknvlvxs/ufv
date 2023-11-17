@@ -1,0 +1,112 @@
+
+#-------- Tradução para assembly Mjava do programa exemplo1.mjava
+
+
+#-------- Algumas instruções assembly Mjava utilizadas nesse exemplo:
+#-------- > getstatic, putstatic: acesso a variáveis globais
+#-------- > load, store: acesso a variáveis locais
+#-------- > load, store: acesso a variáveis locais
+#-------- > chamadas de funções com passagem de parâmetros
+
+#-------- Estude especialmente essas instruções no apêndice B da especificação Mjava:
+#-------- > Memory Layout (B.1)
+#-------- > Loading and storing of local variables
+#-------- > Loading and storing of global variables
+#-------- > Loading of constants
+#-------- > Arithmetic
+#-------- > Method call
+
+
+#-------- A tradução para assembly para o programa exemplo1.mjava é apresentada abaixo
+
+
+#-------- int x1, x2;
+
+#-------- aloca 2 variáveis globais (estáticas)
+data 2
+
+#-------- desvia para o inicio de main
+jmp main
+
+
+#-------- aqui comeca func1
+label func1
+
+#-------- int func1(int p1, int p2)
+#-------- int aux;
+
+#-------- funcao com 2 parametros e 3 variaveis no total
+#-------- (total = parametros + locais)
+enter 2, 3
+
+#-------- aux = p1 - p2;
+
+#-------- empilha primeiro parametro, variavel local 0 (p1)
+load0
+
+#-------- empilha segundo parametro variavel local 1 (p2)
+load1
+
+#-------- subtracao
+sub
+
+#-------- armazena na variavel local 2 (aux)
+store2
+
+#-------- return aux;
+#-------- neste caso, basta gerar código para a expressão e deixar na pilha
+#-------- o valor deixado na pilha poderá ser usado pelo programa que chamou a função
+
+#--------  como o comando retorna "aux", então código deve carregar variavel local 2
+load2
+
+#-------- Termino de procedimento.
+#-------- "exit" serve para desalocar area das variaveis locais e parametros,
+#-------- sempre usado no fim do procedimento, quando este comeca com "enter"
+exit
+
+#-------- retorno ao ponto de chamada
+return
+
+
+#-------- aqui comeca main
+label main
+
+#-------- x1 = 123;
+
+#-------- empilha 123
+const 123
+
+#-------- envia para static[0] (x1)
+putstatic 0
+
+#-------- x2 = 456;
+
+#-------- empilha 456
+const 456
+
+#-------- envia para static[1] (x2)
+putstatic 1
+
+#-------- print (func1(x2, x1), 5);
+
+#-------- empilha static[1]
+getstatic 1
+
+#-------- empilha static[0]
+getstatic 0
+
+#-------- chama funcao func1
+call func1
+
+#-------- empilha 5
+const5
+
+#-------- imprime
+print
+
+#-------- termina main - como nao foi usado "enter", nao precisa de "exit";
+#-------- "return" é sempre usado para retornar a chamada,
+#-------- e "exit" é usado quando o procedimento começa com "enter"
+#-------- para organizar a área para os parâmetros e variáveis locais
+return

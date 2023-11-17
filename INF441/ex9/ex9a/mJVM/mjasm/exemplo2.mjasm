@@ -1,0 +1,115 @@
+
+#-------- Tradução para assembly Mjava do programa exemplo2.mjava
+
+
+#-------- Algumas instruções assembly Mjava utilizadas nesse exemplo:
+#-------- > uso de operador new
+#-------- > uso de arrays
+#-------- > comando de repetição
+
+#-------- Estude especialmente essas instruções no apêndice B da especificação Mjava:
+#-------- > Object creation
+#-------- > Array access
+#-------- > Jumps
+
+
+#-------- A tradução para assembly para o programa exemplo2.mjava é apresentada abaixo
+
+
+
+#-------- final int size = 10;
+#-------- int [] a;
+
+#-------- reserva espaço para 1 variável global;
+#-------- constante não precisa de espaço reservado
+data 1
+
+#-------- desvia para o inicio de main;
+#-------- nem precisaria disso, se main é o único procedimento
+jmp main
+
+#-------- aqui comeca main
+label main
+
+#-------- void main()
+#-------- int i;
+
+#-------- funcao com 0 parâmetros e 1 variável no total
+#-------- (total = parametros + locais)
+enter 0, 1
+
+#-------- a = new int[size];
+const 10
+newarray 1
+putstatic 0
+
+#-------- i = 0;
+const0
+store0
+
+#-------- while (i < size) {
+#-------- LABEL1 marca início do teste do loop
+#-------- LABEL2 marca início do corpo do loop
+#-------- LABEL3 marca instrução após fim do loop
+label LABEL1
+load0
+const 10
+jlt LABEL2
+jmp LABEL3
+label LABEL2
+
+#-------- a[i] = i * 2;
+getstatic 0
+load0
+load0
+const2
+mul
+astore
+
+#-------- i = i + 1;
+load0
+const1
+add
+store0
+jmp LABEL1
+
+#-------- } // fim do while
+label LABEL3
+
+#-------- i = 0;
+const0
+store0 
+
+#-------- while (i < size) {
+#-------- LABEL4 marca início do teste do loop
+#-------- LABEL5 marca início do corpo do loop
+#-------- LABEL6 marca instrução após fim do loop
+label LABEL4
+load0
+const 10
+jlt LABEL5
+jmp LABEL6
+label LABEL5
+
+#-------- print(a[i], 4);
+getstatic 0
+load0
+aload
+const4
+print
+
+#-------- i = i + 1;
+load0
+const1
+add
+store0
+jmp LABEL4
+
+#-------- } // fim do while
+label LABEL6
+
+#-------- limpa registro de alocação para o procedimento
+exit
+
+#-------- retorna
+return

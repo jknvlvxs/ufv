@@ -1,0 +1,25 @@
+
+program P
+
+class C {
+  int i, j;
+  C prox;
+}
+
+C c1;
+
+{
+
+void main ()
+C c2;
+{
+  c2 = new C;
+  c2.prox = new C;
+  c1 = new C;
+  c1.prox = new C;
+  c2.prox.j = 123;
+  c1.prox.i = c2.prox.j;
+  print(c1.prox.i, 4);
+}
+
+}

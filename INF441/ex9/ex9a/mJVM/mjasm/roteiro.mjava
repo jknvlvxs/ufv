@@ -1,0 +1,34 @@
+program P
+
+class C {
+ int v;
+ C prox;
+}
+// não tem variáveis globais
+{
+// função f tem 2 parâmetros e 4 variáveis, no total
+C f(int a, int b)
+C x1, x2;
+{
+ x1 = new C; // um objeto da classe C gasta
+ // 8 bytes para ser armazenado
+ x1.v = a;
+ x1.prox = new C; // um objeto da classe C gasta
+ // 8 bytes para ser armazenado
+ x2 = x1.prox;
+ x2.v = b;
+ x2.prox = null; // null pode ser tratado como
+ // constante inteira 0 (zero)
+ return x1;
+}
+void main()
+C x;
+{
+ x = f(1,2);
+ while (x != null) { // null pode ser tratado como
+ // constante inteira 0 (zero)
+ print(x.v, 4);
+ x = x.prox;
+ }
+}
+}

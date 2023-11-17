@@ -1,0 +1,138 @@
+
+#-------- Tradução para assembly Mjava do programa exemplo3.mjava
+
+
+#-------- Algumas instruções assembly Mjava utilizadas nesse exemplo:
+#-------- > getfield
+#-------- > putfield
+
+#-------- Estude especialmente essas instruções no apêndice B da especificação Mjava:
+#-------- > Loading and storing of object fields
+
+
+#-------- Este exemplo apresenta geração de código para acesso a campos em registros.
+#-------- IMPORTANTE:
+#-------- Suponha um acesso como
+#--------         x.campo1.campo2.campo3
+#-------- O código gerado pode ser algo como:
+#-------- load 2        -- supondo que x seja uma variável local com offset 2
+#-------- getfield 1    -- supondo que campo1 seja o segundo campo de x (começa de 0)
+#-------- getfield 0    -- supondo que campo2 seja o primeiro campo do registro apontado por campo1
+#-------- NESTE PONTO, HÁ 2 OPÇÕES...
+#-------- se o código for CONSULTAR o valor, pode ser algo como
+#-------- getfield 2    -- supondo que campo3 seja o terceiro campo do registro apontado por campo2
+#-------- OU
+#-------- se for uma atribuição (x.campo1.campo2.campo3 = exp), o código da expressão deve
+#-------- ser gerado primeiro, e SOMENTE APÓS ISSO, a última instrução pode ser:
+#-------- putfield 2    -- supondo que campo3 seja o terceiro campo do registro apontado por campo2
+
+#-------- OU SEJA: a última instrução da série deve ser "putfield", após gerar código para a expressão exp
+
+#-------- Veja diversos exemplos no código abaixo...
+
+
+#-------- A tradução para assembly para o programa exemplo3.mjava é apresentada abaixo
+
+
+
+#-------- program P
+#-------- 
+#-------- class C {
+#--------   int i, j;
+#--------   C prox;
+#-------- }
+#-------- 
+#-------- C c1;
+
+#-------- reserva espaço para 1 variável global;
+#-------- a declaração da classe só afeta a tabela de símbolos
+data 1
+
+#-------- desvia para o início de main;
+#-------- nem precisaria disso, se main é o único procedimento
+jmp main
+
+#-------- aqui comeca main
+label main
+
+#-------- void main ()
+#-------- C c2;
+
+#-------- funcao com 0 parâmetros e 1 variável no total
+#-------- (total = parametros + locais)
+enter 0,1
+
+#--------   c2 = new C;
+
+#-------- aloca 12 bytes (tamanho de objetos da classe C)
+#-------- e armazena a referência na variável local c2
+new 12
+store0
+
+#--------   c2.prox = new C;
+
+#-------- aloca 12 bytes (tamanho de objetos da classe C)
+#-------- e armazena a referência no terceiro atributo da variável local c2
+#-------- OBS: veja que primeiro é empilhado o endereço de c2, depois alocada
+#-------- área e finalmente o endereço da área alocada é atribuído ao segundo
+#-------- campo (campo prox de c2)
+load0
+new 12
+putfield 2
+
+#--------   c1 = new C;
+
+#-------- aloca 12 bytes (tamanho de objetos da classe C)
+#-------- e armazena a referência na variável global c1
+new 12
+putstatic 0
+
+#--------   c1.prox = new C;
+
+#-------- aloca 12 bytes (tamanho de objetos da classe C)
+#-------- e armazena a referência no terceiro atributo da variável global c1
+getstatic 0
+new 12
+putfield 2
+
+#--------   c2.prox.j = 123;
+
+#-------- armazena valor 123 no segundo atributo do terceiro atributo
+#-------- da variável local c2
+#-------- OBS: veja que primeiro é empilhado o endereço de c2, depois é obtido
+#-------- o endereço do segundo campo (campo prox de c2); em seguida, não é
+#-------- obtido o campo j, pois isso é feito no final, para atribuição;
+#-------- primeiro é empilhado 123, para finalmente esse valor ser atribuído
+#-------- ao campo j
+load0
+getfield 2
+const 123
+putfield 1
+
+#--------   c1.prox.i = c2.prox.j;
+
+#-------- armazena o segundo atributo do terceiro atributo
+#-------- da variável local c2 no primeiro atributo do terceiro
+#-------- atributo da variável global c1
+getstatic 0
+getfield 2
+load0
+getfield 2
+getfield 1
+putfield 0
+
+#--------   print(c1.prox.i, 4);
+
+#-------- imprime o primeiro atributo do terceiro atributo
+#-------- da variável global c1
+getstatic 0
+getfield 2
+getfield 0
+const4
+print
+
+#-------- limpa registro de alocação para o procedimento
+exit
+
+#-------- retorna
+return

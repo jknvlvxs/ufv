@@ -1,0 +1,23 @@
+
+
+program P
+
+int x1, x2;
+
+{
+
+int func1(int p1, int p2)
+int aux;
+{
+  aux = p1 - p2;
+  return aux;
+}
+
+void main()
+{
+  x1 = 123;
+  x2 = 456;
+  print (func1(x2, x1), 5);
+}
+
+}
