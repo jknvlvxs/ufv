@@ -1,0 +1,25 @@
+program P
+
+int a, b, c;
+
+{
+
+int f(int x, int y)
+int c, d, e;
+{
+  d = 12;
+  b = 13;
+  y = (14 + e) * a;
+}
+
+void main()
+int x1, x2;
+{
+	if(x1 == 0) {
+		x2 = x2 + 1;
+	} else {
+		x2 = x2 * 2;
+	}
+}
+
+}
