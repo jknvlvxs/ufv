@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel='stylesheet' href='/stylesheets/usuarios.css' />
+  </head>
+  <body>
+    <div class="painel">
+        <header>
+            <h1 class="titulo"><%= header %></h1>
+        </header>
+        <div class="container">
+            <span class="rotulo">Nome: <%= data.nome %></span><br />
+            <span class="rotulo">Login: <%= data.login %></span><br />
+            <span class="rotulo">Admin: <%= data.admin %></span><br />
+        </div>
+        <div class="container">
+            <a href="/">Sair</a>
+        </div>
+    </div>
+  </body>
+</html>

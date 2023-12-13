@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel='stylesheet' href='/stylesheets/usuarios.css' />
+    <script src="/javascripts/interface.js" defer></script>
+  </head>
+  <body>
+    <div class="painel">
+        <header>
+            <h1 class="titulo"><%= header %></h1>
+        </header>
+        <header>
+            <h2 class="titulo">Usuários Cadastrados:</h2>
+        </header>
+        <ul>
+            <% usuarios.forEach( usuario => { %>
+                <li><span class="rotulo"><%= usuario.nome %></span></li>
+            <% }); %>
+        </ul>
+        <div class="container">
+            <a href="/perfil">Ver meu Perfil</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/">Sair</a>
+        </div>
+    </div>
+  </body>
+</html>

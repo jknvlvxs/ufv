@@ -1,0 +1,154 @@
+* {
+  font-family: Helvetica;
+  font-weight: bold;
+}
+
+input,
+select {
+  padding: 0.3rem;
+  margin: 0.5rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+span.tarefa {
+  display: flex;
+  flex-direction: column;
+  flex: 0.95;
+}
+
+button {
+  padding: 0.3rem 1rem;
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.4s;
+  height: 30px;
+}
+
+button.small {
+  height: 25px;
+  font-size: 0.8rem;
+}
+
+button.tiny {
+  height: 25px;
+  width: 25px;
+  font-size: 1rem;
+  align-items: center;
+  font-weight: normal;
+  padding: 0;
+  background-color: rgb(159, 14, 14);
+}
+
+button.tiny:hover {
+  background-color: black;
+}
+
+.oculto {
+  display: none;
+}
+
+li {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 2px dashed #fff;
+  padding: 3px;
+  transition: 0.4s;
+}
+
+li.dragging {
+  opacity: 0.5;
+}
+
+/* Abaixo, :hover determina o estilo quando o cursor do mouse
+  estiver sobre um botão */
+button:hover {
+  background-color: #094271;
+}
+
+.tarefa {
+  background-color: #fff;
+  border-radius: 5px;
+  display: inline-block;
+  width: 220px;
+  min-height: 25px;
+  padding-top: 0.5rem;
+  text-align: left;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  cursor: move;
+}
+
+.tarefa:hover {
+  background-color: #f5f5f5;
+}
+
+.concluida {
+  text-decoration: line-through;
+  color: #999999;
+  background-color: #eee;
+}
+
+#busca {
+  border-left: 2px solid #fff;
+  padding-left: 1rem;
+}
+
+.painel {
+  max-width: 550px;
+  margin: 3rem auto; /* faz com que o painel centralize */
+  background-color: #c3c3c3;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.titulo {
+  text-align: center;
+  padding: 0 1rem 1rem 1rem;
+  margin-bottom: 0.5rem;
+  display: inline;
+}
+
+header {
+  border-bottom: 1px solid #fff;
+  padding: 0.5rem;
+  justify-content: space-around;
+}
+
+#ferramentas {
+  padding-top: 0.5rem;
+  border-top: 1px solid #fff;
+}
+
+ul {
+  padding-top: 1rem;
+  border-top: 1px solid #fff;
+  padding-left: 0;
+  min-height: 35px;
+}
+
+ul.dragover {
+  opacity: 0.5;
+}
+
+.container {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  vertical-align: middle;
+  margin-top: 0;
+}
+
+.rotulo {
+  padding: 0.3rem;
+  vertical-align: middle;
+}
