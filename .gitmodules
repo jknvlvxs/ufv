@@ -1,0 +1,21 @@
+[submodule "INF216/p1-configuracao-inicial-jknvlvxs"]
+	path = INF216/p1-configuracao-inicial-jknvlvxs
+	url = git@github.com:ufv-inf216/p1-configuracao-inicial-jknvlvxs.git
+[submodule "INF216/p2-pong-jknvlvxs"]
+	path = INF216/p2-pong-jknvlvxs
+	url = git@github.com:ufv-inf216/p2-pong-jknvlvxs.git
+[submodule "INF216/p4-super-mario-bros-jknvlvxs"]
+	path = INF216/p4-super-mario-bros-jknvlvxs
+	url = git@github.com:ufv-inf216/p4-super-mario-bros-jknvlvxs.git
+[submodule "INF216/p5-pacman-jknvlvxs"]
+	path = INF216/p5-pacman-jknvlvxs
+	url = git@github.com:ufv-inf216/p5-pacman-jknvlvxs.git
+[submodule "INF216/projeto-final-jknvlvxs"]
+	path = INF216/projeto-final-jknvlvxs
+	url = git@github.com:ufv-inf216/projeto-final-jknvlvxs
+[submodule "INF321/Trabalho Final/backend"]
+	path = INF321/Trabalho Final/backend
+	url = git@github.com:jknvlvxs/futteboxd-backend
+[submodule "INF321/Trabalho Final/frontend"]
+	path = INF321/Trabalho Final/frontend
+	url = git@github.com:jknvlvxs/futteboxd-frontend
