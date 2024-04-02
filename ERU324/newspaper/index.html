@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -7,14 +8,39 @@
     <link rel="stylesheet" href="styles/newspaper.css">
     <title>ERU 324 - Jornal da Ciência</title>
     <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="public/newspaper.ico" type="image/x-icon">
+    <script>
+        // Function to load content from an external file
+        function loadContent(file, targetId) {
+            fetch(file)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById(targetId).innerHTML = html;
+                })
+                .catch(error => console.error('Error loading content: ', error));
+        }
 
+        // Load content from samuel.html and philipe.html into respective divs
+        window.onload = function () {
+            loadContent('pages/samuel.html', 'samuel-content');
+            loadContent('pages/philipe.html', 'philipe-content');
+            loadContent('pages/felipe.html', 'felipe-content');
+            loadContent('pages/julio.html', 'julio-content');
+            loadContent('pages/propaganda.html', 'propaganda');
+            loadContent('pages/futuro.html', 'futuro-content');
+            loadContent('pages/classificados.html', 'classificados');
+        };
+    </script>
 </head>
 
 <body>
     <div class="head">
         <div class="headerobjectswrapper">
-            <div class="weatherforcastbox"><span style="font-style: italic;">Weatherforcast for the next 24 hours:
-                    Plenty of Sunshine</span><br><span>Wind: 7km/h SSE; Ther: 21°C; Hum: 82%</span></div>
+            <div class="weatherforcastbox">
+                <span style="font-style: italic;">Previsão do tempo: Nublado</span>
+                <br>
+                <span>Vento: 16km/h SSE; Temp: 21°C; Umidade: 73%</span>
+            </div>
             <header>The New Ethical Times</header>
         </div>
 
@@ -36,204 +62,78 @@
                         </a>)
                     </span>
                 </p>
-                <p>
-                    À medida que a inteligência artificial (IA) se expande rapidamente, surge uma crescente
-                    preocupação sobre seu potencial para perpetuar e agravar as disparidades sociais. A IA está
-                    sendo cada vez mais empregada em processos cruciais de tomada de decisão, como seleção de
-                    candidatos a emprego, concessão de empréstimos e até diagnósticos médicos. No entanto,
-                    recentemente, casos têm demonstrado como a IA pode ser influenciada pelos preconceitos presentes
-                    nos bancos de dados, contribuindo para a estratificação social e intensificando a desigualdade.
-                </p>
-                <div class="side">
-                    <div class="side-left">
-                        <figure class="figure">
-                            <img class="media fullmedia" src="https://encurtador.com.br/bfjyL" alt="">
-                            <figcaption class="figcaption">Imagem retirada em.</figcaption>
-                        </figure>
-                    </div>
-                    <div class="side-right">
-                        <p>
-                            Um exemplo recente ocorreu quando o The Bulimia Project testou geradores de imagens de
-                            IA para revelar o conceito de um físico "perfeito". Os resultados mostraram uma
-                            tendência alarmante: imagens predominantemente representavam mulheres loiras de pele
-                            branca e homens com características estereotipadas, como músculos superdefinidos. Essa
-                            reprodução de estereótipos reflete a falta de diversidade nos conjuntos de dados
-                            utilizados para treinar os algoritmos de IA.
-                        </p>
-                        <p>
-                            O professor Moacir Ponti, do Instituto de Ciências Matemáticas e de Computação de São
-                            Carlos (ICMC) da USP, destaca que o problema reside no desenvolvimento dessas IA por
-                            indivíduos sem consciência das desigualdades presentes nos dados e no uso desses
-                            sistemas por usuários sem conhecimento de sua origem. Ponti exemplifica como algoritmos
-                            de seleção de emprego podem perpetuar padrões desiguais, favorecendo certos perfis em
-                            detrimento de outros.
-                        </p>
-                        <p>
-                            Um caso emblemático foi observado na Amazon, onde uma ferramenta de IA discriminou
-                            candidatas do sexo feminino, penalizando-as por menções ao gênero em seus currículos.
-                            Essa discriminação reflete a falta de diversidade nos dados utilizados para treinar o
-                            algoritmo, reforçando padrões históricos de contratação desigual.
-                        </p>
-                        <p>
-                            Além disso, injustiças raciais também são evidentes no uso de IA, especialmente no
-                            sistema judiciário. A professora Lívia Oliveira, de Ciência da Computação, ressalta como
-                            a IA pode ser mais rígida com pessoas negras, contribuindo para o encarceramento
-                            desproporcional desses grupos.
-                        </p>
-                    </div>
-                    <p>
-                        Diante desses desafios éticos, os programadores têm uma responsabilidade crucial. É
-                        fundamental testar, reavaliar e compreender o impacto dos algoritmos, garantindo um
-                        desenvolvimento responsável da IA. Conforme observado por Lívia Oliveira, entender os
-                        dados e os efeitos de suas decisões é essencial para garantir que a IA contribua para um
-                        futuro mais justo e igualitário.
-                    </p>
-                </div>
+                <div id="samuel-content"></div>
+
             </div>
         </div>
         <div class="divider"></div>
         <div class="collumns">
-            <div class="collumn">
+            <div class="one-third collumn">
                 <div class="head"><span class="headline hl3">Genealogia genética forense</span>
                     <p><span class="headline hl4">por PHILIPE EMANUEL GARCIA FERNANDINO</span></p>
                 </div>
-                <p>
-                    Em 18 de Junho de 1976, um homem invadiu uma casa na cidade de Rancho Cordova, Califórnia, Estados
-                    Unidos, e estuprou a mulher que residia na casa. Nos próximos 3 anos seguintes, de 1976 até 1979,
-                    outros 50 estupros com o mesmo modus operandi, que mais tarde seriam conectados ao mesmo autor,
-                    foram cometidos na região de Sacramento. De 1978 até 1986, 12 assassinatos, por vezes acompanhados
-                    de estupros, foram cometidos. O autor mais tarde viria a ser conhecido como o Golden State Killer. A
-                    série de crimes parou no final da década de 80, e o autor aparentemente desapareceu.
-                </p>
-                <p>
-                    Em 1994, o FBI estabeleceu o sistema CODIS (Combined DNA Index System), que é responsável, por meio
-                    de diversas instituições públicas e privadas, por armazenar DNA e permitir a busca em seu banco de
-                    dados por autoridades locais, estaduais e federais para identificação de suspeitos de crimes.
-                    Atualmente, há aproximadamente 23 milhões de perfis de DNA disponíveis no sistema. O sistema já
-                    auxiliou mais de 600 mil investigações.
-                </p>
-                <p>
-                    Hoje, além de referências diretas ao DNA de um suspeito, o DNA de familiares também pode ser usado
-                    para se chegar ao suspeito pretendido, num processo chamado de genealogia genética forense.
-                    Apoiadores dessa proposta argumentam que não só a taxa de crimes resolvidos poderia aumentar
-                    consideravelmente, como presos acusados injustamente teriam melhores oportunidades de exoneração.
-                </p>
-                <p>
-                    Entretanto, a privacidade, tópico quase ignorado por décadas de avanço tecnológico sobre a
-                    vigilância e o reconhecimento facial, coleta de dados e outras invasões, é um ponto de preocupação
-                    sobre o uso da tecnologia. O DNA de uma única pessoa agora faz indicativos de toda uma árvore
-                    familiar genética possuída pelo estado.
-                </p>
-                <p>
-                    Há casos em que a análise não chega à uma conclusão exata e apenas aponta para suspeitos possíveis.
-                    Nestes casos, a suspeita infundada pode causar danos irreversíveis à carreira, à vida social e à
-                    saúde mental do suspeito. Especialistas temem que grupos marginalizados, que compõem a maior parcela
-                    dos perfis presentes em bancos de dados genéticos, sejam os mais atingidos caso a busca familiar por
-                    DNA se torne mais comum.
-                </p>
-                <p>
-                    Além disso, não é uma ciência exata. Num estudo feito em 2011, pesquisadores Itiel Dror e Greg
-                    Hampikian mostraram que técnicos e especialistas forenses podem variar por muito em suas conclusões
-                    sobre a análise de um perfil de DNA, e que muitas vezes conclusões são retiradas com base em um
-                    contexto de informações que o analista já tem do caso sendo analisado.
-                </p>
-                <p>
-                    Em 2018, mais de 30 anos depois do fim da série de crimes que aterrorizou a região de Sacramento, na
-                    Califórnia, e deixou incontáveis vítimas e famílias destruídas; investigadores, por meio da
-                    genealogia genética forense, prenderam Joe DeAngelo, por 51 estupros, 13 assassinatos e mais de 200
-                    roubos. E os sobreviventes de seus crimes finalmente viram a justiça ser feita. A genealogia
-                    genética forense auxiliou em mais de 150 casos desde então.
-
-                </p>
-            </div>
-            <div class="collumn">
-                <div class="head"><span class="headline hl5">Give people courage</span>
-                    <p><span class="headline hl6">por FELIPE PEREIRA FERREIRA</span></p>
-                </div>
-                The sunset faded to twilight before anything further happened. The crowd far away on the left,
-                towards
-                Woking, seemed to grow, and I heard now a faint murmur from it. The little knot of people towards
-                Chobham dispersed. There was scarcely an intimation of movement from the pit.</p>
-                <figure class="figure">
-                    <img class="media fullmedia" src="http://i.giphy.com/PW7MoTD2d9pJK.gif" alt="">
-                    <figcaption class="figcaption">Hermine hoping for courage.</figcaption>
-                </figure>
-
-                <p>It was this, as much as anything, that gave people courage, and I suppose the new arrivals from
-                    Woking also helped to restore confidence. At any rate, as the dusk came on a slow, intermittent
-                    movement upon the sand pits began, a movement that seemed to gather force as the stillness of
-                    the
-                    evening about the cylinder remained unbroken. Vertical black figures in twos and threes would
-                    advance, stop, watch, and advance again, spreading out as they did so in a thin irregular
-                    crescent
-                    that promised to enclose the pit in its attenuated horns. I, too, on my side began to move
-                    towards
-                    the pit.</p>
-
-                <p>Then I saw some cabmen and others had walked boldly into the sand pits, and heard the clatter of
-                    hoofs and the gride of wheels. I saw a lad trundling off the barrow of apples. And then, within
-                    thirty yards of the pit, advancing from the direction of Horsell, I noted a little black knot of
-                    men, the foremost of whom was waving a white flag.</p>
+                <div id="philipe-content"></div>
 
             </div>
-            <div class="collumn">
-                <div class="head"><span class="headline hl1">May the Force be with you</span>
+            <div class="collumn two-third">
+                <div class="head"><span class="headline hl5">Opinião: Além do Pânico e das Promessas, Desmitificando as
+                        Tecnologias do Apocalipse</span>
                     <p><span class="headline hl2">por JOSÉ JÚLIO ALVES CAMPOLINA</span></p>
-                </div>Partially, but it also obeys your commands. Hey, Luke! May the Force be with you. I have
-                traced
-                the Rebel spies to her. Now she is my only link to finding their secret base.</p>
-                <figure class="figure">
-                    <img class="media fullmedia" src="http://i.giphy.com/4fDWVPMoSyhgc.gif" alt="">
-                    <figcaption class="figcaption">"This time, let go your conscious self and act on instinct."
-                    </figcaption>
-                </figure>
-                <p>Leave that to me. Send a distress signal, and inform the Senate that all on board were killed.
-                    <span class="citation">"Don't under&shy;estimate the Force. I suggest you try it again,
-                        Luke."</span>
-                    This time, let go your conscious self and act on instinct. In my experience, there is no such
-                    thing
-                    as luck. You're all clear, kid. Let's blow this thing and go home!
-                </p>
-                <p>You don't believe in the Force, do you? Partially, but it also obeys your commands. The plans you
-                    refer to will soon be back in our hands. As you wish.</p>
+                </div>
+                <div id="julio-content"></div>
             </div>
         </div>
         <div class="divider"></div>
         <div class="collumns">
             <div class="collumn full">
-                <div class="head">
-                    <span class="headline hl3">HUMOR E TIRINHAS</span>
-                </div>
-                <div class="side">
-                    <div class="side-left ">
-                        <figure class="figure">
-                            <img class="media fullmedia"
-                                src="https://vidadesuporte.com.br/wp-content/uploads/2010/02/Suporte_8081.jpg" alt=""
-                                width="900px">
-                            <figcaption class="figcaption">Vida de Suporte. <b>Ética.</b> 2013. Disponível em:
-                                <a href=" https://vidadesuporte.com.br/suporte-a-serie/etica/"
-                                    target="_blank">https://vidadesuporte.com.br/suporte-a-serie/etica/</a>. Acesso em:
-                                02 abr. 2024.
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="side-right">
-                        <figure class="figure">
-                            <img class="media fullmedia"
-                                src="https://vidadesuporte.com.br/wp-content/uploads/2023/05/Suporte_3196.jpg" alt=""
-                                width="900px">
-                            <figcaption class="figcaption">Vida de Suporte. <b>Peso na Consciência.</b> 2023. Disponível
-                                em:
-                                <a href=" https://vidadesuporte.com.br/suporte-a-serie/peso-na-consciencia/"
-                                    target="_blank">https://vidadesuporte.com.br/suporte-a-serie/peso-na-consciencia/</a>.
-                                Acesso em:
-                                02 abr. 2024.
-                            </figcaption>
-                        </figure>
-                    </div>
+                <div class="fullpage">
+                    <figure class="figure halfmedia">
+                        <img class="media" src="public/tirinha1.jpg" alt="" width="90%">
+                        <figcaption class="figcaption">Vida de Suporte. <b>Ética.</b> 2013. Disponível em:
+                            <a href=" https://vidadesuporte.com.br/suporte-a-serie/etica/"
+                                target="_blank">https://vidadesuporte.com.br/suporte-a-serie/etica/</a>. Acesso em:
+                            02 abr. 2024.
+                        </figcaption>
+                    </figure>
+                    <figure class="figure halfmedia">
+                        <img class="media" src="public/tirinha2.jpg" alt="" width="90%">
+                        <figcaption class="figcaption">Vida de Suporte. <b>Peso na Consciência.</b> 2023. Disponível
+                            em:
+                            <a href=" https://vidadesuporte.com.br/suporte-a-serie/peso-na-consciencia/"
+                                target="_blank">https://vidadesuporte.com.br/suporte-a-serie/peso-na-consciencia/</a>.
+                            Acesso em:
+                            02 abr. 2024.
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="divider"></div>
+    <div class="collumns">
+        <div class="collumn two-third">
+            <div class="head"><span class="headline hl1">IA: a nova arma dos golpistas</span>
+                <p><span class="headline hl6">por FELIPE PEREIRA FERREIRA</span></p>
+            </div>
+
+            <div id="felipe-content"></div>
+        </div>
+
+        <div class="one-third collumn">
+            <div class="head"><span class="headline hl3">Capítulo do Futuro Revelado: Cápsula do Tempo de 2077
+                    Prediz Domínio Total de Empregos por IA's</span>
+                <p><span class="headline hl4">por R0B0T1N3 4LPH4</span></p>
+            </div>
+            <div id="futuro-content"></div>
+            <div class="divider"></div>
+            <div id="propaganda"></div>
+            <div class="divider"></div>
+            <div class="head"><span class="headline hl5"><b>CLASSIFICADOS</b></span>
+            </div>
+            <div id="classificados"></div>
+        </div>
+
+    </div>
     </div>
 
 </body>
