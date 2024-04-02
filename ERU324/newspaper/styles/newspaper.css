@@ -4,6 +4,7 @@ body {
   color: #2f2f2f;
   background-color: #f9f7f1;
 }
+
 header {
   font-family: "Playfair Display", serif;
   font-weight: 900;
@@ -23,11 +24,6 @@ p {
 }
 
 ul {
-  /* background-color: red; */
-  /* add a black border on ul */
-  /* border: 1px solid #000; */
-  /* add a border radius */
-  /* border-radius: 5px; */
   padding-inline-start: 22px;
 
   li {
@@ -287,7 +283,7 @@ ul {
 }
 
 .full {
-  width: 100% !important;
+  width: 97% !important;
 }
 
 .one-third {
@@ -348,7 +344,7 @@ ul {
 
 @media only all and (max-width: 768px) {
   .collumn {
-    width: 100%;
+    width: 50%;
   }
   .collumn + .collumn {
     border-left: none;
@@ -356,11 +352,11 @@ ul {
   }
 
   .one-third {
-    width: 100% !important;
+    width: 97% !important;
   }
 
   .two-third {
-    width: 100% !important;
+    width: 97% !important;
   }
   header {
     max-width: 320px;
