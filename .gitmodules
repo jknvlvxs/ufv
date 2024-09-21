@@ -19,3 +19,6 @@
 [submodule "INF321/Trabalho Final/frontend"]
 	path = INF321/Trabalho Final/frontend
 	url = git@github.com:jknvlvxs/futteboxd-frontend
+[submodule "INF282/trabalho_final"]
+	path = INF282/trabalho_final
+	url = git@github.com:jknvlvxs/xpress_optimization.git
